@@ -1,6 +1,7 @@
 package com.ulawil.dietapp.controller;
 
 import com.ulawil.dietapp.model.Food;
+import com.ulawil.dietapp.model.Meal;
 import com.ulawil.dietapp.repository.FoodRepository;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -64,7 +64,6 @@ public class FoodController {
     @PostMapping(params = {"searchFood"})
     String search(@RequestParam("foodName") String foodName, Model model) {
         List<Food> foundFoods = foodRepository.findByNameContainsIgnoreCase(foodName);
-        System.out.println(foundFoods); // todo: delete later
         model.addAttribute("food", new Food());
         model.addAttribute("foundFoods", foundFoods);
         return "foods";

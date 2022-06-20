@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Meal panel</title>
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.1.0/build/pure-min.css"
+          integrity="sha384-yHIFVG6ClnONEA5yB5DJXfW2/KC173DIQrYoZMEtBvGzmf0PKiGyNEqe9N6BNDBH"
+          crossorigin="anonymous">
+</head>
+<body>
+<main>
+    <div class="pure-g">
+        <div class="pure-u-1-3">
+
+        </div>
+        <div class="pure-u-1-3">
+            <!--/*@thymesVar id="meal" type="com.ulawil.dietapp.model.Meal"*/-->
+            <form action="#" method="post" th:action="@{/meals}" th:object="${meal}" class="pure-form">
+                <fieldset>
+                    <legend>Create a new meal</legend>
+                    <input type="text" placeholder="Name" th:field="${meal.name}"/>
+<!--                    <button type="submit" name="createMeal" class="pure-button pure-button-primary">create...</button>-->
+                </fieldset>
+            </form>
+            <form action="#" method="post" th:action="@{/meals}" class="pure-form">
+                <fieldset>
+                    <legend>Ingredients</legend>
+                    <input type="text" placeholder="Name" th:name="foodName"/>
+                    <button type="submit" name="searchFood" class="pure-button pure-button-primary">Search</button>
+                </fieldset>
+            </form>
+            <table class="pure-table">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>kcal/100g</th>
+                    <th>Amount[g]</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <!--/*@thymesVar id="ingredient" type="com.ulawil.dietapp.model.Ingredient"*/-->
+                <form action="#" method="post" id="ingredientForm" th:action="@{/meals}" th:object="${ingredient}"></form>
+                <!--/*@thymesVar id="foundFoods" type="java.util.list<com.ulawil.dietapp.model.Food>"*/-->
+                <tr th:each="food : ${foundFoods}">
+                    <!--/*@thymesVar id="food" type="com.ulawil.dietapp.model.Food"*/-->
+                    <td th:text="${food.name}"></td>
+                    <td th:text="${food.kcal100g}"></td>
+                    <td>
+                        <input type="number" name="amount" form="ingredientForm" th:field="${ingredient.grams}">
+                    </td>
+                    <td>
+                        <button type="submit" name="addIngredient" form="ingredientForm">+</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="pure-u-1-3">
+
+        </div>
+    </div>
+</main>
+</body>
+</html>

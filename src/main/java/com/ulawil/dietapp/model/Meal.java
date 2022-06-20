@@ -20,12 +20,4 @@ public class Meal {
     private short kcal;
     @OneToMany(mappedBy = "meal")
     private Set<Ingredient> ingredients;
-
-    @PrePersist
-    private void CalculateKcal() {
-        kcal = ingredients.stream()
-                .map(Ingredient::getFood)
-                .map(Food::getKcal100g)
-                .reduce((k1, k2) -> (short)(k1+k2)).get();
-    }
 }

@@ -36,7 +36,9 @@
                 <thead>
                     <tr>
                         <th>Name</th>
-                        <th>Kcal/100g</th>
+                        <th>kcal/100g</th>
+                        <th>Amount[g]</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -44,6 +46,12 @@
                     <tr th:each="food : ${foundFoods}">
                         <td th:text="${food.name}"></td>
                         <td th:text="${food.kcal100g}"></td>
+                        <td>
+                            <input type="number">
+                        </td>
+                        <td>
+                            <button type="submit">+</button>
+                        </td>
                     </tr>
                 </tbody>
             </table>

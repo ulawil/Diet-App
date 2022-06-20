@@ -8,7 +8,6 @@ import lombok.ToString;
 import javax.persistence.*;
 import java.util.Set;
 
-@ToString // todo: delete later
 @NoArgsConstructor
 @Getter
 @Setter
@@ -20,6 +19,4 @@ public class Food {
     private int id;
     private String name;
     private short kcal100g;
-    @OneToMany(mappedBy = "food")
-    private Set<Ingredient> ingredients;
 }

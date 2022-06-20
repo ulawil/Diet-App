@@ -3,27 +3,25 @@ package com.ulawil.dietapp.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 
+@ToString
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
 @Table(name = "ingredients")
 public class Ingredient {
-    @EmbeddedId
-    IngredientKey id;
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    int id;
     @ManyToOne
-    @MapsId("mealId")
-    @JoinColumn(name = "meal_id")
-    Meal meal;
-
-    @ManyToOne
-    @MapsId("foodId")
     @JoinColumn(name = "food_id")
-    Food food;
-
-    int grams;
+    private Food food;
+    @ManyToOne
+    @JoinColumn(name = "meal_id")
+    private Meal meal;
+    private int grams;
 }
