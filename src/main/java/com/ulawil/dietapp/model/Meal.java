@@ -6,7 +6,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @NoArgsConstructor
 @Getter
@@ -19,16 +18,14 @@ public class Meal {
     private int id;
     private String name;
     private short kcal;
-    @ManyToMany
-    @JoinTable( // Hibernate will do it automatically, but will generate 2 joining tables, so it's better to specify
-            name = "meal_food",
-            joinColumns = @JoinColumn(name = "meal_id"),
-            inverseJoinColumns = @JoinColumn(name = "food_id")
-    )
-    private Set<Food> foods; // a meal can consist of many foods
+    @OneToMany(mappedBy = "meal")
+    private Set<Ingredient> ingredients;
 
     @PrePersist
     private void CalculateKcal() {
-        kcal = foods.stream().map(Food::getKcal100g).reduce((k1, k2) -> (short)(k1+k2)).get();
+        kcal = ingredients.stream()
+                .map(Ingredient::getFood)
+                .map(Food::getKcal100g)
+                .reduce((k1, k2) -> (short)(k1+k2)).get();
     }
 }

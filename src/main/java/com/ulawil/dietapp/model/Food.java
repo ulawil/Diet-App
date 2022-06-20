@@ -3,10 +3,12 @@ package com.ulawil.dietapp.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.Set;
 
+@ToString // todo: delete later
 @NoArgsConstructor
 @Getter
 @Setter
@@ -18,6 +20,6 @@ public class Food {
     private int id;
     private String name;
     private short kcal100g;
-    @ManyToMany(mappedBy = "foods")
-    private Set<Meal> meals; // a food can be a part of many meals
+    @OneToMany(mappedBy = "food")
+    private Set<Ingredient> ingredients;
 }
