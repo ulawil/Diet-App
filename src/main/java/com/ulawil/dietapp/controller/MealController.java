@@ -72,6 +72,7 @@ public class MealController {
         mealToAdd = new Meal();
         model.addAttribute("meal", mealToAdd);
         model.addAttribute("food", new Food());
+        model.addAttribute("createdMessage", "Meal created!");
         return "meals";
     }
 }
