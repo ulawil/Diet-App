@@ -59,7 +59,8 @@ public class MealController {
     String addIngredient(@RequestParam("addIngredient") int foodId,
                          @RequestParam("amount") int foodAmount,
                          Model model) {
-        mealToAdd.addIngredient(new Ingredient(foodRepository.findById(foodId).get(), foodAmount));
+        Food foodToIngredient = foodRepository.findById(foodId).get(); // always present bc it's taken from he db
+        mealToAdd.addIngredient(new Ingredient(foodToIngredient, foodAmount));
         model.addAttribute("meal", mealToAdd);
         model.addAttribute("food", new Food());
         return "meals";

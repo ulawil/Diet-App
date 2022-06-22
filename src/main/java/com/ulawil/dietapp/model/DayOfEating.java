@@ -5,15 +5,22 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.Set;
+
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name = "food")
-public class Food {
+public class DayOfEating {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String name;
-    private int kcal100g;
+    private LocalDate date;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+    @OneToMany
+    @JoinColumn(name = "doe_id")
+    private Set<MealRecord> mealsEaten;
 }
