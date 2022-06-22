@@ -15,13 +15,24 @@
         </div>
         <div class="pure-u-1-3">
             <!--/*@thymesVar id="meal" type="com.ulawil.dietapp.model.Meal"*/-->
-            <form action="#" method="post" th:action="@{/meals}" th:object="${meal}" class="pure-form">
+            <form action="#" method="post" th:action="@{/meals}" th:object="${meal}" class="pure-form pure-form-stacked">
                 <fieldset>
-                    <legend>Create a new meal</legend>
-                    <input type="text" placeholder="Name" th:field="${meal.name}"/>
-<!--                    <button type="submit" name="createMeal" class="pure-button pure-button-primary">create...</button>-->
+                    <h1>Create a new meal!</h1>
+                    <input type="text" placeholder="Name" name="mealName"/>
+                    <ul th:if="${!meal.ingredients.isEmpty()}" th:each="ingredient, ingStat : ${meal.ingredients}">
+                        <li>
+                            <span th:text="|${ingredient.name} (${ingredient.grams}g, ${ingredient.kcal}kcal)|"></span>
+                        </li>
+                    </ul>
+                    <p th:text="|${meal.grams}g, ${meal.kcal} kcal in total|"></p>
+                    <button th:if="${!meal.ingredients.isEmpty()}"
+                            type="submit"
+                            name="createMeal"
+                            class="pure-button pure-button-primary">Create
+                    </button>
                 </fieldset>
             </form>
+
             <form action="#" method="post" th:action="@{/meals}" class="pure-form">
                 <fieldset>
                     <legend>Ingredients</legend>
@@ -29,30 +40,30 @@
                     <button type="submit" name="searchFood" class="pure-button pure-button-primary">Search</button>
                 </fieldset>
             </form>
-            <table class="pure-table">
+
+            <!--/*@thymesVar id="foundFoods" type="java.util.List<ulawil.dietapp.model.Food>"*/-->
+            <table th:if="${foundFoods != null}" class="pure-table">
                 <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>kcal/100g</th>
-                    <th>Amount[g]</th>
-                    <th></th>
-                </tr>
+                    <tr>
+                        <th>Name</th>
+                        <th>kcal/100g</th>
+                        <th>Amount[g]</th>
+                        <th></th>
+                    </tr>
                 </thead>
                 <tbody>
-                <!--/*@thymesVar id="ingredient" type="com.ulawil.dietapp.model.Ingredient"*/-->
-                <form action="#" method="post" id="ingredientForm" th:action="@{/meals}" th:object="${ingredient}"></form>
-                <!--/*@thymesVar id="foundFoods" type="java.util.list<com.ulawil.dietapp.model.Food>"*/-->
-                <tr th:each="food : ${foundFoods}">
-                    <!--/*@thymesVar id="food" type="com.ulawil.dietapp.model.Food"*/-->
-                    <td th:text="${food.name}"></td>
-                    <td th:text="${food.kcal100g}"></td>
-                    <td>
-                        <input type="number" name="amount" form="ingredientForm" th:field="${ingredient.grams}">
-                    </td>
-                    <td>
-                        <button type="submit" name="addIngredient" form="ingredientForm">+</button>
-                    </td>
-                </tr>
+                    <tr th:each="food, foodStat : ${foundFoods}">
+                        <td th:text="${food.name}"></td>
+                        <td th:text="${food.kcal100g}"></td>
+                        <td>
+                            <input type="number" placeholder="0" th:form="${foodStat.index}" th:name="amount"/>
+                        </td>
+                        <td>
+                            <form action="#" method="post" th:id="${foodStat.index}" th:action="@{/meals}" class="pure-form">
+                                <button type="submit" th:name="addIngredient" th:value="${food.id}">+</button>
+                            </form>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>

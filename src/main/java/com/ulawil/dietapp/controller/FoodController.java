@@ -1,7 +1,6 @@
 package com.ulawil.dietapp.controller;
 
 import com.ulawil.dietapp.model.Food;
-import com.ulawil.dietapp.model.Meal;
 import com.ulawil.dietapp.repository.FoodRepository;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.util.List;
 

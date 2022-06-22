@@ -19,6 +19,7 @@ public class MealController {
 
     private final MealRepository mealRepository;
     private final FoodRepository foodRepository;
+    private Meal mealToAdd = new Meal();
 
     public MealController(MealRepository mealRepository,
                           FoodRepository foodRepository) {
@@ -35,25 +36,42 @@ public class MealController {
     }
 
     // WEB endpoints
+
     @GetMapping(produces = MediaType.TEXT_HTML_VALUE)
-    String showMeals(Model model) {
-        model.addAttribute("meal", new Meal());
+    String displayMealsPage(Model model) {
+        mealToAdd = new Meal();
+        model.addAttribute("meal", mealToAdd);
         return "meals";
     }
 
     @PostMapping(params = {"searchFood"})
     String searchFoods(@RequestParam("foodName") String foodName, Model model) {
         List<Food> foundFoods = foodRepository.findByNameContainsIgnoreCase(foodName);
-        model.addAttribute("meal", new Meal());
+        model.addAttribute("meal", mealToAdd);
         model.addAttribute("food", new Food());
         model.addAttribute("foundFoods", foundFoods);
-        model.addAttribute("ingredient", new Ingredient());
         return "meals";
     }
 
-    @PostMapping(params = {"addIngredient"})
-    String addIngredient(@RequestBody Ingredient ingredient, Model model) {
-        System.out.println(ingredient);
+    @PostMapping(params = {"addIngredient"},
+            produces = MediaType.TEXT_HTML_VALUE
+    )
+    String addIngredient(@RequestParam("addIngredient") int foodId,
+                         @RequestParam("amount") int foodAmount,
+                         Model model) {
+        mealToAdd.addIngredient(new Ingredient(foodRepository.findById(foodId).get(), foodAmount));
+        model.addAttribute("meal", mealToAdd);
+        model.addAttribute("food", new Food());
+        return "meals";
+    }
+
+    @PostMapping(params = {"createMeal"}, produces = MediaType.TEXT_HTML_VALUE)
+    String createMeal(@RequestParam("mealName") String mealName, Model model) {
+        mealToAdd.setName(mealName);
+        mealRepository.save(mealToAdd);
+        mealToAdd = new Meal();
+        model.addAttribute("meal", mealToAdd);
+        model.addAttribute("food", new Food());
         return "meals";
     }
 }
