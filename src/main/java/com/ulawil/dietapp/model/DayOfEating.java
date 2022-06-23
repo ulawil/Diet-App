@@ -6,9 +6,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
-@NoArgsConstructor
 @Getter
 @Setter
 @Entity
@@ -20,7 +20,11 @@ public class DayOfEating {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "doe_id")
     private Set<MealRecord> mealsEaten;
+
+    public DayOfEating() {
+        mealsEaten = new HashSet<>();
+    }
 }
