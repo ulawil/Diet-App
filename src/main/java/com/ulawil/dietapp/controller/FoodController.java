@@ -1,7 +1,7 @@
 package com.ulawil.dietapp.controller;
 
 import com.ulawil.dietapp.model.Food;
-import com.ulawil.dietapp.repository.FoodRepository;
+import com.ulawil.dietapp.service.FoodService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -16,10 +16,10 @@ import java.util.List;
 @RequestMapping(path = "/foods")
 public class FoodController {
 
-    private final FoodRepository foodRepository;
+    private final FoodService foodService;
 
-    public FoodController(FoodRepository foodRepository) {
-        this.foodRepository = foodRepository;
+    public FoodController(FoodService foodService) {
+        this.foodService = foodService;
     }
 
     // REST endpoints
@@ -27,7 +27,7 @@ public class FoodController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     ResponseEntity<List<Food>> showFoods() {
-        return ResponseEntity.ok(foodRepository.findAll());
+        return ResponseEntity.ok(foodService.findAllFoods());
     }
 
     @PostMapping(
@@ -36,7 +36,7 @@ public class FoodController {
     )
     @ResponseBody
     ResponseEntity<?> addFood(@RequestBody Food foodToAdd) {
-        Food addedFood = foodRepository.save(foodToAdd);
+        Food addedFood = foodService.saveFood(foodToAdd);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
@@ -55,16 +55,15 @@ public class FoodController {
 
     @PostMapping(params = {"addFood"})
     String addFood(@ModelAttribute("food") Food foodToAdd, Model model) {
-        foodRepository.save(foodToAdd);
+        foodService.saveFood(foodToAdd);
         model.addAttribute("addedMessage", "Added an item!");
         return "foods";
     }
 
     @PostMapping(params = {"searchFood"})
     String search(@RequestParam("foodName") String foodName, Model model) {
-        List<Food> foundFoods = foodRepository.findByNameContainsIgnoreCase(foodName);
         model.addAttribute("food", new Food());
-        model.addAttribute("foundFoods", foundFoods);
+        model.addAttribute("foundFoods", foodService.findFoodsByName(foodName));
         return "foods";
     }
 }

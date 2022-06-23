@@ -33,7 +33,7 @@ public class UserController {
 
     @PostMapping(params = {"searchMeal"})
     String searchMeals(@RequestParam("mealName") String foodName, Model model) {
-        List<Meal> foundMeals = mealService.findMealsByNameAndUserId(foodName, currentUser.getId());
+        List<Meal> foundMeals = mealService.findUsersMealsByName(foodName, currentUser.getId());
         model.addAttribute("todaysMeals", todaysMeals());
         model.addAttribute("foundMeals", foundMeals);
         return "user";
