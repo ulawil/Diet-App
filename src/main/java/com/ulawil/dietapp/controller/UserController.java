@@ -5,7 +5,6 @@ import com.ulawil.dietapp.model.Meal;
 import com.ulawil.dietapp.model.MealRecord;
 import com.ulawil.dietapp.model.User;
 import com.ulawil.dietapp.repository.DayOfEatingRepository;
-import com.ulawil.dietapp.repository.MealRecordRepository;
 import com.ulawil.dietapp.repository.MealRepository;
 import com.ulawil.dietapp.repository.UserRepository;
 import org.springframework.http.MediaType;
@@ -24,16 +23,13 @@ public class UserController {
 
     private final UserRepository userRepository;
     private final MealRepository mealRepository;
-    private final MealRecordRepository mealRecordRepository;
     private final DayOfEatingRepository dayOfEatingRepository;
 
     public UserController(UserRepository userRepository,
                           MealRepository mealRepository,
-                          MealRecordRepository mealRecordRepository,
                           DayOfEatingRepository dayOfEatingRepository) {
         this.userRepository = userRepository;
         this.mealRepository = mealRepository;
-        this.mealRecordRepository = mealRecordRepository;
         this.dayOfEatingRepository = dayOfEatingRepository;
     }
 
@@ -84,10 +80,9 @@ public class UserController {
     }
 
     @ModelAttribute
-    List<MealRecord> todaysMeals() {
-        // todo: get rid of n+1
+    List<Meal> todaysMeals() {
         LocalDateTime dayStart = LocalDate.now().atStartOfDay();
         LocalDateTime dayEnd = LocalDate.now().plusDays(1).atStartOfDay();
-        return mealRecordRepository.findByDateEatenBetween(dayStart, dayEnd);
+        return mealRepository.findByRecordDateBetween(dayStart, dayEnd);
     }
 }

@@ -16,4 +16,8 @@ public interface MealRepository extends JpaRepository<Meal, Integer> {
     List<Meal> findAll();
 
     List<Meal> findByNameContainsIgnoreCase(String mealName);
+
+    @Query("select distinct m from Meal m join fetch m.mealRecords mr where mr.dateEaten between :dayBefore and :dayAfter")
+    List<Meal> findByRecordDateBetween(@Param("dayBefore") LocalDateTime dayBefore,
+                                       @Param("dayAfter") LocalDateTime dayAfter);
 }

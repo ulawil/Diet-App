@@ -17,9 +17,9 @@
             <h1>Today's meals</h1>
             <h2 th:if="${todaysMeals==null || todaysMeals.isEmpty()}">No meals added today</h2>
             <!--/*@thymesVar id="todaysMeals" type="java.util.List<com.ulawil.dietapp.model.MealRecord>"*/-->
-            <ul th:if="${!todaysMeals.isEmpty()}" th:each="mealRecord : ${todaysMeals}">
+            <ul th:if="${!todaysMeals.isEmpty()}" th:each="meal : ${todaysMeals}">
                 <li>
-                    <span th:text="|${mealRecord.meal.name}, ${mealRecord.meal.kcal}kcal|"></span>
+                    <span th:text="|${meal.name}, ${meal.kcal}kcal|"></span>
                 </li>
             </ul>
             <!--/*@thymesVar id="foundMeals" type="java.util.List<ulawil.dietapp.model.Meal>"*/-->

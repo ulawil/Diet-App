@@ -20,8 +20,8 @@ public class Meal {
     @OneToMany(mappedBy = "meal", cascade = CascadeType.ALL)
     private Set<Ingredient> ingredients;
 
-    //@OneToMany
-    //private Set<MealRecord> mealRecords;
+    @OneToMany(mappedBy = "meal")
+    private Set<MealRecord> mealRecords;
 
     public Meal() {
         ingredients = new HashSet<>();

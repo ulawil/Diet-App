@@ -20,7 +20,7 @@ public class Ingredient {
     private int grams;
     private int kcal;
     @Getter(AccessLevel.NONE)
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "meal_id")
     private Meal meal;
 
