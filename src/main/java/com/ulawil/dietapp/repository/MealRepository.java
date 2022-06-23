@@ -12,12 +12,13 @@ import java.util.List;
 @Repository
 public interface MealRepository extends JpaRepository<Meal, Integer> {
     @Override
-    @Query("select distinct m from Meal m join fetch m.ingredients")
+    @Query("select m from Meal m join fetch m.ingredients")
     List<Meal> findAll();
 
-    List<Meal> findByNameContainsIgnoreCase(String mealName);
+    List<Meal> findByNameContainsIgnoreCaseAndUserId(String mealName, int userId);
 
-    @Query("select distinct m from Meal m join fetch m.mealRecords mr where mr.dateEaten between :dayBefore and :dayAfter")
-    List<Meal> findByRecordDateBetween(@Param("dayBefore") LocalDateTime dayBefore,
-                                       @Param("dayAfter") LocalDateTime dayAfter);
+    @Query("select m from Meal m join fetch m.mealsEaten me where me.user.id=:userId and me.dateEaten between :dayBefore and :dayAfter")
+    List<Meal> findByUserIdAndDateEatenBetween(@Param("userId") int userId,
+                                               @Param("dayBefore") LocalDateTime dayBefore,
+                                               @Param("dayAfter") LocalDateTime dayAfter);
 }

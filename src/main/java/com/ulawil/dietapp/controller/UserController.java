@@ -1,36 +1,28 @@
 package com.ulawil.dietapp.controller;
 
-import com.ulawil.dietapp.model.DayOfEating;
 import com.ulawil.dietapp.model.Meal;
-import com.ulawil.dietapp.model.MealRecord;
 import com.ulawil.dietapp.model.User;
-import com.ulawil.dietapp.repository.DayOfEatingRepository;
-import com.ulawil.dietapp.repository.MealRepository;
-import com.ulawil.dietapp.repository.UserRepository;
+import com.ulawil.dietapp.service.UserService;
+import com.ulawil.dietapp.service.MealService;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping(path = "/user")
 public class UserController {
 
-    private final UserRepository userRepository;
-    private final MealRepository mealRepository;
-    private final DayOfEatingRepository dayOfEatingRepository;
+    private final UserService userService;
+    private final MealService mealService;
+    private final User currentUser;
 
-    public UserController(UserRepository userRepository,
-                          MealRepository mealRepository,
-                          DayOfEatingRepository dayOfEatingRepository) {
-        this.userRepository = userRepository;
-        this.mealRepository = mealRepository;
-        this.dayOfEatingRepository = dayOfEatingRepository;
+    public UserController(UserService userService, MealService mealService) {
+        this.userService = userService;
+        this.mealService = mealService;
+        currentUser = userService.findUserById(1).get();
     }
 
     @GetMapping()
@@ -40,8 +32,8 @@ public class UserController {
     }
 
     @PostMapping(params = {"searchMeal"})
-    String searchFoods(@RequestParam("mealName") String foodName, Model model) {
-        List<Meal> foundMeals = mealRepository.findByNameContainsIgnoreCase(foodName);
+    String searchMeals(@RequestParam("mealName") String foodName, Model model) {
+        List<Meal> foundMeals = mealService.findMealsByNameAndUserId(foodName, currentUser.getId());
         model.addAttribute("todaysMeals", todaysMeals());
         model.addAttribute("foundMeals", foundMeals);
         return "user";
@@ -50,39 +42,14 @@ public class UserController {
     @PostMapping(params = {"addMeal"},
             produces = MediaType.TEXT_HTML_VALUE
     )
-    String addIngredient(@RequestParam("addMeal") int mealId, Model model) {
-        // todo: put this all in service and test
-        Meal mealToAdd = mealRepository.findById(mealId).get(); // always present bc it's taken from the db
-        MealRecord mealRecord = new MealRecord();
-        mealRecord.setMeal(mealToAdd);
-        // get current user, id=1 atm
-        User current = userRepository.findById(1).get();
-        if(current.getDoes().stream().noneMatch(doe -> doe.getDate().equals(LocalDate.now()))) { // no meals eaten today
-            // create a new day of eating
-            DayOfEating currentDayOfEating = new DayOfEating();
-            currentDayOfEating.setUser(current);
-            currentDayOfEating.setDate(LocalDate.now());
-            // add a new meal record
-            currentDayOfEating.getMealsEaten().add(mealRecord);
-            mealRecord.setDayOfEating(currentDayOfEating);
-            dayOfEatingRepository.save(currentDayOfEating);
-        }
-        else {
-            Optional<DayOfEating> currentDayOfEating = dayOfEatingRepository.findByDateIs(LocalDate.now());
-            currentDayOfEating.ifPresent(dayOfEating -> {
-                dayOfEating.getMealsEaten().add(mealRecord);
-                mealRecord.setDayOfEating(dayOfEating);
-                dayOfEatingRepository.save(dayOfEating);
-            });
-        }
+    String addMeal(@RequestParam("addMeal") int mealId, Model model) {
+        userService.addMealEaten(mealId, currentUser); // later get user from spring
         model.addAttribute("todaysMeals", todaysMeals());
         return "user";
     }
 
     @ModelAttribute
     List<Meal> todaysMeals() {
-        LocalDateTime dayStart = LocalDate.now().atStartOfDay();
-        LocalDateTime dayEnd = LocalDate.now().plusDays(1).atStartOfDay();
-        return mealRepository.findByRecordDateBetween(dayStart, dayEnd);
+        return mealService.findUsersTodaysMeals(currentUser.getId());
     }
 }

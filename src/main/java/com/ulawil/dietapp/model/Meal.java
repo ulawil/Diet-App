@@ -1,10 +1,13 @@
 package com.ulawil.dietapp.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -18,13 +21,19 @@ public class Meal {
     private int grams;
     private int kcal;
     @OneToMany(mappedBy = "meal", cascade = CascadeType.ALL)
-    private Set<Ingredient> ingredients;
+    @JsonIgnore
+    private List<Ingredient> ingredients;
 
     @OneToMany(mappedBy = "meal")
-    private Set<MealRecord> mealRecords;
+    @JsonIgnore
+    private List<MealEaten> mealsEaten;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public Meal() {
-        ingredients = new HashSet<>();
+        ingredients = new ArrayList<>();
     }
 
     public void addIngredient(Ingredient ingredient) {

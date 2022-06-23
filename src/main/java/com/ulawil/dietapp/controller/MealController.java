@@ -3,8 +3,11 @@ package com.ulawil.dietapp.controller;
 import com.ulawil.dietapp.model.Food;
 import com.ulawil.dietapp.model.Ingredient;
 import com.ulawil.dietapp.model.Meal;
+import com.ulawil.dietapp.model.User;
 import com.ulawil.dietapp.repository.FoodRepository;
 import com.ulawil.dietapp.repository.MealRepository;
+import com.ulawil.dietapp.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -21,10 +24,18 @@ public class MealController {
     private final FoodRepository foodRepository;
     private Meal mealToAdd = new Meal();
 
+    private final UserService userService;
+    private final User currentUser;
+
+
     public MealController(MealRepository mealRepository,
-                          FoodRepository foodRepository) {
+                          FoodRepository foodRepository,
+                          UserService userService) {
         this.mealRepository = mealRepository;
         this.foodRepository = foodRepository;
+        // todo: get current user from spring
+        this.userService = userService;
+        currentUser = userService.findUserById(1).get();
     }
 
     // REST endpoints
@@ -69,6 +80,7 @@ public class MealController {
     @PostMapping(params = {"createMeal"}, produces = MediaType.TEXT_HTML_VALUE)
     String createMeal(@RequestParam("mealName") String mealName, Model model) {
         mealToAdd.setName(mealName);
+        mealToAdd.setUser(currentUser);
         mealRepository.save(mealToAdd);
         mealToAdd = new Meal();
         model.addAttribute("meal", mealToAdd);

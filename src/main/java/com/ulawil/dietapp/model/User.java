@@ -1,5 +1,6 @@
 package com.ulawil.dietapp.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,5 +18,9 @@ public class User {
     private int id;
     private String name;
     @OneToMany(mappedBy = "user")
-    private Set<DayOfEating> does;
+    @JsonIgnore
+    private Set<Meal> meals;
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private Set<MealEaten> mealsEaten;
 }

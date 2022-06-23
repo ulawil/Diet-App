@@ -12,14 +12,14 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-public class MealRecord {
+public class MealEaten {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Getter(AccessLevel.NONE)
-    @OneToOne
-    @JoinColumn(name = "doe_id")
-    private DayOfEating dayOfEating;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
     @ManyToOne
     @JoinColumn(name = "meal_id")
     private Meal meal;
