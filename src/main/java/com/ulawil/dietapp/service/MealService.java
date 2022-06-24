@@ -17,7 +17,7 @@ public class MealService {
 
     private final MealRepository mealRepository;
     private final FoodRepository foodRepository;
-    private Meal mealToAdd = new Meal();;
+    private Meal mealToAdd = new Meal();
 
     public MealService(MealRepository mealRepository, FoodRepository foodRepository) {
         this.mealRepository = mealRepository;
@@ -36,6 +36,11 @@ public class MealService {
         LocalDateTime dayStart = LocalDate.now().atStartOfDay();
         LocalDateTime dayEnd = LocalDate.now().plusDays(1).atStartOfDay();
         return mealRepository.findByUserIdAndDateEatenBetween(userId, dayStart, dayEnd);
+    }
+
+    public Integer findUsersTodaysTotalKcal(int userId) {
+        Integer sum = 0;
+        return findUsersTodaysMeals(userId).stream().map(Meal::getKcal).reduce(sum, Integer::sum);
     }
 
     public List<Meal> findUsersMealsByName(String foodName, int userId) {

@@ -17,18 +17,17 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping(path = "/meals")
-public class MealController {
+@RequestMapping(path = "/createMeal")
+public class CreateMealController {
 
     private final MealService mealService;
     private final FoodService foodService;
     private final UserService userService;
     private final User currentUser;
 
-
-    public MealController(MealService mealService, FoodService foodService, MealRepository mealRepository,
-                          FoodRepository foodRepository,
-                          UserService userService) {
+    public CreateMealController(MealService mealService, FoodService foodService, MealRepository mealRepository,
+                                FoodRepository foodRepository,
+                                UserService userService) {
         this.mealService = mealService;
         this.foodService = foodService;
         // todo: get current user from spring
@@ -49,7 +48,7 @@ public class MealController {
     @GetMapping(produces = MediaType.TEXT_HTML_VALUE)
     String displayMealsPage(Model model) {
         model.addAttribute("meal", mealService.getMealToAdd());
-        return "meals";
+        return "createMeal";
     }
 
     @PostMapping(params = {"searchFood"})
@@ -57,7 +56,7 @@ public class MealController {
         model.addAttribute("meal", mealService.getMealToAdd());
         model.addAttribute("food", new Food());
         model.addAttribute("foundFoods", foodService.findFoodsByName(foodName));
-        return "meals";
+        return "createMeal";
     }
 
     @PostMapping(params = {"addIngredient"},
@@ -69,7 +68,7 @@ public class MealController {
         mealService.addIngredientToMealToAdd(foodId, foodAmount);
         model.addAttribute("meal", mealService.getMealToAdd());
         model.addAttribute("food", new Food());
-        return "meals";
+        return "createMeal";
     }
 
     @PostMapping(params = {"createMeal"}, produces = MediaType.TEXT_HTML_VALUE)
@@ -78,6 +77,6 @@ public class MealController {
         model.addAttribute("meal", mealService.getMealToAdd());
         model.addAttribute("food", new Food());
         model.addAttribute("createdMessage", "Meal created!");
-        return "meals";
+        return "createMeal";
     }
 }

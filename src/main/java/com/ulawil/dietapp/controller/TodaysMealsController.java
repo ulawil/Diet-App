@@ -12,14 +12,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping(path = "/user")
-public class UserController {
+@RequestMapping(path = "/todaysMeals")
+public class TodaysMealsController {
 
     private final UserService userService;
     private final MealService mealService;
     private final User currentUser;
 
-    public UserController(UserService userService, MealService mealService) {
+    public TodaysMealsController(UserService userService, MealService mealService) {
         this.userService = userService;
         this.mealService = mealService;
         currentUser = userService.findUserById(1).get();
@@ -28,7 +28,8 @@ public class UserController {
     @GetMapping()
     String showUserPage(Model model) {
         model.addAttribute("todaysMeals", todaysMeals());
-        return "user";
+        model.addAttribute("totalKcal", mealService.findUsersTodaysTotalKcal(currentUser.getId()));
+        return "todaysMeals";
     }
 
     @PostMapping(params = {"searchMeal"})
@@ -36,7 +37,7 @@ public class UserController {
         List<Meal> foundMeals = mealService.findUsersMealsByName(foodName, currentUser.getId());
         model.addAttribute("todaysMeals", todaysMeals());
         model.addAttribute("foundMeals", foundMeals);
-        return "user";
+        return "todaysMeals";
     }
 
     @PostMapping(params = {"addMeal"},
@@ -45,7 +46,8 @@ public class UserController {
     String addMeal(@RequestParam("addMeal") int mealId, Model model) {
         userService.addMealEaten(mealId, currentUser); // later get user from spring
         model.addAttribute("todaysMeals", todaysMeals());
-        return "user";
+        model.addAttribute("totalKcal", mealService.findUsersTodaysTotalKcal(currentUser.getId()));
+        return "todaysMeals";
     }
 
     @ModelAttribute

@@ -5,6 +5,7 @@ import com.ulawil.dietapp.repository.FoodRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class FoodService {
@@ -25,5 +26,9 @@ public class FoodService {
 
     public Food saveFood(Food food) {
         return foodRepository.save(food);
+    }
+
+    public Optional<Food> findFoodById(int foodId) {
+        return foodRepository.findById(foodId);
     }
 }
