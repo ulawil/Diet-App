@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org/">
 <head>
     <meta charset="UTF-8">
-    <title>Food panel</title>
+    <title>Add food</title>
     <link rel="stylesheet" href="https://unpkg.com/purecss@2.1.0/build/pure-min.css"
           integrity="sha384-yHIFVG6ClnONEA5yB5DJXfW2/KC173DIQrYoZMEtBvGzmf0PKiGyNEqe9N6BNDBH"
           crossorigin="anonymous">
@@ -14,7 +14,10 @@
 
         <div class="pure-u-1-3">
 
-            <h1>Add a new item</h1>
+            <h1>Foods</h1>
+
+            <div th:replace="menu :: menu"></div>
+            <br>
 
             <!--/*@thymesVar id="addedMessage" type="java.lang.String"*/-->
             <h2 th:if="${addedMessage != null}" th:text="${addedMessage}"></h2>
@@ -22,6 +25,7 @@
             <!--/*@thymesVar id="food" type="com.ulawil.dietapp.food.Food"*/-->
             <form th:action="@{/foods}" th:object="${food}" action="#" method="post" class="pure-form">
                 <fieldset>
+                    <legend>Add food</legend>
                     <input th:field="${food.name}" type="text" placeholder="Name"/>
                     <input th:field="${food.kcal100g}" type="number" placeholder="Calories per 100g"/>
                     <button type="submit" name="addFood" class="pure-button pure-button-primary">+</button>
@@ -30,7 +34,7 @@
 
             <form th:action="@{/foods}" action="#" method="post" class="pure-form">
                 <fieldset>
-                    <legend>Search for an item</legend>
+                    <legend>Browse foods</legend>
                     <input th:name="foodName" type="text" placeholder="Name"/>
                     <button type="submit" name="searchFood" class="pure-button pure-button-primary">Search</button>
                 </fieldset>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div th:fragment="menu" class="pure-menu pure-menu-horizontal">
+        <a href="/index" class="pure-menu-heading pure-menu-link">HOME</a>
+        <ul class="pure-menu-list">
+            <li class="pure-menu-item">
+                <a href="/todaysMeals" class="pure-menu-link">Today's meals</a>
+            </li>
+            <li class="pure-menu-item">
+                <a href="/meals" class="pure-menu-link">Meals</a>
+            </li>
+            <li class="pure-menu-item">
+                <a href="/foods" class="pure-menu-link">Foods</a>
+            </li>
+            <li class="pure-menu-item">
+                <a href="/logout" class="pure-menu-link">Log out</a>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>

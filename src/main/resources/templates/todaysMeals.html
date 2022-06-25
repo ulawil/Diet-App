@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org/">
 <head>
     <meta charset="UTF-8">
-    <title>User panel</title>
+    <title>Today's meals</title>
     <link rel="stylesheet" href="https://unpkg.com/purecss@2.1.0/build/pure-min.css"
           integrity="sha384-yHIFVG6ClnONEA5yB5DJXfW2/KC173DIQrYoZMEtBvGzmf0PKiGyNEqe9N6BNDBH"
           crossorigin="anonymous">
@@ -14,20 +14,24 @@
 
         <div class="pure-u-1-3">
 
-            <h1>Today's meals</h1>
+            <h1>Daily meal summary</h1>
+
+            <div th:replace="menu :: menu"></div>
+            <br>
 
             <!--/*@thymesVar id="todaysMeals" type="java.util.List<com.ulawil.dietapp.meal.MealEaten>"*/-->
-            <h2 th:if="${todaysMeals==null || todaysMeals.isEmpty()}">No meals added today</h2>
+            <p th:if="${todaysMeals.isEmpty()}">No meals added today</p>
 
-            <form class="pure-form">
+            <form th:if="${!todaysMeals.isEmpty()}" class="pure-form">
                 <fieldset>
-                    <ul th:if="${!todaysMeals.isEmpty()}" th:each="meal : ${todaysMeals}">
+                    <legend>Today's meals</legend>
+                    <ul th:each="meal : ${todaysMeals}">
                         <li>
                             <span th:text="|${meal.name}, ${#numbers.formatDecimal(__${meal.kcal}__,1,0)} kcal|"></span>
                         </li>
                     </ul>
                     <!--/*@thymesVar id="totalKcal" type="java.lang.Integer"*/-->
-                    <h3 th:if="${!todaysMeals.isEmpty()}" th:text="|${#numbers.formatDecimal(__${totalKcal}__,1,0)} kcal in total|"></h3>
+                    <b th:text="|${#numbers.formatDecimal(__${totalKcal}__,1,0)} kcal in total|"></b>
                 </fieldset>
             </form>
             <br>
@@ -35,7 +39,7 @@
             <!--/*@thymesVar id="foundMeals" type="java.util.List<ulawil.dietapp.model.Meal>"*/-->
             <form th:action="@{/todaysMeals}" action="#" method="post" class="pure-form">
                 <fieldset>
-                    <legend>Search for meals</legend>
+                    <legend>Add meals</legend>
                     <input th:name="mealName" type="text" placeholder="Name"/>
                     <button type="submit" name="searchMeal" class="pure-button pure-button-primary">Search</button>
                 </fieldset>
@@ -63,13 +67,6 @@
                 </tr>
                 </tbody>
             </table>
-
-            <form class="pure-form">
-                <fieldset>
-                    <legend>Create a new meal</legend>
-                    <button type="button" onclick="location.href='/createMeal'" class="pure-button pure-button-primary">Create a meal</button>
-                </fieldset>
-            </form>
 
         </div><div class="pure-u-1-3"></div>
     </div>

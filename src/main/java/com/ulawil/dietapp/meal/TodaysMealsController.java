@@ -20,8 +20,7 @@ public class TodaysMealsController {
     @GetMapping()
     String showUserPage(Model model) {
         model.addAttribute("todaysMeals", todaysMeals());
-        model.addAttribute("totalKcal",
-                mealService.findUsersTodaysTotalKcal(userService.getLoggedInUser().getId()));
+        model.addAttribute("totalKcal", todaysTotalKcal());
         return "todaysMeals";
     }
 
@@ -30,6 +29,7 @@ public class TodaysMealsController {
         List<Meal> foundMeals = mealService.findUsersMealsByName(foodName, userService.getLoggedInUser().getId());
         model.addAttribute("todaysMeals", todaysMeals());
         model.addAttribute("foundMeals", foundMeals);
+        model.addAttribute("totalKcal", todaysTotalKcal());
         return "todaysMeals";
     }
 
@@ -39,13 +39,17 @@ public class TodaysMealsController {
     String addMeal(@RequestParam("addMeal") int mealId, Model model) {
         mealService.addMealEaten(mealId, userService.getLoggedInUser());
         model.addAttribute("todaysMeals", todaysMeals());
-        model.addAttribute("totalKcal",
-                mealService.findUsersTodaysTotalKcal(userService.getLoggedInUser().getId()));
+        model.addAttribute("totalKcal", todaysTotalKcal());
         return "todaysMeals";
     }
 
     @ModelAttribute
     List<Meal> todaysMeals() {
         return mealService.findUsersTodaysMeals(userService.getLoggedInUser().getId());
+    }
+
+    @ModelAttribute
+    Double todaysTotalKcal() {
+        return mealService.findUsersTodaysTotalKcal(userService.getLoggedInUser().getId());
     }
 }

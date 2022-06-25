@@ -14,14 +14,14 @@ import java.util.List;
 
 @AllArgsConstructor
 @Controller
-@RequestMapping(path = "/createMeal")
-public class CreateMealController {
+@RequestMapping(path = "/meals")
+public class MealsController {
 
     private final MealService mealService;
     private final FoodService foodService;
     private final UserService userService;
 
-    // REST endpoints
+    // REST
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
@@ -29,12 +29,12 @@ public class CreateMealController {
         return ResponseEntity.ok(mealService.findAllMeals());
     }
 
-    // WEB endpoints
+    // WEB
 
     @GetMapping(produces = MediaType.TEXT_HTML_VALUE)
     String displayMealsPage(Model model) {
         model.addAttribute("meal", mealService.getMealToAdd());
-        return "createMeal";
+        return "meals";
     }
 
     @PostMapping(params = {"searchFood"})
@@ -42,7 +42,7 @@ public class CreateMealController {
         model.addAttribute("meal", mealService.getMealToAdd());
         model.addAttribute("food", new Food());
         model.addAttribute("foundFoods", foodService.findFoodsByName(foodName));
-        return "createMeal";
+        return "meals";
     }
 
     @PostMapping(params = {"addIngredient"},
@@ -54,7 +54,7 @@ public class CreateMealController {
         mealService.addIngredientToMealToAdd(foodId, foodAmount);
         model.addAttribute("meal", mealService.getMealToAdd());
         model.addAttribute("food", new Food());
-        return "createMeal";
+        return "meals";
     }
 
     @PostMapping(params = {"createMeal"}, produces = MediaType.TEXT_HTML_VALUE)
@@ -63,6 +63,6 @@ public class CreateMealController {
         model.addAttribute("meal", mealService.getMealToAdd());
         model.addAttribute("food", new Food());
         model.addAttribute("createdMessage", "Meal created!");
-        return "createMeal";
+        return "meals";
     }
 }
