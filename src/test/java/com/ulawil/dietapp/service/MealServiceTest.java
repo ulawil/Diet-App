@@ -26,7 +26,7 @@ class MealServiceTest {
         InMemoryMealEatenRepo mealEatenRepo = new InMemoryMealEatenRepo();
         int countBeforeAdd = mealEatenRepo.count();
         // system under test
-        MealService toTest = new MealService(mealRepo, mealEatenRepo, null);
+        MealService toTest = new MealService(mealRepo, mealEatenRepo, null, null);
         // when
         toTest.addMealEaten(1, new User());
         // then
@@ -39,7 +39,7 @@ class MealServiceTest {
         InMemoryMealRepo mealRepo = new InMemoryMealRepo();
         int countBeforeAdd = mealRepo.count();
         // system under test
-        MealService toTest = new MealService(mealRepo, null, null);
+        MealService toTest = new MealService(mealRepo, null, null, null);
         // when
         toTest.AddMeal("foo", new User());
         // then

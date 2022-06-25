@@ -2,12 +2,9 @@ package com.ulawil.dietapp.meal;
 
 import com.ulawil.dietapp.food.Food;
 import com.ulawil.dietapp.food.Ingredient;
-import com.ulawil.dietapp.meal.Meal;
-import com.ulawil.dietapp.meal.MealEaten;
 import com.ulawil.dietapp.food.FoodRepository;
-import com.ulawil.dietapp.meal.MealEatenRepository;
-import com.ulawil.dietapp.meal.MealRepository;
 import com.ulawil.dietapp.user.User;
+import com.ulawil.dietapp.user.UserService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -21,13 +18,15 @@ public class MealService {
     private final MealEatenRepository mealEatenRepository;
     private final FoodRepository foodRepository;
     private Meal mealToAdd = new Meal();
+    private final UserService userService;
 
     public MealService(MealRepository mealRepository,
                        MealEatenRepository mealEatenRepository,
-                       FoodRepository foodRepository) {
+                       FoodRepository foodRepository, UserService userService) {
         this.mealRepository = mealRepository;
         this.mealEatenRepository = mealEatenRepository;
         this.foodRepository = foodRepository;
+        this.userService = userService;
     }
 
     public Object getMealToAdd() {
@@ -44,9 +43,15 @@ public class MealService {
         return mealRepository.findByUserIdAndDateEatenBetween(userId, dayStart, dayEnd);
     }
 
-    public Integer findUsersTodaysTotalKcal(int userId) {
-        Integer sum = 0;
-        return findUsersTodaysMeals(userId).stream().map(Meal::getKcal).reduce(sum, Integer::sum);
+    public Double findUsersTodaysTotalKcal(int userId) {
+        Double sum = 0.;
+        return findUsersTodaysMeals(userService.getLoggedInUser().getId()).stream()
+                .flatMap(meal -> meal.getIngredients().stream())
+                .map(Ingredient::getKcal).reduce(sum, Double::sum);
+    }
+
+    public String getUsersTodaysKcalAsString(int userId) {
+        return String.format("%.0f", findUsersTodaysTotalKcal(userId));
     }
 
     public List<Meal> findUsersMealsByName(String foodName, int userId) {

@@ -23,11 +23,11 @@
                 <fieldset>
                     <ul th:if="${!todaysMeals.isEmpty()}" th:each="meal : ${todaysMeals}">
                         <li>
-                            <span th:text="|${meal.name}, ${meal.kcal} kcal|"></span>
+                            <span th:text="|${meal.name}, ${meal.getKcalAsString()} kcal|"></span>
                         </li>
                     </ul>
                     <!--/*@thymesVar id="totalKcal" type="java.lang.Integer"*/-->
-                    <b th:if="${!todaysMeals.isEmpty()}" th:text="|${totalKcal} kcal in total|"></b>
+                    <h3 th:if="${!todaysMeals.isEmpty()}" th:text="|${totalKcal} kcal in total|"></h3>
                 </fieldset>
             </form>
             <br>
@@ -53,8 +53,8 @@
                 <tbody>
                 <tr th:each="meal, mealStat : ${foundMeals}">
                     <td th:text="${meal.name}"></td>
-                    <td th:text="${meal.grams}"></td>
-                    <td th:text="${meal.kcal}"></td>
+                    <td th:text="${meal.getGramsAsString()}"></td>
+                    <td th:text="${meal.getKcalAsString()}"></td>
                     <td>
                         <form th:action="@{/todaysMeals}" action="#" method="post" class="pure-form">
                             <button th:name="addMeal" th:value="${meal.id}" type="submit">+</button>

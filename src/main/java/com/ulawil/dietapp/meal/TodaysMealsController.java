@@ -21,7 +21,7 @@ public class TodaysMealsController {
     String showUserPage(Model model) {
         model.addAttribute("todaysMeals", todaysMeals());
         model.addAttribute("totalKcal",
-                mealService.findUsersTodaysTotalKcal(userService.getLoggedInUser().getId()));
+                mealService.getUsersTodaysKcalAsString(userService.getLoggedInUser().getId()));
         return "todaysMeals";
     }
 
@@ -37,10 +37,10 @@ public class TodaysMealsController {
             produces = MediaType.TEXT_HTML_VALUE
     )
     String addMeal(@RequestParam("addMeal") int mealId, Model model) {
-        mealService.addMealEaten(mealId, userService.getLoggedInUser()); // later get user from spring
+        mealService.addMealEaten(mealId, userService.getLoggedInUser());
         model.addAttribute("todaysMeals", todaysMeals());
         model.addAttribute("totalKcal",
-                mealService.findUsersTodaysTotalKcal(userService.getLoggedInUser().getId()));
+                mealService.getUsersTodaysKcalAsString(userService.getLoggedInUser().getId()));
         return "todaysMeals";
     }
 

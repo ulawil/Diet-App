@@ -1,5 +1,6 @@
 package com.ulawil.dietapp.food;
 
+import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -10,15 +11,12 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.List;
 
+@AllArgsConstructor
 @Controller
 @RequestMapping(path = "/foods")
 public class FoodController {
 
     private final FoodService foodService;
-
-    public FoodController(FoodService foodService) {
-        this.foodService = foodService;
-    }
 
     // REST endpoints
 

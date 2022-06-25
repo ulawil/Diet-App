@@ -3,6 +3,7 @@ package com.ulawil.dietapp.meal;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ulawil.dietapp.food.Ingredient;
 import com.ulawil.dietapp.user.User;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,16 +19,12 @@ public class Meal {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    private int grams;
-    private int kcal;
-    @OneToMany(mappedBy = "meal", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "meal", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
     private List<Ingredient> ingredients;
-
     @OneToMany(mappedBy = "meal")
     @JsonIgnore
     private List<MealEaten> mealsEaten;
-
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -37,9 +34,25 @@ public class Meal {
     }
 
     public void addIngredient(Ingredient ingredient) {
-        ingredients.add(ingredient);
         ingredient.setMeal(this);
-        kcal += ingredient.getKcal();
-        grams += ingredient.getGrams();
+        ingredients.add(ingredient);
+    }
+
+    public Double getGrams() {
+        Double grams = 0.;
+        return ingredients.stream().map(Ingredient::getGrams).reduce(grams, Double::sum);
+    }
+
+    public String getGramsAsString() {
+        return String.format("%.0f", getGrams());
+    }
+
+    public double getKcal() {
+        Double kcal = 0.;
+        return ingredients.stream().map(Ingredient::getKcal).reduce(kcal, Double::sum);
+    }
+
+    public String getKcalAsString() {
+        return String.format("%.0f", getKcal());
     }
 }

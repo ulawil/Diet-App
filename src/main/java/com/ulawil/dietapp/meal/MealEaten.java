@@ -1,5 +1,6 @@
 package com.ulawil.dietapp.meal;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ulawil.dietapp.user.User;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -17,9 +18,9 @@ public class MealEaten {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Getter(AccessLevel.NONE)
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
     @ManyToOne
     @JoinColumn(name = "meal_id")

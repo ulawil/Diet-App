@@ -26,10 +26,10 @@
                     <button th:attrappend="disabled=${meal.ingredients.isEmpty()}?'disabled'" type="submit" name="createMeal" class="pure-button pure-button-primary">Create</button>
                     <ul th:if="${!meal.ingredients.isEmpty()}" th:each="ingredient, ingStat : ${meal.ingredients}">
                         <li>
-                            <span th:text="|${ingredient.name} (${ingredient.grams}g, ${ingredient.kcal} kcal)|"></span>
+                            <span th:text="|${ingredient.food.name} (${ingredient.getGramsAsString()}g, ${ingredient.getKcalAsString()} kcal)|"></span>
                         </li>
                     </ul>
-                    <b th:if="${!meal.ingredients.isEmpty()}" th:text="|${meal.grams}g, ${meal.kcal} kcal in total|"></b>
+                    <h3 th:if="${!meal.ingredients.isEmpty()}" th:text="|${meal.getGramsAsString()}g, ${meal.getKcalAsString()} kcal in total|"></h3>
                 </fieldset>
             </form>
             <br>
@@ -55,7 +55,7 @@
                 <tbody>
                     <tr th:each="food, foodStat : ${foundFoods}">
                         <td th:text="${food.name}"></td>
-                        <td th:text="${food.kcal100g}"></td>
+                        <td th:text="${food.getKcal100gAsString}"></td>
                         <td>
                             <input th:form="${foodStat.index}" th:name="amount" type="number" placeholder="0"/>
                         </td>
