@@ -1,5 +1,6 @@
-package com.ulawil.dietapp.model;
+package com.ulawil.dietapp.meal;
 
+import com.ulawil.dietapp.user.User;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

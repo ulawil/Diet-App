@@ -1,4 +1,4 @@
-package com.ulawil.dietapp.model;
+package com.ulawil.dietapp.user;
 
 public enum UserRole {
     USER,

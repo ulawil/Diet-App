@@ -1,6 +1,6 @@
-package com.ulawil.dietapp.repository;
+package com.ulawil.dietapp.food;
 
-import com.ulawil.dietapp.model.Food;
+import com.ulawil.dietapp.food.Food;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

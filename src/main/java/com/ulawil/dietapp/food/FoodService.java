@@ -1,11 +1,10 @@
-package com.ulawil.dietapp.service;
+package com.ulawil.dietapp.food;
 
-import com.ulawil.dietapp.model.Food;
-import com.ulawil.dietapp.repository.FoodRepository;
+import com.ulawil.dietapp.food.Food;
+import com.ulawil.dietapp.food.FoodRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class FoodService {

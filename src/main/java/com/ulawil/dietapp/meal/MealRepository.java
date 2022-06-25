@@ -1,6 +1,4 @@
-package com.ulawil.dietapp.repository;
-
-import com.ulawil.dietapp.model.Meal;
+package com.ulawil.dietapp.meal;
 
 import java.time.LocalDateTime;
 import java.util.List;

@@ -16,7 +16,7 @@
 
             <h1>Today's meals</h1>
 
-            <!--/*@thymesVar id="todaysMeals" type="java.util.List<com.ulawil.dietapp.model.MealEaten>"*/-->
+            <!--/*@thymesVar id="todaysMeals" type="java.util.List<com.ulawil.dietapp.meal.MealEaten>"*/-->
             <h2 th:if="${todaysMeals==null || todaysMeals.isEmpty()}">No meals added today</h2>
 
             <form class="pure-form">

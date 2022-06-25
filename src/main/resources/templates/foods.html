@@ -19,7 +19,7 @@
             <!--/*@thymesVar id="addedMessage" type="java.lang.String"*/-->
             <h2 th:if="${addedMessage != null}" th:text="${addedMessage}"></h2>
 
-            <!--/*@thymesVar id="food" type="com.ulawil.dietapp.model.Food"*/-->
+            <!--/*@thymesVar id="food" type="com.ulawil.dietapp.food.Food"*/-->
             <form th:action="@{/foods}" th:object="${food}" action="#" method="post" class="pure-form">
                 <fieldset>
                     <input th:field="${food.name}" type="text" placeholder="Name"/>

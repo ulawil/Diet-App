@@ -1,4 +1,4 @@
-package com.ulawil.dietapp.model;
+package com.ulawil.dietapp.registration;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;

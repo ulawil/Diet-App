@@ -1,10 +1,7 @@
 package com.ulawil.dietapp.service;
 
-import com.ulawil.dietapp.model.Meal;
-import com.ulawil.dietapp.model.MealEaten;
-import com.ulawil.dietapp.model.User;
-import com.ulawil.dietapp.repository.MealEatenRepository;
-import com.ulawil.dietapp.repository.MealRepository;
+import com.ulawil.dietapp.meal.*;
+import com.ulawil.dietapp.user.User;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;

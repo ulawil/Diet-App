@@ -1,7 +1,5 @@
-package com.ulawil.dietapp.controller;
+package com.ulawil.dietapp.user;
 
-import com.ulawil.dietapp.model.User;
-import com.ulawil.dietapp.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

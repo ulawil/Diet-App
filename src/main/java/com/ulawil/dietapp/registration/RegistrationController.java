@@ -1,7 +1,5 @@
-package com.ulawil.dietapp.controller;
+package com.ulawil.dietapp.registration;
 
-import com.ulawil.dietapp.model.RegistrationRequest;
-import com.ulawil.dietapp.service.RegistrationService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

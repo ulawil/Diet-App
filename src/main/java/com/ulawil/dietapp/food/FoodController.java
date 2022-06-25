@@ -1,7 +1,5 @@
-package com.ulawil.dietapp.controller;
+package com.ulawil.dietapp.food;
 
-import com.ulawil.dietapp.model.Food;
-import com.ulawil.dietapp.service.FoodService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

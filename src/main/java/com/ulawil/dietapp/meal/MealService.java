@@ -1,9 +1,13 @@
-package com.ulawil.dietapp.service;
+package com.ulawil.dietapp.meal;
 
-import com.ulawil.dietapp.model.*;
-import com.ulawil.dietapp.repository.FoodRepository;
-import com.ulawil.dietapp.repository.MealEatenRepository;
-import com.ulawil.dietapp.repository.MealRepository;
+import com.ulawil.dietapp.food.Food;
+import com.ulawil.dietapp.food.Ingredient;
+import com.ulawil.dietapp.meal.Meal;
+import com.ulawil.dietapp.meal.MealEaten;
+import com.ulawil.dietapp.food.FoodRepository;
+import com.ulawil.dietapp.meal.MealEatenRepository;
+import com.ulawil.dietapp.meal.MealRepository;
+import com.ulawil.dietapp.user.User;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;

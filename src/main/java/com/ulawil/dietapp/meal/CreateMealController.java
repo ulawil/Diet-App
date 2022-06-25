@@ -1,10 +1,8 @@
-package com.ulawil.dietapp.controller;
+package com.ulawil.dietapp.meal;
 
-import com.ulawil.dietapp.model.Food;
-import com.ulawil.dietapp.model.Meal;
-import com.ulawil.dietapp.service.FoodService;
-import com.ulawil.dietapp.service.MealService;
-import com.ulawil.dietapp.service.UserService;
+import com.ulawil.dietapp.food.Food;
+import com.ulawil.dietapp.food.FoodService;
+import com.ulawil.dietapp.user.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

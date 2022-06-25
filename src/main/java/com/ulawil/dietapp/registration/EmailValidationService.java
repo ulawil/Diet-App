@@ -1,4 +1,4 @@
-package com.ulawil.dietapp.service;
+package com.ulawil.dietapp.registration;
 
 import org.springframework.stereotype.Service;
 

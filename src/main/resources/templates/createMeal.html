@@ -19,7 +19,7 @@
             <!--/*@thymesVar id="createdMessage" type="java.lang.String"*/-->
             <h2 th:if="${createdMessage != null}" th:text="${createdMessage}"></h2>
 
-            <!--/*@thymesVar id="meal" type="com.ulawil.dietapp.model.Meal"*/-->
+            <!--/*@thymesVar id="meal" type="com.ulawil.dietapp.meal.Meal"*/-->
             <form th:object="${meal}" action="#" method="post" class="pure-form">
                 <fieldset>
                     <input th:attrappend="disabled=${meal.ingredients.isEmpty()}?'disabled'" type="text" placeholder="Meal name" name="mealName"/>

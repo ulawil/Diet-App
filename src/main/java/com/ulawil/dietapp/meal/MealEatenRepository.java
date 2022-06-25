@@ -1,6 +1,4 @@
-package com.ulawil.dietapp.repository;
-
-import com.ulawil.dietapp.model.MealEaten;
+package com.ulawil.dietapp.meal;
 
 public interface MealEatenRepository {
 

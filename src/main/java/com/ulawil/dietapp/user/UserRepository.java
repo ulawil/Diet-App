@@ -1,7 +1,4 @@
-package com.ulawil.dietapp.repository;
-
-import com.ulawil.dietapp.model.User;
-import org.springframework.security.core.userdetails.UserDetails;
+package com.ulawil.dietapp.user;
 
 import java.util.Optional;
 
