@@ -43,16 +43,8 @@ public class Meal {
         return ingredients.stream().map(Ingredient::getGrams).reduce(grams, Double::sum);
     }
 
-    public String getGramsAsString() {
-        return String.format("%.0f", getGrams());
-    }
-
     public double getKcal() {
         Double kcal = 0.;
         return ingredients.stream().map(Ingredient::getKcal).reduce(kcal, Double::sum);
-    }
-
-    public String getKcalAsString() {
-        return String.format("%.0f", getKcal());
     }
 }

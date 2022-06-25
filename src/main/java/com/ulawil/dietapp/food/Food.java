@@ -22,8 +22,4 @@ public class Food {
     @OneToMany(mappedBy = "food")
     @JsonIgnore
     private List<Ingredient> ingredients;
-
-    public String getKcal100gAsString() {
-        return String.format("%.0f", getKcal100g());
-    }
 }

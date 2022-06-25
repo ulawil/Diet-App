@@ -21,7 +21,7 @@ public class TodaysMealsController {
     String showUserPage(Model model) {
         model.addAttribute("todaysMeals", todaysMeals());
         model.addAttribute("totalKcal",
-                mealService.getUsersTodaysKcalAsString(userService.getLoggedInUser().getId()));
+                mealService.findUsersTodaysTotalKcal(userService.getLoggedInUser().getId()));
         return "todaysMeals";
     }
 
@@ -40,7 +40,7 @@ public class TodaysMealsController {
         mealService.addMealEaten(mealId, userService.getLoggedInUser());
         model.addAttribute("todaysMeals", todaysMeals());
         model.addAttribute("totalKcal",
-                mealService.getUsersTodaysKcalAsString(userService.getLoggedInUser().getId()));
+                mealService.findUsersTodaysTotalKcal(userService.getLoggedInUser().getId()));
         return "todaysMeals";
     }
 

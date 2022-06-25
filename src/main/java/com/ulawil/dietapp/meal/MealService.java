@@ -50,16 +50,13 @@ public class MealService {
                 .map(Ingredient::getKcal).reduce(sum, Double::sum);
     }
 
-    public String getUsersTodaysKcalAsString(int userId) {
-        return String.format("%.0f", findUsersTodaysTotalKcal(userId));
-    }
-
     public List<Meal> findUsersMealsByName(String foodName, int userId) {
         return mealRepository.findByNameContainsIgnoreCaseAndUserId(foodName, userId);
     }
 
     public void addMealEaten(int mealId, User user) {
-        Meal mealToAdd = mealRepository.findById(mealId).get(); // always present bc it's taken from the db
+        Meal mealToAdd = mealRepository.findById(mealId).orElseThrow(
+                () -> new IllegalArgumentException("Meal not found"));
         MealEaten mealEaten = new MealEaten();
         mealEaten.setMeal(mealToAdd);
         mealEaten.setUser(user);
@@ -67,7 +64,8 @@ public class MealService {
     }
 
     public void addIngredientToMealToAdd(int foodId, int foodAmount) {
-        Food food = foodRepository.findById(foodId).get(); // always present bc it's taken from the db
+        Food food = foodRepository.findById(foodId).orElseThrow(
+                () -> new IllegalArgumentException("Meal not found"));
         mealToAdd.addIngredient(new Ingredient(food, foodAmount));
     }
 

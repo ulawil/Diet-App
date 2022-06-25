@@ -31,15 +31,7 @@ public class Ingredient {
         this.grams = grams;
     }
 
-    public String getGramsAsString() {
-        return String.format("%.0f", grams);
-    }
-
     public double getKcal() {
         return food.getKcal100g()*grams/100.;
-    }
-
-    public String getKcalAsString() {
-        return String.format("%.0f", getKcal());
     }
 }
