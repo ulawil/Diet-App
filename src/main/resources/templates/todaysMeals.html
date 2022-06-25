@@ -19,16 +19,17 @@
             <!--/*@thymesVar id="todaysMeals" type="java.util.List<com.ulawil.dietapp.model.MealEaten>"*/-->
             <h2 th:if="${todaysMeals==null || todaysMeals.isEmpty()}">No meals added today</h2>
 
-            <ul th:if="${!todaysMeals.isEmpty()}" th:each="meal : ${todaysMeals}">
-                <li>
-                    <span th:text="|${meal.name}, ${meal.kcal} kcal|"></span>
-                </li>
-            </ul>
-
-            <!--/*@thymesVar id="totalKcal" type="java.lang.Integer"*/-->
-            <b th:if="${!todaysMeals.isEmpty()}" th:text="|${totalKcal} kcal in total|"></b>
-
-            <br>
+            <form class="pure-form">
+                <fieldset>
+                    <ul th:if="${!todaysMeals.isEmpty()}" th:each="meal : ${todaysMeals}">
+                        <li>
+                            <span th:text="|${meal.name}, ${meal.kcal} kcal|"></span>
+                        </li>
+                    </ul>
+                    <!--/*@thymesVar id="totalKcal" type="java.lang.Integer"*/-->
+                    <b th:if="${!todaysMeals.isEmpty()}" th:text="|${totalKcal} kcal in total|"></b>
+                </fieldset>
+            </form>
             <br>
 
             <!--/*@thymesVar id="foundMeals" type="java.util.List<ulawil.dietapp.model.Meal>"*/-->

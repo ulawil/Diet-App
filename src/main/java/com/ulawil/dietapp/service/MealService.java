@@ -1,10 +1,8 @@
 package com.ulawil.dietapp.service;
 
-import com.ulawil.dietapp.model.Food;
-import com.ulawil.dietapp.model.Ingredient;
-import com.ulawil.dietapp.model.Meal;
-import com.ulawil.dietapp.model.User;
+import com.ulawil.dietapp.model.*;
 import com.ulawil.dietapp.repository.FoodRepository;
+import com.ulawil.dietapp.repository.MealEatenRepository;
 import com.ulawil.dietapp.repository.MealRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,11 +14,15 @@ import java.util.List;
 public class MealService {
 
     private final MealRepository mealRepository;
+    private final MealEatenRepository mealEatenRepository;
     private final FoodRepository foodRepository;
     private Meal mealToAdd = new Meal();
 
-    public MealService(MealRepository mealRepository, FoodRepository foodRepository) {
+    public MealService(MealRepository mealRepository,
+                       MealEatenRepository mealEatenRepository,
+                       FoodRepository foodRepository) {
         this.mealRepository = mealRepository;
+        this.mealEatenRepository = mealEatenRepository;
         this.foodRepository = foodRepository;
     }
 
@@ -47,6 +49,13 @@ public class MealService {
         return mealRepository.findByNameContainsIgnoreCaseAndUserId(foodName, userId);
     }
 
+    public void addMealEaten(int mealId, User user) {
+        Meal mealToAdd = mealRepository.findById(mealId).get(); // always present bc it's taken from the db
+        MealEaten mealEaten = new MealEaten();
+        mealEaten.setMeal(mealToAdd);
+        mealEaten.setUser(user);
+        mealEatenRepository.save(mealEaten);
+    }
 
     public void addIngredientToMealToAdd(int foodId, int foodAmount) {
         Food food = foodRepository.findById(foodId).get(); // always present bc it's taken from the db

@@ -1,9 +1,14 @@
 package com.ulawil.dietapp.repository;
 
 import com.ulawil.dietapp.model.User;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.security.core.userdetails.UserDetails;
 
-@Repository
-public interface UserRepository extends JpaRepository<User, Integer> {
+import java.util.Optional;
+
+public interface UserRepository {
+    Optional<User> findByEmail(String username);
+
+    Optional<User> findById(int id);
+
+    User save(User user);
 }

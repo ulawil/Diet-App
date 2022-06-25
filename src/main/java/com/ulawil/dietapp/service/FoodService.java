@@ -27,8 +27,4 @@ public class FoodService {
     public Food saveFood(Food food) {
         return foodRepository.save(food);
     }
-
-    public Optional<Food> findFoodById(int foodId) {
-        return foodRepository.findById(foodId);
-    }
 }

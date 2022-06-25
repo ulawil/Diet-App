@@ -44,7 +44,7 @@ public class TodaysMealsController {
             produces = MediaType.TEXT_HTML_VALUE
     )
     String addMeal(@RequestParam("addMeal") int mealId, Model model) {
-        userService.addMealEaten(mealId, currentUser); // later get user from spring
+        mealService.addMealEaten(mealId, currentUser); // later get user from spring
         model.addAttribute("todaysMeals", todaysMeals());
         model.addAttribute("totalKcal", mealService.findUsersTodaysTotalKcal(currentUser.getId()));
         return "todaysMeals";

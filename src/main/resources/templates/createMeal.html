@@ -20,12 +20,11 @@
             <h2 th:if="${createdMessage != null}" th:text="${createdMessage}"></h2>
 
             <!--/*@thymesVar id="meal" type="com.ulawil.dietapp.model.Meal"*/-->
-            <form th:if="${!meal.ingredients.isEmpty()}" th:object="${meal}" action="#" method="post" class="pure-form">
-                <fieldset th:if="${!meal.ingredients.isEmpty()}">
-                    <input type="text" placeholder="Meal name" name="mealName"/>
-                    <button type="submit" name="createMeal" class="pure-button pure-button-primary">Create
-                    </button>
-                    <ul th:each="ingredient, ingStat : ${meal.ingredients}">
+            <form th:object="${meal}" action="#" method="post" class="pure-form">
+                <fieldset>
+                    <input th:attrappend="disabled=${meal.ingredients.isEmpty()}?'disabled'" type="text" placeholder="Meal name" name="mealName"/>
+                    <button th:attrappend="disabled=${meal.ingredients.isEmpty()}?'disabled'" type="submit" name="createMeal" class="pure-button pure-button-primary">Create</button>
+                    <ul th:if="${!meal.ingredients.isEmpty()}" th:each="ingredient, ingStat : ${meal.ingredients}">
                         <li>
                             <span th:text="|${ingredient.name} (${ingredient.grams}g, ${ingredient.kcal} kcal)|"></span>
                         </li>
@@ -33,7 +32,6 @@
                     <b th:if="${!meal.ingredients.isEmpty()}" th:text="|${meal.grams}g, ${meal.kcal} kcal in total|"></b>
                 </fieldset>
             </form>
-
             <br>
 
             <form th:action="@{/createMeal}" action="#" method="post" class="pure-form">
