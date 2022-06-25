@@ -3,6 +3,7 @@ package com.ulawil.dietapp.service;
 import com.ulawil.dietapp.model.User;
 import com.ulawil.dietapp.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -40,6 +41,14 @@ public class UserService implements UserDetailsService {
         // todo: send confirmation mail
 
         return "";
+    }
+
+    public User getLoggedInUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(!(principal instanceof User)) {
+            throw new IllegalStateException("No user currently logged in");
+        }
+        return (User)principal;
     }
 
 
