@@ -21,15 +21,20 @@ public class MealsController {
     private final FoodService foodService;
     private final UserService userService;
 
-    // REST
-
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     ResponseEntity<List<Meal>> showMeals() {
         return ResponseEntity.ok(mealService.findAllMeals());
     }
 
-    // WEB
+    @GetMapping(path = "/{id}", produces = MediaType.TEXT_HTML_VALUE)
+    String showMealDetails(@PathVariable("id") int mealId, Model model) {
+        Meal mealDetails = mealService.findMealById(mealId).orElseThrow(
+                () -> new IllegalArgumentException("Meal not found")
+        );
+        model.addAttribute("mealDetails", mealDetails);
+        return "mealDetails";
+    }
 
     @GetMapping(produces = MediaType.TEXT_HTML_VALUE)
     String displayMealsPage(Model model) {

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MealService {
@@ -35,6 +36,10 @@ public class MealService {
 
     public List<Meal> findAllMeals() {
         return mealRepository.findAll();
+    }
+
+    public Optional<Meal> findMealById(int mealId) {
+        return mealRepository.findById(mealId);
     }
 
     public List<Meal> findUsersTodaysMeals(int userId) {
