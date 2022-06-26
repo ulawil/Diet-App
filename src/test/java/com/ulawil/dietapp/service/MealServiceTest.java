@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -18,19 +19,38 @@ import static org.mockito.Mockito.when;
 class MealServiceTest {
 
     @Test
-    void shouldAddMealEatenWhenMealIdAndUserPresent() {
+    void addMealEaten_shouldThrowIllegalArgException_MealIdNotFound() {
         // given
         MealRepository mealRepo = mock(MealRepository.class);
-        when(mealRepo.findById(anyInt())).thenReturn(Optional.of(new Meal()));
+        when(mealRepo.findById(anyInt())).thenReturn(Optional.empty());
         // and
         InMemoryMealEatenRepo mealEatenRepo = new InMemoryMealEatenRepo();
         int countBeforeAdd = mealEatenRepo.count();
         // system under test
         MealService toTest = new MealService(mealRepo, mealEatenRepo, null, null);
         // when
-        toTest.addMealEaten(1, new User());
+        Throwable exception = catchThrowable(() -> toTest.addMealEaten(1, new User()));
         // then
-        assertThat(mealEatenRepo.count()).isEqualTo(countBeforeAdd+1);
+        assertThat(exception).isInstanceOf(IllegalArgumentException.class);
+        assertThat(exception).message().isEqualTo("Meal not found");
+    }
+
+    @Test
+    void addMealEaten_shouldAddMealEatenWhenMealIdAndUserPresent() {
+        // given
+        Meal mealToAdd = new Meal();
+        // and
+        MealRepository mealRepo = mock(MealRepository.class);
+        when(mealRepo.findById(anyInt())).thenReturn(Optional.of(mealToAdd));
+        // and
+        InMemoryMealEatenRepo mealEatenRepo = new InMemoryMealEatenRepo();
+        int countBeforeAdd = mealEatenRepo.count();
+        // system under test
+        MealService toTest = new MealService(mealRepo, mealEatenRepo, null, null);
+        // when
+        MealEaten result = toTest.addMealEaten(1, new User());
+        // then
+        assertThat(mealEatenRepo.count()).isEqualTo(countBeforeAdd + 1);
     }
 
     @Test

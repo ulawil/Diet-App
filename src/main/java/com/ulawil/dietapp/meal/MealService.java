@@ -54,13 +54,13 @@ public class MealService {
         return mealRepository.findByNameContainsIgnoreCaseAndUserId(foodName, userId);
     }
 
-    public void addMealEaten(int mealId, User user) {
+    public MealEaten addMealEaten(int mealId, User user) {
         Meal mealToAdd = mealRepository.findById(mealId).orElseThrow(
                 () -> new IllegalArgumentException("Meal not found"));
         MealEaten mealEaten = new MealEaten();
         mealEaten.setMeal(mealToAdd);
         mealEaten.setUser(user);
-        mealEatenRepository.save(mealEaten);
+        return  mealEatenRepository.save(mealEaten);
     }
 
     public void addIngredientToMealToAdd(int foodId, int foodAmount) {

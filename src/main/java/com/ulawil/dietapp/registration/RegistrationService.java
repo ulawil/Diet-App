@@ -1,6 +1,6 @@
 package com.ulawil.dietapp.registration;
 
-import com.ulawil.dietapp.user.User;
+import com.ulawil.dietapp.user.UserDTO;
 import com.ulawil.dietapp.user.UserRole;
 import com.ulawil.dietapp.user.UserService;
 import lombok.AllArgsConstructor;
@@ -18,7 +18,7 @@ public class RegistrationService {
         if(!isValid) {
             throw new IllegalStateException("Email not valid");
         }
-        return userService.signUp(new User(
+        return userService.signUp(new UserDTO(
                 request.getFirstName(),
                 request.getLastName(),
                 request.getEmail(),
@@ -26,7 +26,4 @@ public class RegistrationService {
                 UserRole.USER
         ));
     }
-
-
-
 }

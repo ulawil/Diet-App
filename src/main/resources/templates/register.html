@@ -17,13 +17,13 @@
 
             <h1>Register</h1>
 
-            <!--/*@thymesVar id="user" type="com.ulawil.dietapp.user.User"*/-->
-            <form th:action="@{/register}" th:object="${user}" action="#" method="post" class="pure-form pure-form-stacked">
+            <!--/*@thymesVar id="userDTO" type="com.ulawil.dietapp.user.UserDTO"*/-->
+            <form th:action="@{/register}" th:object="${userDTO}" action="#" method="post" class="pure-form pure-form-stacked">
                 <fieldset>
-                    <input th:field="${user.firstName}" type="text" placeholder="First name"/>
-                    <input th:field="${user.lastName}" type="text" placeholder="Last name"/>
-                    <input th:field="${user.email}" type="email" placeholder="Email"/>
-                    <input th:field="${user.password}" type="password" placeholder="Password"/>
+                    <input th:field="${userDTO.firstName}" type="text" placeholder="First name"/>
+                    <input th:field="${userDTO.lastName}" type="text" placeholder="Last name"/>
+                    <input th:field="${userDTO.email}" type="email" placeholder="Email"/>
+                    <input th:field="${userDTO.password}" type="password" placeholder="Password"/>
                     <button type="submit" class="pure-button pure-button-primary">Register</button>
                 </fieldset>
             </form>

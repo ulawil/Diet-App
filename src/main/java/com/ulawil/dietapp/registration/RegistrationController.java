@@ -1,6 +1,6 @@
 package com.ulawil.dietapp.registration;
 
-import com.ulawil.dietapp.user.User;
+import com.ulawil.dietapp.user.UserDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -20,19 +20,17 @@ public class RegistrationController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    String register(@ModelAttribute("user") User user) {
-        registrationService.register(new RegistrationRequest(user.getFirstName(),
-                user.getLastName(),
-                user.getEmail(),
-                user.getPassword()));
-        return "todaysMeals";
+    String register(@ModelAttribute("userDTO") UserDTO userDTO) {
+        registrationService.register(new RegistrationRequest(userDTO.getFirstName(),
+                userDTO.getLastName(),
+                userDTO.getEmail(),
+                userDTO.getPassword()));
+        return "registered";
     }
 
     @GetMapping(produces = MediaType.TEXT_HTML_VALUE)
     String showRegistrationForm(Model model) {
-        model.addAttribute("user", new User()); // todo: create user dto
+        model.addAttribute("userDTO", new UserDTO());
         return "register";
     }
-
-
 }

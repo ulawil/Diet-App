@@ -1,7 +1,5 @@
 package com.ulawil.dietapp.user;
 
-import com.ulawil.dietapp.user.User;
-import com.ulawil.dietapp.user.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -29,17 +27,16 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
-    public String signUp(User user) {
-        boolean userExists = userRepository.findByEmail(user.getEmail()).isPresent();
+    public String signUp(UserDTO userDTO) {
+        boolean userExists = userRepository.findByEmail(userDTO.getEmail()).isPresent();
         if(userExists) {
             throw new IllegalStateException("Email taken");
         }
-        String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
-        user.setPassword(encodedPassword);
-        userRepository.save(user);
+        String encodedPassword = bCryptPasswordEncoder.encode(userDTO.getPassword());
+        userDTO.setPassword(encodedPassword);
+        userRepository.save(userDTO.toUser());
 
         // todo: send confirmation mail
-
         return "";
     }
 
@@ -50,6 +47,4 @@ public class UserService implements UserDetailsService {
         }
         return (User)principal;
     }
-
-
 }
