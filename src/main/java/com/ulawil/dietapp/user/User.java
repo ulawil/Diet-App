@@ -34,10 +34,10 @@ public class User implements UserDetails {
     private UserRole role;
     private boolean locked;
     private boolean enabled = true; // todo: enable when email validated
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private Set<Meal> meals;
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private Set<MealEaten> mealsEaten;
 

@@ -22,18 +22,34 @@
             <!--/*@thymesVar id="todaysMeals" type="java.util.List<com.ulawil.dietapp.meal.MealEaten>"*/-->
             <p th:if="${todaysMeals.isEmpty()}">No meals added today</p>
 
-            <form th:if="${!todaysMeals.isEmpty()}" class="pure-form">
-                <fieldset>
-                    <legend>Today's meals</legend>
-                    <ul th:each="meal : ${todaysMeals}">
-                        <li>
-                            <span th:text="|${meal.name}, ${#numbers.formatDecimal(__${meal.kcal}__,1,0)} kcal|"></span>
-                        </li>
-                    </ul>
+            <table th:if="${!todaysMeals.isEmpty()}" class="pure-table pure-table-horizontal">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Amount[g]</th>
+                    <th>kcal</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="mealEaten : ${todaysMeals}">
+                    <td th:text="${mealEaten.meal.name}"></td>
+                    <td th:text="${#numbers.formatDecimal(__${mealEaten.meal.grams}__,1,0)}"></td>
+                    <td th:text="${#numbers.formatDecimal(__${mealEaten.meal.kcal}__,1,0)}"></td>
+                    <td>
+                        <form th:action="@{/todaysMeals}" action="#" method="post" class="pure-form">
+                            <button th:name="deleteMealEaten" th:value="${mealEaten.id}" type="submit">x</button>
+                        </form>
+                    </td>
+                </tr>
+                <tr>
                     <!--/*@thymesVar id="totalKcal" type="java.lang.Integer"*/-->
-                    <b th:text="|${#numbers.formatDecimal(__${totalKcal}__,1,0)} kcal in total|"></b>
-                </fieldset>
-            </form>
+                    <td>Total</td>
+                    <td th:text="${#numbers.formatDecimal(__${totalKcal}__,1,0)}"></td>
+                    <td th:text="${#numbers.formatDecimal(__${totalKcal}__,1,0)}"></td>
+                </tr>
+                </tbody>
+            </table>
             <br>
 
             <!--/*@thymesVar id="foundMeals" type="java.util.List<ulawil.dietapp.model.Meal>"*/-->
@@ -55,13 +71,13 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="meal, mealStat : ${foundMeals}">
+                <tr th:each="meal : ${foundMeals}">
                     <td><a th:href="@{/meals/__${meal.id}__}" th:text="${meal.name}"></a></td>
                     <td th:text="${#numbers.formatDecimal(__${meal.grams}__,1,0)}"></td>
                     <td th:text="${#numbers.formatDecimal(__${meal.kcal}__,1,0)}"></td>
                     <td>
                         <form th:action="@{/todaysMeals}" action="#" method="post" class="pure-form">
-                            <button th:name="addMeal" th:value="${meal.id}" type="submit">+</button>
+                            <button th:name="addMealEaten" th:value="${meal.id}" type="submit">+</button>
                         </form>
                     </td>
                 </tr>

@@ -62,12 +62,30 @@ public class MealsController {
         return "meals";
     }
 
+    @PostMapping(params = {"deleteIngredient"},
+            produces = MediaType.TEXT_HTML_VALUE
+    )
+    String addIngredient(@RequestParam("deleteIngredient") int ingId, Model model) {
+        // todo
+        model.addAttribute("meal", mealService.getMealToAdd());
+        model.addAttribute("food", new Food());
+        return "meals";
+    }
+
     @PostMapping(params = {"createMeal"}, produces = MediaType.TEXT_HTML_VALUE)
     String createMeal(@RequestParam("mealName") String mealName, Model model) {
         mealService.AddMeal(mealName, userService.getLoggedInUser());
         model.addAttribute("meal", mealService.getMealToAdd());
         model.addAttribute("food", new Food());
         model.addAttribute("createdMessage", "Meal created!");
+        return "meals";
+    }
+
+    @PostMapping(params = {"resetMeal"}, produces = MediaType.TEXT_HTML_VALUE)
+    String resetMeal(Model model) {
+        mealService.getMealToAdd().getIngredients().clear();
+        model.addAttribute("meal", mealService.getMealToAdd());
+        model.addAttribute("food", new Food());
         return "meals";
     }
 }

@@ -33,19 +33,28 @@ public class TodaysMealsController {
         return "todaysMeals";
     }
 
-    @PostMapping(params = {"addMeal"},
-            produces = MediaType.TEXT_HTML_VALUE
+    @PostMapping(params = {"addMealEaten"}, produces = MediaType.TEXT_HTML_VALUE)
+    String addMeal(@RequestParam("addMealEaten") int mealId, Model model) {
+        MealEaten addedMeal = mealService.addMealEaten(mealId, userService.getLoggedInUser());
+        System.out.println("Added meal :" + addedMeal.getId());
+        model.addAttribute("todaysMeals", todaysMeals());
+        model.addAttribute("totalKcal", todaysTotalKcal());
+        return "todaysMeals";
+    }
+
+    @PostMapping(params = {"deleteMealEaten"}, produces = MediaType.TEXT_HTML_VALUE
     )
-    String addMeal(@RequestParam("addMeal") int mealId, Model model) {
-        mealService.addMealEaten(mealId, userService.getLoggedInUser());
+    String deleteMeal(@RequestParam("deleteMealEaten") int mealId, Model model) {
+        System.out.println("deleting meal :" + mealId);
+        mealService.deleteMealEaten(mealId, userService.getLoggedInUser());
         model.addAttribute("todaysMeals", todaysMeals());
         model.addAttribute("totalKcal", todaysTotalKcal());
         return "todaysMeals";
     }
 
     @ModelAttribute
-    List<Meal> todaysMeals() {
-        return mealService.findUsersTodaysMeals(userService.getLoggedInUser().getId());
+    List<MealEaten> todaysMeals() {
+        return mealService.findUsersTodaysMealsEaten(userService.getLoggedInUser().getId());
     }
 
     @ModelAttribute

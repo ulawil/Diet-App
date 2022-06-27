@@ -30,7 +30,7 @@ public class MealService {
         this.userService = userService;
     }
 
-    public Object getMealToAdd() {
+    public Meal getMealToAdd() {
         return mealToAdd;
     }
 
@@ -46,6 +46,12 @@ public class MealService {
         LocalDateTime dayStart = LocalDate.now().atStartOfDay();
         LocalDateTime dayEnd = LocalDate.now().plusDays(1).atStartOfDay();
         return mealRepository.findByUserIdAndDateEatenBetween(userId, dayStart, dayEnd);
+    }
+
+    public List<MealEaten> findUsersTodaysMealsEaten(int userId) {
+        LocalDateTime dayStart = LocalDate.now().atStartOfDay();
+        LocalDateTime dayEnd = LocalDate.now().plusDays(1).atStartOfDay();
+        return mealEatenRepository.findByUserIdIsAndDateEatenBetween(userId, dayStart, dayEnd);
     }
 
     public Double findUsersTodaysTotalKcal(int userId) {
@@ -79,5 +85,12 @@ public class MealService {
         mealToAdd.setUser(currentUser);
         mealRepository.save(mealToAdd);
         mealToAdd = new Meal();
+    }
+
+    public void deleteMealEaten(int mealId, User currentUser) {
+        MealEaten mealEatenToDelete = mealEatenRepository.findById(mealId).orElseThrow(
+                () -> new IllegalArgumentException("Meal not found"));
+        mealEatenToDelete.setUser(null);
+        mealEatenRepository.deleteById(mealId);
     }
 }

@@ -82,6 +82,21 @@ class MealServiceTest {
             data.put(index, mealEaten);
             return mealEaten;
         }
+
+        @Override
+        public List<MealEaten> findByUserIdIsAndDateEatenBetween(int userId, LocalDateTime dayBefore, LocalDateTime dayAfter) {
+            return null;
+        }
+
+        @Override
+        public Optional<MealEaten> findById(int mealId) {
+            return Optional.empty();
+        }
+
+        @Override
+        public void deleteById(Integer id) {
+
+        }
     }
 
     private static class InMemoryMealRepo implements MealRepository {
