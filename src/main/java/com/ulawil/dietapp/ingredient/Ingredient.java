@@ -14,13 +14,17 @@ import javax.persistence.*;
 @Setter
 @Entity
 public class Ingredient {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
+
     private double grams;
-    @ManyToOne(fetch = FetchType.EAGER)
+
+    @ManyToOne
     @JoinColumn(name = "food_id")
     private Food100g food100g;
+
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "meal_id")
@@ -32,6 +36,18 @@ public class Ingredient {
     }
 
     public double getKcal() {
-        return food100g.getKcal()*grams/100.;
+        return food100g.getKcal() * grams / 100.;
+    }
+
+    public double getCarbs() {
+        return food100g.getCarbs() * grams / 100.;
+    }
+
+    public double getProtein() {
+        return food100g.getProtein() * grams / 100.;
+    }
+
+    public double getFat() {
+        return food100g.getFat() * grams / 100.;
     }
 }

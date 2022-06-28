@@ -15,14 +15,18 @@ import java.util.List;
 @RequestMapping(path = "/todaysMeals")
 public class TodaysMealsController {
 
-    private final UserService userService;
     private final MealEatenService mealEatenService;
+    private final UserService userService;
     private final MealService mealService;
 
     @GetMapping()
     String showTodaysMealsPage(Model model) {
         model.addAttribute("todaysMeals", todaysMeals());
+        model.addAttribute("totalGrams", todaysTotalGrams());
         model.addAttribute("totalKcal", todaysTotalKcal());
+        model.addAttribute("totalCarbs", todaysTotalCarbs());
+        model.addAttribute("totalProtein", todaysTotalProtein());
+        model.addAttribute("totalFat", todaysTotalFat());
         return "todaysMeals";
     }
 
@@ -55,11 +59,37 @@ public class TodaysMealsController {
 
     @ModelAttribute
     List<MealEaten> todaysMeals() {
-        return mealEatenService.findMealsByUserIdAndDateEaten(userService.getCurrentUser().getId(), LocalDate.now());
+        return mealEatenService.findMealsByUserIdAndDateEaten(
+                userService.getCurrentUser().getId(), LocalDate.now());
+    }
+
+    @ModelAttribute
+    Double todaysTotalGrams() {
+        return mealEatenService.findTotalGramsByUserIdAndDateEaten(
+                userService.getCurrentUser().getId(), LocalDate.now());
     }
 
     @ModelAttribute
     Double todaysTotalKcal() {
-        return mealService.findTotalKcalByUserIdAndDateEaten(userService.getCurrentUser().getId(), LocalDate.now());
+        return mealEatenService.findTotalKcalByUserIdAndDateEaten(
+                userService.getCurrentUser().getId(), LocalDate.now());
+    }
+
+    @ModelAttribute
+    Double todaysTotalCarbs() {
+        return mealEatenService.findTotalCarbsByUserIdAndDateEaten(
+                userService.getCurrentUser().getId(), LocalDate.now());
+    }
+
+    @ModelAttribute
+    Double todaysTotalProtein() {
+        return mealEatenService.findTotalProteinByUserIdAndDateEaten(
+                userService.getCurrentUser().getId(), LocalDate.now());
+    }
+
+    @ModelAttribute
+    Double todaysTotalFat() {
+        return mealEatenService.findTotalFatByUserIdAndDateEaten(
+                userService.getCurrentUser().getId(), LocalDate.now());
     }
 }

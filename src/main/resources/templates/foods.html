@@ -23,12 +23,32 @@
             <h2 th:if="${addedMessage != null}" th:text="${addedMessage}"></h2>
 
             <!--/*@thymesVar id="food100g" type="com.ulawil.dietapp.food.Food100g"*/-->
-            <form th:action="@{/foods}" th:object="${food100g}" action="#" method="post" class="pure-form">
+            <form th:action="@{/foods}" th:object="${food100g}" action="#" method="post" class="pure-form pure-form-aligned">
                 <fieldset>
-                    <legend>Add food</legend>
-                    <input th:field="${food100g.name}" type="text" placeholder="Name"/>
-                    <input th:field="${food100g.kcal}" type="number" placeholder="Calories per 100g"/>
-                    <button type="submit" name="addFood" class="pure-button pure-button-primary">+</button>
+                    <div class="pure-control-group">
+                        <label for="name">Name</label>
+                        <input th:field="${food100g.name}" type="text" id="name" placeholder="name" />
+                    </div>
+                    <div class="pure-control-group">
+                        <label for="kcal">Kcal/100g</label>
+                        <input th:field="${food100g.kcal}" type="number" id="kcal" placeholder="kcal" />
+                    </div>
+                    <div class="pure-control-group">
+                        <label for="carbs">Carbs/100g [g]</label>
+                        <input th:field="${food100g.carbs}" type="number" id="carbs" placeholder="name" />
+                    </div>
+                    <div class="pure-control-group">
+                        <label for="protein">Protein/100g [g]</label>
+                        <input th:field="${food100g.protein}" type="number" id="protein" placeholder="name" />
+                    </div>
+                    <div class="pure-control-group">
+                        <label for="fat">Fat/100g [g]</label>
+                        <input th:field="${food100g.fat}" type="number" id="fat" placeholder="name" />
+                    </div>
+                    <div class="pure-control-group">
+                        <label for="add"></label>
+                        <button type="submit" name="addFood" id="add" class="pure-button pure-button-primary">Add</button>
+                    </div>
                 </fieldset>
             </form>
 
@@ -41,20 +61,28 @@
             </form>
 
             <!--/*@thymesVar id="foundFoods" type="java.util.List<ulawil.dietapp.model.Food>"*/-->
-            <table th:if="${foundFoods != null}" class="pure-table pure-table-horizontal">
+            <table th:if="${foundFoods != null}" style="font-size: small" class="pure-table pure-table-bordered pure-table-striped">
                 <thead>
                     <tr>
                         <th>Name</th>
                         <th>kcal/100g</th>
+                        <th>Carbs/100g</th>
+                        <th>Protein/100g</th>
+                        <th>Fat/100g</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr th:each="food100g : ${foundFoods}">
                         <td th:text="${food100g.name}"></td>
-                        <td th:text="${food100g.kcal}"></td>
+                        <td th:text="|${#numbers.formatDecimal(__${food100g.kcal}__,1,0)}|"></td>
+                        <td th:text="|${#numbers.formatDecimal(__${food100g.carbs}__,1,0)}g|"></td>
+                        <td th:text="|${#numbers.formatDecimal(__${food100g.protein}__,1,0)}g|"></td>
+                        <td th:text="|${#numbers.formatDecimal(__${food100g.fat}__,1,0)}g|"></td>
                     </tr>
                 </tbody>
             </table>
+            <br>
+            <br>
 
         </div>
         <div class="pure-u-1-3">

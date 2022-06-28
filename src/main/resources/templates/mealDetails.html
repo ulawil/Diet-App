@@ -29,7 +29,7 @@
                             <span th:text="|${ingredient.getFood100g.name} (${#numbers.formatDecimal(__${ingredient.grams}__,1,0)}g, ${#numbers.formatDecimal(__${ingredient.kcal}__,1,0)} kcal)|"></span>
                         </li>
                     </ul>
-                    <b th:text="|${#numbers.formatDecimal(__${mealDetails.grams}__,1,0)}g, ${#numbers.formatDecimal(__${mealDetails.kcal}__,1,0)} kcal in total|"></b>
+                    <b th:text="|${#numbers.formatDecimal(__${mealDetails.calculateGrams}__,1,0)}g, ${#numbers.formatDecimal(__${mealDetails.calculateKcal}__,1,0)} kcal in total|"></b>
                 </fieldset>
             </form>
         </div>

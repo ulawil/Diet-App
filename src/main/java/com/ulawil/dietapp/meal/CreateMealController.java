@@ -83,7 +83,6 @@ public class CreateMealController {
 
     @ModelAttribute("mealToCreate")
     Meal mealToCreate() {
-        System.out.println("mealToCreate");
         return new Meal();
     }
 }

@@ -34,4 +34,24 @@ public class MealEatenService {
     public List<MealEaten> findMealsByUserIdAndDateEaten(Integer userId, LocalDate date) {
         return mealEatenRepository.findByUserIdAndDateEaten(userId, date);
     }
+
+    public Double findTotalGramsByUserIdAndDateEaten(int userId, LocalDate date) {
+        return mealEatenRepository.findUsersTotalGramsByDate(userId, date);
+    }
+
+    public Double findTotalKcalByUserIdAndDateEaten(int userId, LocalDate date) {
+        return mealEatenRepository.findUsersTotalKcalByDate(userId, date);
+    }
+
+    public Double findTotalCarbsByUserIdAndDateEaten(int userId, LocalDate date) {
+        return mealEatenRepository.findUsersTotalCarbsByDate(userId, date);
+    }
+
+    public Double findTotalProteinByUserIdAndDateEaten(int userId, LocalDate date) {
+        return mealEatenRepository.findUsersTotalProteinByDate(userId, date);
+    }
+
+    public Double findTotalFatByUserIdAndDateEaten(int userId, LocalDate date) {
+        return mealEatenRepository.findUsersTotalFatByDate(userId, date);
+    }
 }

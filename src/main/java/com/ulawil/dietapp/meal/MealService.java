@@ -12,14 +12,11 @@ import java.util.Optional;
 public class MealService {
 
     private final MealRepository mealRepository;
-    private final FoodRepository foodRepository;
     private final UserService userService;
 
     public MealService(MealRepository mealRepository,
-                       FoodRepository foodRepository,
                        UserService userService) {
         this.mealRepository = mealRepository;
-        this.foodRepository = foodRepository;
         this.userService = userService;
     }
 
@@ -34,14 +31,6 @@ public class MealService {
     public Meal saveMeal(Meal mealToSave) {
         mealToSave.setUser(userService.getCurrentUser());
         return mealRepository.save(mealToSave);
-    }
-
-    public List<Meal> findMealsByUserIdAndDateEaten(int userId, LocalDate date) {
-        return mealRepository.findByUserIdAndDateEaten(userId, date);
-    }
-
-    public Double findTotalKcalByUserIdAndDateEaten(int userId, LocalDate date) {
-        return mealRepository.findUsersTotalKcalByDate(userId, date);
     }
 
     public List<Meal> findUsersMealsByName(String foodName, int userId) {

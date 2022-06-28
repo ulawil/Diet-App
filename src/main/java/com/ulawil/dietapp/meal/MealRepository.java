@@ -12,6 +12,4 @@ public interface MealRepository {
     Optional<Meal> findById(Integer id);
     Meal save(Meal mealToAdd);
     List<Meal> findByNameContainsIgnoreCaseAndUserId(String name, Integer id);
-    List<Meal> findByUserIdAndDateEaten(Integer id, LocalDate date);
-    Double findUsersTotalKcalByDate(Integer id, LocalDate date);
 }

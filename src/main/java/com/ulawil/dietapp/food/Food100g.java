@@ -20,6 +20,9 @@ public class Food100g {
     private int id;
     private String name;
     private double kcal;
+    private double carbs;
+    private double protein;
+    private double fat;
     @OneToMany(mappedBy = "food100g")
     @JsonIgnore
     private List<Ingredient> ingredients;

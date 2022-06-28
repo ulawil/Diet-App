@@ -16,13 +16,6 @@ interface SqlMealRepository extends MealRepository, JpaRepository<Meal, Integer>
     List<Meal> findAll();
 
     @Override
-    List<Meal> findByNameContainsIgnoreCaseAndUserId(String name, Integer id);
-
-    @Query("select m from Meal m join fetch m.mealsEaten me where me.user.id=:userId and me.dateEaten=:date")
-    List<Meal> findByUserIdAndDateEaten(@Param("userId") Integer id,
-                                        @Param("date") LocalDate date);
-
-    @Query("select sum(f.kcal*i.grams/100.) from User u join u.mealsEaten me join me.meal m join m.ingredients i join i.food100g f where u.id=:id and me.dateEaten=:date")
-    Double findUsersTotalKcalByDate(@Param("id") Integer id,
-                                    @Param("date") LocalDate date);
+    @Query("select m from Meal m join fetch m.ingredients i join fetch i.food100g where m.name like %:name% and m.user.id=:id")
+    List<Meal> findByNameContainsIgnoreCaseAndUserId(@Param("name") String name, @Param("id") Integer id);
 }
