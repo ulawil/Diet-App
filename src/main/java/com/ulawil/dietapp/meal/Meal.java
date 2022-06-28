@@ -37,33 +37,23 @@ public class Meal {
         ingredients = new ArrayList<>();
     }
 
-    public void addIngredient(Ingredient ingredient) {
-        ingredient.setMeal(this);
-        ingredients.add(ingredient);
-    }
-
     public Double getGrams() {
-        Double grams = 0.;
-        return ingredients.stream().map(Ingredient::getGrams).reduce(grams, Double::sum);
+        return ingredients.stream().map(Ingredient::getGrams).reduce(0., Double::sum);
     }
 
     public double getKcal() {
-        Double kcal = 0.;
-        return ingredients.stream().map(Ingredient::getKcal).reduce(kcal, Double::sum);
+        return ingredients.stream().map(Ingredient::getKcal).reduce(0., Double::sum);
     }
 
     public double getCarbs() {
-        Double kcal = 0.;
-        return ingredients.stream().map(Ingredient::getCarbs).reduce(kcal, Double::sum);
+        return ingredients.stream().map(Ingredient::getCarbs).reduce(0., Double::sum);
     }
 
     public double getProtein() {
-        Double kcal = 0.;
-        return ingredients.stream().map(Ingredient::getProtein).reduce(kcal, Double::sum);
+        return ingredients.stream().map(Ingredient::getProtein).reduce(0., Double::sum);
     }
 
     public double getFat() {
-        Double kcal = 0.;
-        return ingredients.stream().map(Ingredient::getFat).reduce(kcal, Double::sum);
+        return ingredients.stream().map(Ingredient::getFat).reduce(0., Double::sum);
     }
 }

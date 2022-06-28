@@ -63,10 +63,10 @@ public class CreateMealController {
                          @RequestParam("addIngredient") int foodId,
                          @RequestParam("amount") double foodAmount,
                          Model model) {
-        Ingredient toAdd = new Ingredient(foodService.findFoodById(foodId).orElseThrow(
+        Ingredient ingToAdd = new Ingredient(foodService.findFoodById(foodId).orElseThrow(
                 () -> new IllegalArgumentException("Ingredient not found")), foodAmount);
-        toAdd.setMeal(mealToCreate);
-        mealToCreate.addIngredient(toAdd);
+        ingToAdd.setMeal(mealToCreate);
+        mealToCreate.getIngredients().add(ingToAdd);
         return "createMeal";
     }
 

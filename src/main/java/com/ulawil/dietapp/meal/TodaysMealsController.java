@@ -22,20 +22,15 @@ public class TodaysMealsController {
     @GetMapping()
     String showTodaysMealsPage(Model model) {
         model.addAttribute("todaysMeals", todaysMeals());
-        model.addAttribute("totalGrams", todaysTotalGrams());
-        model.addAttribute("totalKcal", todaysTotalKcal());
-        model.addAttribute("totalCarbs", todaysTotalCarbs());
-        model.addAttribute("totalProtein", todaysTotalProtein());
-        model.addAttribute("totalFat", todaysTotalFat());
+        addNutritionalInfoToModel(model);
         return "todaysMeals";
     }
 
     @PostMapping(params = {"addMealEaten"}, produces = MediaType.TEXT_HTML_VALUE)
     String addMeal(@RequestParam("addMealEaten") int mealId, Model model) {
-        MealEaten addedMeal = mealEatenService.addMealEaten(mealId, userService.getCurrentUser());
-        System.out.println("Added meal :" + addedMeal.getId());
+        mealEatenService.addMealEaten(mealId, userService.getCurrentUser());
         model.addAttribute("todaysMeals", todaysMeals());
-        model.addAttribute("totalKcal", todaysTotalKcal());
+        addNutritionalInfoToModel(model);
         return "todaysMeals";
     }
 
@@ -44,7 +39,7 @@ public class TodaysMealsController {
     String deleteMeal(@RequestParam("deleteMealEaten") int mealId, Model model) {
         mealEatenService.deleteMealEaten(mealId);
         model.addAttribute("todaysMeals", todaysMeals());
-        model.addAttribute("totalKcal", todaysTotalKcal());
+        addNutritionalInfoToModel(model);
         return "todaysMeals";
     }
 
@@ -52,9 +47,16 @@ public class TodaysMealsController {
     String searchMeals(@RequestParam("mealName") String foodName, Model model) {
         List<Meal> foundMeals = mealService.findUsersMealsByName(foodName, userService.getCurrentUser().getId());
         model.addAttribute("todaysMeals", todaysMeals());
-        model.addAttribute("foundMeals", foundMeals);
-        model.addAttribute("totalKcal", todaysTotalKcal());
+        model.addAttribute("foundMeals", foundMeals); addNutritionalInfoToModel(model);
         return "todaysMeals";
+    }
+
+    void addNutritionalInfoToModel(Model model) {
+        model.addAttribute("totalGrams", todaysTotalGrams());
+        model.addAttribute("totalKcal", todaysTotalKcal());
+        model.addAttribute("totalCarbs", todaysTotalCarbs());
+        model.addAttribute("totalProtein", todaysTotalProtein());
+        model.addAttribute("totalFat", todaysTotalFat());
     }
 
     @ModelAttribute
