@@ -15,6 +15,6 @@ public class UserController {
 
     @GetMapping
     ResponseEntity<User> showCurrentUser() {
-        return ResponseEntity.ok(userService.getLoggedInUser());
+        return ResponseEntity.ok(userService.getCurrentUser());
     }
 }

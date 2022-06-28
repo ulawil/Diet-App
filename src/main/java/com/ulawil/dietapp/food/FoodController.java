@@ -18,11 +18,9 @@ public class FoodController {
 
     private final FoodService foodService;
 
-    // REST endpoints
-
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    ResponseEntity<List<Food>> showFoods() {
+    ResponseEntity<List<Food100g>> showFoods() {
         return ResponseEntity.ok(foodService.findAllFoods());
     }
 
@@ -31,8 +29,8 @@ public class FoodController {
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseBody
-    ResponseEntity<?> addFood(@RequestBody Food foodToAdd) {
-        Food addedFood = foodService.saveFood(foodToAdd);
+    ResponseEntity<?> addFood(@RequestBody Food100g foodToAdd) {
+        Food100g addedFood = foodService.saveFood(foodToAdd);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
@@ -41,16 +39,14 @@ public class FoodController {
         return ResponseEntity.created(location).body(addedFood);
     }
 
-    // WEB endpoints
-
     @GetMapping(produces = MediaType.TEXT_HTML_VALUE)
     String showFoods(Model model) {
-        model.addAttribute("food", new Food()); // has to be there for the post method
+        model.addAttribute("food100g", new Food100g()); // has to be there for the post method
         return "foods";
     }
 
     @PostMapping(params = {"addFood"})
-    String addFood(@ModelAttribute("food") Food foodToAdd, Model model) {
+    String addFood(@ModelAttribute("food100g") Food100g foodToAdd, Model model) {
         foodService.saveFood(foodToAdd);
         model.addAttribute("addedMessage", "Added an item!");
         return "foods";
@@ -58,7 +54,7 @@ public class FoodController {
 
     @PostMapping(params = {"searchFood"})
     String search(@RequestParam("foodName") String foodName, Model model) {
-        model.addAttribute("food", new Food());
+        model.addAttribute("food100g", new Food100g());
         model.addAttribute("foundFoods", foodService.findFoodsByName(foodName));
         return "foods";
     }

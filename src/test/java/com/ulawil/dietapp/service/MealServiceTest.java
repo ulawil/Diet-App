@@ -4,6 +4,7 @@ import com.ulawil.dietapp.meal.*;
 import com.ulawil.dietapp.user.User;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -89,7 +90,7 @@ class MealServiceTest {
         }
 
         @Override
-        public Optional<MealEaten> findById(int mealId) {
+        public Optional<MealEaten> findById(Integer id) {
             return Optional.empty();
         }
 
@@ -113,17 +114,22 @@ class MealServiceTest {
         }
 
         @Override
-        public Optional<Meal> findById(int id) {
+        public Optional<Meal> findById(Integer id) {
             return Optional.empty();
         }
 
         @Override
-        public List<Meal> findByNameContainsIgnoreCaseAndUserId(String mealName, int userId) {
+        public List<Meal> findByNameContainsIgnoreCaseAndUserId(String name, Integer id) {
             return null;
         }
 
         @Override
-        public List<Meal> findByUserIdAndDateEatenBetween(int userId, LocalDateTime dayBefore, LocalDateTime dayAfter) {
+        public List<Meal> findByUserIdAndDateEaten(Integer id, LocalDate date) {
+            return null;
+        }
+
+        @Override
+        public Double findUsersTotalKcalByDate(Integer id, LocalDate date) {
             return null;
         }
 

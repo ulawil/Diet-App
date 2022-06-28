@@ -17,7 +17,7 @@ public class HomeController {
 
     @GetMapping(produces = MediaType.TEXT_HTML_VALUE)
     String showHomePage(Model model) {
-        model.addAttribute("currentUser", userService.getLoggedInUser());
+        model.addAttribute("currentUser", userService.getCurrentUser());
         return "index";
     }
 }

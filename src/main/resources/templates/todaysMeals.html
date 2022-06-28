@@ -72,7 +72,7 @@
                 </thead>
                 <tbody>
                 <tr th:each="meal : ${foundMeals}">
-                    <td><a th:href="@{/meals/__${meal.id}__}" th:text="${meal.name}"></a></td>
+                    <td><a th:href="@{/mealDetails/__${meal.id}__}" th:text="${meal.name}"></a></td>
                     <td th:text="${#numbers.formatDecimal(__${meal.grams}__,1,0)}"></td>
                     <td th:text="${#numbers.formatDecimal(__${meal.kcal}__,1,0)}"></td>
                     <td>

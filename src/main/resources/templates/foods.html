@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org/">
 <head>
     <meta charset="UTF-8">
-    <title>Add food100g</title>
+    <title>Add food</title>
     <link rel="stylesheet" href="https://unpkg.com/purecss@2.1.0/build/pure-min.css"
           integrity="sha384-yHIFVG6ClnONEA5yB5DJXfW2/KC173DIQrYoZMEtBvGzmf0PKiGyNEqe9N6BNDBH"
           crossorigin="anonymous">
@@ -22,12 +22,12 @@
             <!--/*@thymesVar id="addedMessage" type="java.lang.String"*/-->
             <h2 th:if="${addedMessage != null}" th:text="${addedMessage}"></h2>
 
-            <!--/*@thymesVar id="food" type="com.ulawil.dietapp.food.Food"*/-->
-            <form th:action="@{/foods}" th:object="${food}" action="#" method="post" class="pure-form">
+            <!--/*@thymesVar id="food100g" type="com.ulawil.dietapp.food.Food100g"*/-->
+            <form th:action="@{/foods}" th:object="${food100g}" action="#" method="post" class="pure-form">
                 <fieldset>
                     <legend>Add food</legend>
-                    <input th:field="${food.name}" type="text" placeholder="Name"/>
-                    <input th:field="${food.kcal100g}" type="number" placeholder="Calories per 100g"/>
+                    <input th:field="${food100g.name}" type="text" placeholder="Name"/>
+                    <input th:field="${food100g.kcal}" type="number" placeholder="Calories per 100g"/>
                     <button type="submit" name="addFood" class="pure-button pure-button-primary">+</button>
                 </fieldset>
             </form>
@@ -39,6 +39,7 @@
                     <button type="submit" name="searchFood" class="pure-button pure-button-primary">Search</button>
                 </fieldset>
             </form>
+
             <!--/*@thymesVar id="foundFoods" type="java.util.List<ulawil.dietapp.model.Food>"*/-->
             <table th:if="${foundFoods != null}" class="pure-table pure-table-horizontal">
                 <thead>
@@ -48,12 +49,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="food : ${foundFoods}">
-                        <td th:text="${food.name}"></td>
-                        <td th:text="${food.kcal100g}"></td>
+                    <tr th:each="food100g : ${foundFoods}">
+                        <td th:text="${food100g.name}"></td>
+                        <td th:text="${food100g.kcal}"></td>
                     </tr>
                 </tbody>
             </table>
+
         </div>
         <div class="pure-u-1-3">
 

@@ -40,7 +40,7 @@ public class UserService implements UserDetailsService {
         return "";
     }
 
-    public User getLoggedInUser() {
+    public User getCurrentUser() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if(!(principal instanceof User)) {
             throw new IllegalStateException("No user currently logged in");

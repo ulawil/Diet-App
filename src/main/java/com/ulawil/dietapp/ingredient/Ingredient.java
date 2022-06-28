@@ -1,6 +1,7 @@
-package com.ulawil.dietapp.food;
+package com.ulawil.dietapp.ingredient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ulawil.dietapp.food.Food100g;
 import com.ulawil.dietapp.meal.Meal;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,6 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table
 public class Ingredient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,18 +20,18 @@ public class Ingredient {
     private double grams;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "food_id")
-    private Food food;
+    private Food100g food100g;
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "meal_id")
     private Meal meal;
 
-    public Ingredient(Food food, double grams) {
-        this.food = food;
+    public Ingredient(Food100g food100g, double grams) {
+        this.food100g = food100g;
         this.grams = grams;
     }
 
     public double getKcal() {
-        return food.getKcal100g()*grams/100.;
+        return food100g.getKcal()*grams/100.;
     }
 }

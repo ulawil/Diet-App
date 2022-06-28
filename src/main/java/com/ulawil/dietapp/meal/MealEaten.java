@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
@@ -25,10 +26,10 @@ public class MealEaten {
     @ManyToOne
     @JoinColumn(name = "meal_id")
     private Meal meal;
-    private LocalDateTime dateEaten;
+    private LocalDate dateEaten;
 
     @PrePersist
     void setDateEatenToToday() {
-        dateEaten = LocalDateTime.now();
+        dateEaten = LocalDate.now();
     }
 }

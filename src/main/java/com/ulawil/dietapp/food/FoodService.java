@@ -1,10 +1,9 @@
 package com.ulawil.dietapp.food;
 
-import com.ulawil.dietapp.food.Food;
-import com.ulawil.dietapp.food.FoodRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class FoodService {
@@ -15,15 +14,19 @@ public class FoodService {
         this.foodRepository = foodRepository;
     }
 
-    public List<Food> findFoodsByName(String foodName) {
+    public List<Food100g> findFoodsByName(String foodName) {
         return foodRepository.findByNameContainsIgnoreCase(foodName);
     }
 
-    public List<Food> findAllFoods() {
+    public List<Food100g> findAllFoods() {
         return foodRepository.findAll();
     }
 
-    public Food saveFood(Food food) {
+    public Food100g saveFood(Food100g food) {
         return foodRepository.save(food);
+    }
+
+    public Optional<Food100g> findFoodById(int foodId) {
+        return foodRepository.findById(foodId);
     }
 }

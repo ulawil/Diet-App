@@ -1,9 +1,8 @@
 package com.ulawil.dietapp.meal;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.ulawil.dietapp.food.Ingredient;
+import com.ulawil.dietapp.ingredient.Ingredient;
 import com.ulawil.dietapp.user.User;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,7 +21,7 @@ public class Meal {
     @OneToMany(mappedBy = "meal", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
     private List<Ingredient> ingredients;
-    @OneToMany(mappedBy = "meal")
+    @OneToMany(mappedBy = "meal", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<MealEaten> mealsEaten;
     @ManyToOne

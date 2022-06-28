@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @AllArgsConstructor
@@ -15,27 +16,19 @@ import java.util.List;
 public class TodaysMealsController {
 
     private final UserService userService;
+    private final MealEatenService mealEatenService;
     private final MealService mealService;
 
     @GetMapping()
-    String showUserPage(Model model) {
+    String showTodaysMealsPage(Model model) {
         model.addAttribute("todaysMeals", todaysMeals());
-        model.addAttribute("totalKcal", todaysTotalKcal());
-        return "todaysMeals";
-    }
-
-    @PostMapping(params = {"searchMeal"})
-    String searchMeals(@RequestParam("mealName") String foodName, Model model) {
-        List<Meal> foundMeals = mealService.findUsersMealsByName(foodName, userService.getLoggedInUser().getId());
-        model.addAttribute("todaysMeals", todaysMeals());
-        model.addAttribute("foundMeals", foundMeals);
         model.addAttribute("totalKcal", todaysTotalKcal());
         return "todaysMeals";
     }
 
     @PostMapping(params = {"addMealEaten"}, produces = MediaType.TEXT_HTML_VALUE)
     String addMeal(@RequestParam("addMealEaten") int mealId, Model model) {
-        MealEaten addedMeal = mealService.addMealEaten(mealId, userService.getLoggedInUser());
+        MealEaten addedMeal = mealEatenService.addMealEaten(mealId, userService.getCurrentUser());
         System.out.println("Added meal :" + addedMeal.getId());
         model.addAttribute("todaysMeals", todaysMeals());
         model.addAttribute("totalKcal", todaysTotalKcal());
@@ -45,20 +38,28 @@ public class TodaysMealsController {
     @PostMapping(params = {"deleteMealEaten"}, produces = MediaType.TEXT_HTML_VALUE
     )
     String deleteMeal(@RequestParam("deleteMealEaten") int mealId, Model model) {
-        System.out.println("deleting meal :" + mealId);
-        mealService.deleteMealEaten(mealId, userService.getLoggedInUser());
+        mealEatenService.deleteMealEaten(mealId);
         model.addAttribute("todaysMeals", todaysMeals());
+        model.addAttribute("totalKcal", todaysTotalKcal());
+        return "todaysMeals";
+    }
+
+    @PostMapping(params = {"searchMeal"})
+    String searchMeals(@RequestParam("mealName") String foodName, Model model) {
+        List<Meal> foundMeals = mealService.findUsersMealsByName(foodName, userService.getCurrentUser().getId());
+        model.addAttribute("todaysMeals", todaysMeals());
+        model.addAttribute("foundMeals", foundMeals);
         model.addAttribute("totalKcal", todaysTotalKcal());
         return "todaysMeals";
     }
 
     @ModelAttribute
     List<MealEaten> todaysMeals() {
-        return mealService.findUsersTodaysMealsEaten(userService.getLoggedInUser().getId());
+        return mealEatenService.findMealsByUserIdAndDateEaten(userService.getCurrentUser().getId(), LocalDate.now());
     }
 
     @ModelAttribute
     Double todaysTotalKcal() {
-        return mealService.findUsersTodaysTotalKcal(userService.getLoggedInUser().getId());
+        return mealService.findTotalKcalByUserIdAndDateEaten(userService.getCurrentUser().getId(), LocalDate.now());
     }
 }

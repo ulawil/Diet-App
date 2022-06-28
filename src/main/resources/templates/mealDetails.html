@@ -25,8 +25,8 @@
                     <legend th:text="${mealDetails.name}"></legend>
                     <ul th:each="ingredient, ingStat : ${mealDetails.ingredients}">
                         <li>
-                            <!--/*@thymesVar id="ingredient" type="com.ulawil.dietapp.food.Ingredient"*/-->
-                            <span th:text="|${ingredient.food.name} (${#numbers.formatDecimal(__${ingredient.grams}__,1,0)}g, ${#numbers.formatDecimal(__${ingredient.kcal}__,1,0)} kcal)|"></span>
+                            <!--/*@thymesVar id="ingredient" type="com.ulawil.dietapp.ingredient.Ingredient"*/-->
+                            <span th:text="|${ingredient.getFood100g.name} (${#numbers.formatDecimal(__${ingredient.grams}__,1,0)}g, ${#numbers.formatDecimal(__${ingredient.kcal}__,1,0)} kcal)|"></span>
                         </li>
                     </ul>
                     <b th:text="|${#numbers.formatDecimal(__${mealDetails.grams}__,1,0)}g, ${#numbers.formatDecimal(__${mealDetails.kcal}__,1,0)} kcal in total|"></b>
