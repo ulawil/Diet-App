@@ -100,27 +100,7 @@ class MealServiceTest {
         }
 
         @Override
-        public Double findUsersTotalGramsByDate(Integer id, LocalDate date) {
-            return null;
-        }
-
-        @Override
-        public Double findUsersTotalKcalByDate(Integer id, LocalDate date) {
-            return null;
-        }
-
-        @Override
-        public Double findUsersTotalCarbsByDate(Integer id, LocalDate date) {
-            return null;
-        }
-
-        @Override
-        public Double findUsersTotalProteinByDate(Integer id, LocalDate date) {
-            return null;
-        }
-
-        @Override
-        public Double findUsersTotalFatByDate(Integer id, LocalDate date) {
+        public List<Object[]> findUsersTotalFoodStatsByDate(Integer id, LocalDate date) {
             return null;
         }
     }

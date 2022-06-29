@@ -14,22 +14,11 @@ interface SqlMealEatenRepository extends MealEatenRepository, JpaRepository<Meal
     List<MealEaten> findByUserIdAndDateEaten(@Param("id") Integer id, @Param("date") LocalDate date);
 
     @Override
-    @Query("select sum(i.grams) from MealEaten me join me.meal m join m.ingredients i join i.food100g f where me.user.id=:id and me.dateEaten=:date")
-    Double findUsersTotalGramsByDate(@Param("id") Integer id, @Param("date") LocalDate date);
-
-    @Override
-    @Query("select sum(f.kcal*i.grams/100.) from MealEaten me join me.meal m join m.ingredients i join i.food100g f where me.user.id=:id and me.dateEaten=:date")
-    Double findUsersTotalKcalByDate(@Param("id") Integer id, @Param("date") LocalDate date);
-
-    @Override
-    @Query("select sum(f.carbs*i.grams/100.) from MealEaten me join me.meal m join m.ingredients i join i.food100g f where me.user.id=:id and me.dateEaten=:date")
-    Double findUsersTotalCarbsByDate(@Param("id") Integer id, @Param("date") LocalDate date);
-
-    @Override
-    @Query("select sum(f.protein*i.grams/100.) from MealEaten me join me.meal m join m.ingredients i join i.food100g f where me.user.id=:id and me.dateEaten=:date")
-    Double findUsersTotalProteinByDate(@Param("id") Integer id, @Param("date") LocalDate date);
-
-    @Override
-    @Query("select sum(f.fat*i.grams/100.) from MealEaten me join me.meal m join m.ingredients i join i.food100g f where me.user.id=:id and me.dateEaten=:date")
-    Double findUsersTotalFatByDate(@Param("id") Integer id, @Param("date") LocalDate date);
+    @Query("select sum(i.grams), " +
+            "sum(f.kcal*i.grams/100.), " +
+            "sum(f.carbs*i.grams/100.), " +
+            "sum(f.protein*i.grams/100.), " +
+            "sum(f.fat*i.grams/100.) " +
+            "from MealEaten me join me.meal m join m.ingredients i join i.food100g f where me.user.id=:id and me.dateEaten=:date")
+    List<Object[]> findUsersTotalFoodStatsByDate(@Param("id") Integer id, @Param("date") LocalDate date);
 }

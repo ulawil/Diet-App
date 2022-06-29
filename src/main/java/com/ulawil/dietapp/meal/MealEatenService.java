@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 
 @AllArgsConstructor
@@ -36,22 +37,24 @@ public class MealEatenService {
     }
 
     public Double findTotalGramsByUserIdAndDateEaten(int userId, LocalDate date) {
-        return mealEatenRepository.findUsersTotalGramsByDate(userId, date);
+        return (Double)mealEatenRepository.findUsersTotalFoodStatsByDate(userId, date).get(0)[0];
     }
 
     public Double findTotalKcalByUserIdAndDateEaten(int userId, LocalDate date) {
-        return mealEatenRepository.findUsersTotalKcalByDate(userId, date);
+        return (Double)mealEatenRepository.findUsersTotalFoodStatsByDate(userId, date).get(0)[1];
     }
 
     public Double findTotalCarbsByUserIdAndDateEaten(int userId, LocalDate date) {
-        return mealEatenRepository.findUsersTotalCarbsByDate(userId, date);
+        return (Double)mealEatenRepository.findUsersTotalFoodStatsByDate(userId, date).get(0)[2];
     }
 
     public Double findTotalProteinByUserIdAndDateEaten(int userId, LocalDate date) {
-        return mealEatenRepository.findUsersTotalProteinByDate(userId, date);
+        return (Double)mealEatenRepository.findUsersTotalFoodStatsByDate(userId, date).get(0)[3];
     }
 
     public Double findTotalFatByUserIdAndDateEaten(int userId, LocalDate date) {
-        return mealEatenRepository.findUsersTotalFatByDate(userId, date);
+        //return (Double)mealEatenRepository.findUsersTotalFoodStatsByDate(userId, date).get(0)[4];
+        return mealEatenRepository.findByUserIdAndDateEaten(userId, date)
+                .stream().map(me -> me.getMeal().getFat()).reduce(0., Double::sum);
     }
 }

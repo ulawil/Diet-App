@@ -12,10 +12,5 @@ public interface MealEatenRepository {
     MealEaten save(MealEaten mealEaten);
     void deleteById(Integer id);
     List<MealEaten> findByUserIdAndDateEaten(Integer id, LocalDate date);
-
-    Double findUsersTotalGramsByDate(Integer id, LocalDate date);
-    Double findUsersTotalKcalByDate(Integer id, LocalDate date);
-    Double findUsersTotalCarbsByDate(Integer id, LocalDate date);
-    Double findUsersTotalProteinByDate(Integer id, LocalDate date);
-    Double findUsersTotalFatByDate(Integer id, LocalDate date);
+    List<Object[]> findUsersTotalFoodStatsByDate(Integer id, LocalDate date);
 }
