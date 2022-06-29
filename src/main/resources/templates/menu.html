@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <body>
     <div th:fragment="menu" class="pure-menu pure-menu-horizontal">
-        <a href="/index" class="pure-menu-heading pure-menu-link">HOME</a>
+        <a href="/" class="pure-menu-heading pure-menu-link">HOME</a>
         <ul class="pure-menu-list">
             <li class="pure-menu-item">
                 <a href="/todaysMeals" class="pure-menu-link">Today's meals</a>
@@ -13,8 +13,15 @@
             <li class="pure-menu-item">
                 <a href="/addFood" class="pure-menu-link">Add food</a>
             </li>
-            <li class="pure-menu-item">
+            <!--/*@thymesVar id="currentUser" type="com.ulawil.dietapp.model.User"*/-->
+            <li th:unless="${currentUser==null}" class="pure-menu-item">
                 <a href="/logout" class="pure-menu-link">Log out</a>
+            </li>
+            <li th:if="${currentUser==null}" class="pure-menu-item">
+                <a href="/login" class="pure-menu-link">Sign in</a>
+            </li>
+            <li th:if="${currentUser==null}" class="pure-menu-item">
+                <a href="/register" class="pure-menu-link">Register</a>
             </li>
         </ul>
     </div>

@@ -20,13 +20,13 @@
             <br>
 
             <!--/*@thymesVar id="addedMessage" type="java.lang.String"*/-->
-            <h2 th:if="${addedMessage != null}" th:text="${addedMessage}"></h2>
+            <h2 th:unless="${addedMessage==null}" th:text="${addedMessage}"></h2>
 
             <!--/*@thymesVar id="errorMessage" type="java.lang.String"*/-->
-            <h2 th:if="${errorMessage != null}" th:text="${errorMessage}" style="color: red"></h2>
+            <h2 th:unless="${errorMessage==null}" th:text="${errorMessage}" style="color: red"></h2>
 
             <!--/*@thymesVar id="food100g" type="com.ulawil.dietapp.model.Food100g"*/-->
-            <form th:action="@{/addFood}" th:object="${food100g}" action="#" method="post" class="pure-form pure-form-aligned">
+            <form th:action="@{/addFood}" th:object="${food100g}" method="post" class="pure-form pure-form-aligned">
                 <fieldset>
                     <div class="pure-control-group">
                         <label for="name">Name</label>
@@ -42,7 +42,7 @@
                     </div>
                     <div class="pure-control-group">
                         <label for="protein">Protein/100g [g]</label>
-                        <input th:field="${food100g.protein}" type="number" id="protein" />
+                        <input th:field="${food100g.protein}" type="number" id="protein"/>
                     </div>
                     <div class="pure-control-group">
                         <label for="fat">Fat/100g [g]</label>
@@ -60,18 +60,20 @@
                     <legend>Browse foods</legend>
                     <input th:name="foodName" type="text" placeholder="Name"/>
                     <button type="submit" name="searchFood" class="pure-button pure-button-primary">Search</button>
+                    <span class="pure-form-message-inline">Leave blank to search all foods</span>
                 </fieldset>
             </form>
 
-            <!--/*@thymesVar id="foundFoods" type="java.util.List<ulawil.dietapp.model.Food>"*/-->
-            <table th:if="${foundFoods != null}" style="font-size: small" class="pure-table pure-table-bordered pure-table-striped">
+            <!--/*@thymesVar id="foundFoods" type="java.util.List<ulawil.dietapp.model.Food100g>"*/-->
+            <p th:unless="${foundFoods==null}" style="font-size: small">* Values for 100g</p>
+            <table th:unless="${foundFoods==null}" style="font-size: small" class="pure-table pure-table-bordered pure-table-striped">
                 <thead>
-                    <tr>
+                <tr style="text-align: center; vertical-align: middle">
                         <th>Name</th>
-                        <th>Kcal/100g</th>
-                        <th>Carbs/100g [g]</th>
-                        <th>Protein/100g [g]</th>
-                        <th>Fat/100g [g]</th>
+                        <th>Kcal</th>
+                        <th>Carbs<br>[g]</th>
+                        <th>Protein<br>[g]</th>
+                        <th>Fat<br>[g]</th>
                     </tr>
                 </thead>
                 <tbody>

@@ -22,18 +22,19 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable() // so that post request can be sent without being rejected
+        http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/register/**")
+                .antMatchers("/register", "/")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
                 .formLogin()
-                .defaultSuccessUrl("/index", true)
+                .defaultSuccessUrl("/", true)
                 .and()
                 .logout()
-                .logoutUrl("/logout");
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/");
         return http.build();
     }
 

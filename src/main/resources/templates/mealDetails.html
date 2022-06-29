@@ -20,18 +20,18 @@
             <br>
 
             <!--/*@thymesVar id="mealDetails" type="com.ulawil.dietapp.model.Meal"*/-->
-            <form th:object="${mealDetails}" th:action="@{meal/mealDetails.id}" method="post" class="pure-form">
-                <fieldset th:if="${!mealDetails.ingredients.isEmpty()}">
+            <form th:object="${mealDetails}" class="pure-form">
+                <fieldset th:unless="${mealDetails.ingredients.isEmpty()}">
                     <legend th:text="${mealDetails.name}"></legend>
                     <table style="font-size: small" class="pure-table pure-table-bordered pure-table-striped">
                         <thead>
-                        <tr>
+                        <tr style="text-align: center; vertical-align: middle">
                             <th>Ingredient</th>
-                            <th>Amount [g]</th>
+                            <th>Amount<br>[g]</th>
                             <th>Kcal</th>
-                            <th>Carbs [g]</th>
-                            <th>Protein [g]</th>
-                            <th>Fat [g]</th>
+                            <th>Carbs<br>[g]</th>
+                            <th>Protein<br>[g]</th>
+                            <th>Fat<br>[g]</th>
                         </tr>
                         </thead>
                         <tbody>

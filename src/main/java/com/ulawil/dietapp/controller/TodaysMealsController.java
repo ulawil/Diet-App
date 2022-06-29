@@ -31,7 +31,7 @@ public class TodaysMealsController {
     }
 
     @PostMapping(params = {"addMealEaten"}, produces = MediaType.TEXT_HTML_VALUE)
-    String addMeal(@RequestParam("addMealEaten") int mealId, Model model) {
+    String addMealEaten(@RequestParam("addMealEaten") int mealId, Model model) {
         mealEatenService.addMealEaten(mealId, userService.getCurrentUser());
         model.addAttribute("todaysMeals", todaysMeals());
         addNutritionalInfoToModel(model);
@@ -40,7 +40,7 @@ public class TodaysMealsController {
 
     @PostMapping(params = {"deleteMealEaten"}, produces = MediaType.TEXT_HTML_VALUE
     )
-    String deleteMeal(@RequestParam("deleteMealEaten") int mealId, Model model) {
+    String deleteMealEaten(@RequestParam("deleteMealEaten") int mealId, Model model) {
         mealEatenService.deleteMealEaten(mealId);
         model.addAttribute("todaysMeals", todaysMeals());
         addNutritionalInfoToModel(model);

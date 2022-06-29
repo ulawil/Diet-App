@@ -17,6 +17,9 @@
 
             <h1>Register</h1>
 
+            <div th:replace="menu :: menu"></div>
+            <br>
+
             <!--/*@thymesVar id="userDTO" type="com.ulawil.dietapp.model.UserDTO"*/-->
             <form th:action="@{/register}" th:object="${userDTO}" action="#" method="post" class="pure-form pure-form-stacked">
                 <fieldset>

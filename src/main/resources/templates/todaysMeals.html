@@ -22,15 +22,15 @@
             <!--/*@thymesVar id="todaysMeals" type="java.util.List<com.ulawil.dietapp.model.MealEaten>"*/-->
             <p th:if="${todaysMeals.isEmpty()}">No meals added today</p>
 
-            <table th:if="${!todaysMeals.isEmpty()}" style="font-size: small" class="pure-table pure-table-bordered pure-table-striped">
+            <table th:unless="${todaysMeals.isEmpty()}" style="font-size: small" class="pure-table pure-table-bordered pure-table-striped">
                 <thead>
-                <tr>
+                <tr style="text-align: center; vertical-align: middle">
                     <th>Name</th>
-                    <th>Amount [g]</th>
+                    <th>Amount<br>[g]</th>
                     <th>Kcal</th>
-                    <th>Carbs [g]</th>
-                    <th>Protein [g]</th>
-                    <th>Fat [g]</th>
+                    <th>Carbs<br>[g]</th>
+                    <th>Protein<br>[g]</th>
+                    <th>Fat<br>[g]</th>
                     <th></th>
                 </tr>
                 </thead>
@@ -56,7 +56,7 @@
                     <td th:text="${#numbers.formatDecimal(__${totalCarbs}__,1,0)}"></td>
                     <td th:text="${#numbers.formatDecimal(__${totalProtein}__,1,0)}"></td>
                     <td th:text="${#numbers.formatDecimal(__${totalFat}__,1,0)}"></td>
-                    <td> </td>
+                    <td></td>
                 </tr>
                 </tbody>
             </table>
@@ -71,21 +71,21 @@
                 </fieldset>
             </form>
 
-            <table th:if="${foundMeals != null}" style="font-size: small" class="pure-table pure-table-bordered pure-table-striped">
+            <table th:unless="${foundMeals==null}" style="font-size: small" class="pure-table pure-table-bordered pure-table-striped">
                 <thead>
-                <tr>
+                <tr style="text-align: center; vertical-align: middle">
                     <th>Name</th>
-                    <th>Amount [g]</th>
+                    <th>Amount<br>[g]</th>
                     <th>Kcal</th>
-                    <th>Carbs [g]</th>
-                    <th>Protein [g]</th>
-                    <th>Fat [g]</th>
+                    <th>Carbs<br>[g]</th>
+                    <th>Protein<br>[g]</th>
+                    <th>Fat<br>[g]</th>
                     <th></th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="meal : ${foundMeals}">
-                    <td><a th:href="@{/mealDetails/__${meal.id}__}" th:text="${meal.name}"></a></td>
+                    <td><a th:href="@{/meal/__${meal.id}__}" th:text="${meal.name}"></a></td>
                     <td th:text="${#numbers.formatDecimal(__${meal.grams}__,1,0)}"></td>
                     <td th:text="${#numbers.formatDecimal(__${meal.kcal}__,1,0)}"></td>
                     <td th:text="${#numbers.formatDecimal(__${meal.carbs}__,1,0)}"></td>
