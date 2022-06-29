@@ -30,17 +30,15 @@
                 </fieldset>
             </form>
 
-            <form action="#" method="post" class="pure-form">
-                <fieldset>
             <table th:if="${!mealToCreate.ingredients.isEmpty()}" style="font-size: small" class="pure-table pure-table-bordered pure-table-striped">
                 <thead>
                 <tr>
                     <th>Name</th>
                     <th>Amount[g]</th>
-                    <th>kcal</th>
-                    <th>Carbs[g]</th>
-                    <th>Protein[g]</th>
-                    <th>Fat[g]</th>
+                    <th>Kcal</th>
+                    <th>Carbs [g]</th>
+                    <th>Protein [g]</th>
+                    <th>Fat [g]</th>
                     <th></th>
                 </tr>
                 </thead>
@@ -71,8 +69,6 @@
                 </tr>
                 </tbody>
             </table>
-                </fieldset>
-            </form>
             <br>
 
             <form th:action="@{/createMeal}" action="#" method="post" class="pure-form">
@@ -88,10 +84,10 @@
                 <thead>
                     <tr>
                         <th>Name</th>
-                        <th>kcal/100g</th>
-                        <th>Carbs/100g</th>
-                        <th>Protein/100g</th>
-                        <th>Fat/100g</th>
+                        <th>Kcal/100g</th>
+                        <th>Carbs/100g [g]</th>
+                        <th>Protein/100g [g]</th>
+                        <th>Fat/100g [g]</th>
                         <th>Amount [g]</th>
                         <th></th>
                     </tr>
@@ -99,12 +95,12 @@
                 <tbody>
                     <tr th:each="food100g, foodStat : ${foundFoods}">
                         <td th:text="${food100g.name}"></td>
-                        <td th:text="|${#numbers.formatDecimal(__${food100g.kcal}__,1,0)}|"></td>
-                        <td th:text="|${#numbers.formatDecimal(__${food100g.carbs}__,1,0)}g|"></td>
-                        <td th:text="|${#numbers.formatDecimal(__${food100g.protein}__,1,0)}g|"></td>
-                        <td th:text="|${#numbers.formatDecimal(__${food100g.fat}__,1,0)}g|"></td>
+                        <td th:text="${#numbers.formatDecimal(__${food100g.kcal}__,1,0)}"></td>
+                        <td th:text="${#numbers.formatDecimal(__${food100g.carbs}__,1,0)}"></td>
+                        <td th:text="${#numbers.formatDecimal(__${food100g.protein}__,1,0)}"></td>
+                        <td th:text="${#numbers.formatDecimal(__${food100g.fat}__,1,0)}"></td>
                         <td>
-                            <input th:form="${foodStat.index}" name="amount" type="number" placeholder="0"/>
+                            <input th:form="${foodStat.index}" name="amount" type="number"/>
                         </td>
                         <td>
                             <form th:id="${foodStat.index}" th:action="@{/createMeal}" action="#" method="post" class="pure-form">
