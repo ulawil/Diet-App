@@ -19,7 +19,7 @@
             <div th:replace="menu :: menu"></div>
             <br>
 
-            <!--/*@thymesVar id="todaysMeals" type="java.util.List<com.ulawil.dietapp.meal.MealEaten>"*/-->
+            <!--/*@thymesVar id="todaysMeals" type="java.util.List<com.ulawil.dietapp.model.MealEaten>"*/-->
             <p th:if="${todaysMeals.isEmpty()}">No meals added today</p>
 
             <table th:if="${!todaysMeals.isEmpty()}" style="font-size: small" class="pure-table pure-table-bordered pure-table-striped">

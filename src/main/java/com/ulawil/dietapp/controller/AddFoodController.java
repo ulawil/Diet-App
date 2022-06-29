@@ -1,5 +1,7 @@
-package com.ulawil.dietapp.food;
+package com.ulawil.dietapp.controller;
 
+import com.ulawil.dietapp.model.Food100g;
+import com.ulawil.dietapp.service.FoodService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,8 +17,8 @@ import java.util.List;
 
 @AllArgsConstructor
 @Controller
-@RequestMapping(path = "/foods")
-public class FoodController {
+@RequestMapping(path = "/addFood")
+public class AddFoodController {
 
     private final FoodService foodService;
 
@@ -44,24 +46,24 @@ public class FoodController {
     @GetMapping(produces = MediaType.TEXT_HTML_VALUE)
     String showFoodsPage(Model model) {
         model.addAttribute("food100g", new Food100g()); // has to be there for the post method
-        return "foods";
+        return "addFood";
     }
 
     @PostMapping(params = {"addFood"})
     String addFood(@ModelAttribute("food100g") @Valid Food100g foodToAdd, BindingResult result, Model model) {
         if(result.hasErrors()) {
             model.addAttribute("errorMessage", "Cannot add food - make sure all data is valid!");
-            return "foods";
+            return "addFood";
         }
         foodService.saveFood(foodToAdd);
         model.addAttribute("addedMessage", "Added an item!");
-        return "foods";
+        return "addFood";
     }
 
     @PostMapping(params = {"searchFood"})
     String searchFoods(@RequestParam("foodName") String foodName, Model model) {
         model.addAttribute("food100g", new Food100g());
         model.addAttribute("foundFoods", foodService.findFoodsByName(foodName));
-        return "foods";
+        return "addFood";
     }
 }

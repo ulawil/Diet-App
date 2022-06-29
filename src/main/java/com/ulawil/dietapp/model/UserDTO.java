@@ -1,4 +1,4 @@
-package com.ulawil.dietapp.user;
+package com.ulawil.dietapp.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

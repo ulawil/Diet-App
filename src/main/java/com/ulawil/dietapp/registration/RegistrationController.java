@@ -1,6 +1,6 @@
 package com.ulawil.dietapp.registration;
 
-import com.ulawil.dietapp.user.UserDTO;
+import com.ulawil.dietapp.model.UserDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;

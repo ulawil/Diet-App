@@ -19,7 +19,7 @@
             <div th:replace="menu :: menu"></div>
             <br>
 
-            <!--/*@thymesVar id="mealDetails" type="com.ulawil.dietapp.meal.Meal"*/-->
+            <!--/*@thymesVar id="mealDetails" type="com.ulawil.dietapp.model.Meal"*/-->
             <form th:object="${mealDetails}" th:action="@{meal/mealDetails.id}" method="post" class="pure-form">
                 <fieldset th:if="${!mealDetails.ingredients.isEmpty()}">
                     <legend th:text="${mealDetails.name}"></legend>

@@ -1,6 +1,6 @@
-package com.ulawil.dietapp.home;
+package com.ulawil.dietapp.controller;
 
-import com.ulawil.dietapp.user.UserService;
+import com.ulawil.dietapp.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;

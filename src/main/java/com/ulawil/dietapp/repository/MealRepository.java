@@ -1,8 +1,7 @@
-package com.ulawil.dietapp.meal;
+package com.ulawil.dietapp.repository;
 
-import org.springframework.data.repository.query.Param;
+import com.ulawil.dietapp.model.Meal;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 

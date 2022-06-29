@@ -1,18 +1,18 @@
 package com.ulawil.dietapp.service;
 
-import com.ulawil.dietapp.meal.*;
-import com.ulawil.dietapp.user.User;
+import com.ulawil.dietapp.model.Meal;
+import com.ulawil.dietapp.model.MealEaten;
+import com.ulawil.dietapp.repository.MealEatenRepository;
+import com.ulawil.dietapp.repository.MealRepository;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;

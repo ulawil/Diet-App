@@ -1,8 +1,6 @@
-package com.ulawil.dietapp.user;
+package com.ulawil.dietapp.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.ulawil.dietapp.meal.Meal;
-import com.ulawil.dietapp.meal.MealEaten;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

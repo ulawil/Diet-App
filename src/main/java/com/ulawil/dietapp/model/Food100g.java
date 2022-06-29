@@ -1,7 +1,6 @@
-package com.ulawil.dietapp.food;
+package com.ulawil.dietapp.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.ulawil.dietapp.ingredient.Ingredient;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

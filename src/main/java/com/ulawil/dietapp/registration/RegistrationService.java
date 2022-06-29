@@ -1,8 +1,8 @@
 package com.ulawil.dietapp.registration;
 
-import com.ulawil.dietapp.user.UserDTO;
-import com.ulawil.dietapp.user.UserRole;
-import com.ulawil.dietapp.user.UserService;
+import com.ulawil.dietapp.model.UserDTO;
+import com.ulawil.dietapp.model.UserRole;
+import com.ulawil.dietapp.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

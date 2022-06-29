@@ -1,5 +1,7 @@
-package com.ulawil.dietapp.food;
+package com.ulawil.dietapp.service;
 
+import com.ulawil.dietapp.model.Food100g;
+import com.ulawil.dietapp.repository.FoodRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -1,4 +1,6 @@
-package com.ulawil.dietapp.user;
+package com.ulawil.dietapp.repository;
+
+import com.ulawil.dietapp.model.User;
 
 import java.util.Optional;
 

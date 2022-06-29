@@ -1,11 +1,14 @@
-package com.ulawil.dietapp.meal;
+package com.ulawil.dietapp.service;
 
-import com.ulawil.dietapp.user.User;
+import com.ulawil.dietapp.model.Meal;
+import com.ulawil.dietapp.model.MealEaten;
+import com.ulawil.dietapp.repository.MealEatenRepository;
+import com.ulawil.dietapp.repository.MealRepository;
+import com.ulawil.dietapp.model.User;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.List;
 
 @AllArgsConstructor

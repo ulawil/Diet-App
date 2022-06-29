@@ -1,10 +1,9 @@
-package com.ulawil.dietapp.meal;
+package com.ulawil.dietapp.service;
 
-import com.ulawil.dietapp.food.FoodRepository;
-import com.ulawil.dietapp.user.UserService;
+import com.ulawil.dietapp.model.Meal;
+import com.ulawil.dietapp.repository.MealRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 

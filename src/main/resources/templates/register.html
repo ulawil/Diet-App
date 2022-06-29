@@ -17,7 +17,7 @@
 
             <h1>Register</h1>
 
-            <!--/*@thymesVar id="userDTO" type="com.ulawil.dietapp.user.UserDTO"*/-->
+            <!--/*@thymesVar id="userDTO" type="com.ulawil.dietapp.model.UserDTO"*/-->
             <form th:action="@{/register}" th:object="${userDTO}" action="#" method="post" class="pure-form pure-form-stacked">
                 <fieldset>
                     <input th:field="${userDTO.firstName}" type="text" placeholder="First name"/>

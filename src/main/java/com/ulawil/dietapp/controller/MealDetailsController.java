@@ -1,5 +1,7 @@
-package com.ulawil.dietapp.meal;
+package com.ulawil.dietapp.controller;
 
+import com.ulawil.dietapp.model.Meal;
+import com.ulawil.dietapp.service.MealService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;

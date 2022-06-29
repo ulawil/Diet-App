@@ -25,7 +25,7 @@
             <!--/*@thymesVar id="errorMessage" type="java.lang.String"*/-->
             <h2 th:if="${errorMessage != null}" th:text="${errorMessage}" style="color: red"></h2>
 
-            <!--/*@thymesVar id="mealToCreate" type="com.ulawil.dietapp.meal.Meal"*/-->
+            <!--/*@thymesVar id="mealToCreate" type="com.ulawil.dietapp.model.Meal"*/-->
             <form th:action="@{/createMeal}" th:object="${mealToCreate}" action="#" method="post" class="pure-form">
                 <fieldset>
                     <input th:attrappend="disabled=${mealToCreate.ingredients.isEmpty()}?'disabled'" type="text" placeholder="Meal name" name="mealName"/>
@@ -48,7 +48,7 @@
                 </thead>
                 <tbody>
                 <tr th:each="ingredient : ${mealToCreate.ingredients}">
-                    <!--/*@thymesVar id="food" type="com.ulawil.dietapp.food.Food100g"*/-->
+                    <!--/*@thymesVar id="food" type="com.ulawil.dietapp.model.Food100g"*/-->
                     <td th:text="${ingredient.food100g.name}"></td>
                     <td th:text="${#numbers.formatDecimal(__${ingredient.grams}__,1,0)}"></td>
                     <td th:text="${#numbers.formatDecimal(__${ingredient.kcal}__,1,0)}"></td>

@@ -1,5 +1,6 @@
-package com.ulawil.dietapp.meal;
+package com.ulawil.dietapp.repository;
 
+import com.ulawil.dietapp.model.MealEaten;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

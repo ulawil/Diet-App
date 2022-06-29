@@ -14,7 +14,7 @@
 
         <div class="pure-u-10-24">
 
-            <!--/*@thymesVar id="currentUser" type="com.ulawil.dietapp.user.User"*/-->
+            <!--/*@thymesVar id="currentUser" type="com.ulawil.dietapp.model.User"*/-->
             <h1 th:text="|Hello, ${currentUser.firstName} ${currentUser.lastName}!|"></h1>
 
             <div th:replace="menu :: menu"></div>

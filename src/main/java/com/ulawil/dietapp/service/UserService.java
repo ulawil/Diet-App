@@ -1,6 +1,9 @@
-package com.ulawil.dietapp.user;
+package com.ulawil.dietapp.service;
 
+import com.ulawil.dietapp.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import com.ulawil.dietapp.model.User;
+import com.ulawil.dietapp.model.UserDTO;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
