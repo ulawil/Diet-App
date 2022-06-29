@@ -53,8 +53,6 @@ public class MealEatenService {
     }
 
     public Double findTotalFatByUserIdAndDateEaten(int userId, LocalDate date) {
-        //return (Double)mealEatenRepository.findUsersTotalFoodStatsByDate(userId, date).get(0)[4];
-        return mealEatenRepository.findByUserIdAndDateEaten(userId, date)
-                .stream().map(me -> me.getMeal().getFat()).reduce(0., Double::sum);
+        return (Double)mealEatenRepository.findUsersTotalFoodStatsByDate(userId, date).get(0)[4];
     }
 }

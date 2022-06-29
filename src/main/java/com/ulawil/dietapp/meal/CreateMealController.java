@@ -8,12 +8,16 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.ConstraintViolationException;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @AllArgsConstructor
 @Controller
+@Validated
 @SessionAttributes("mealToCreate")
 @RequestMapping(path = "/createMeal")
 public class CreateMealController {
@@ -35,34 +39,33 @@ public class CreateMealController {
 
     @PostMapping(params = {"createMeal"}, produces = MediaType.TEXT_HTML_VALUE)
     String createMeal(@ModelAttribute("mealToCreate") Meal mealToCreate,
-                      @RequestParam("mealName") String mealName, Model model) {
+                      @RequestParam("mealName") @NotBlank(message = "Meal name cannot be empty") String mealName,
+                      Model model) {
         mealToCreate.setName(mealName);
         mealService.saveMeal(mealToCreate);
         model.addAttribute("mealToCreate", mealToCreate());
-        model.addAttribute("createdMessage", "Meal created!");
+        model.addAttribute("createdMessage", "Meal created");
         return "createMeal";
     }
 
     @PostMapping(params = {"resetMeal"}, produces = MediaType.TEXT_HTML_VALUE)
     String resetMeal(@ModelAttribute("mealToCreate") Meal mealToCreate, Model model) {
-        model.addAttribute("mealToCreate", mealToCreate());
-        return "createMeal";
-    }
-
-    @PostMapping(params = {"searchFood"}, produces = MediaType.TEXT_HTML_VALUE)
-    String searchFoods(@ModelAttribute("mealToCreate") Meal mealToCreate,
-                       @RequestParam("foodName") String foodName, Model model) {
-        model.addAttribute("mealToCreate", mealToCreate == null ? mealToCreate() : mealToCreate);
-        model.addAttribute("food", new Food100g());
-        model.addAttribute("foundFoods", foodService.findFoodsByName(foodName));
+        model.addAttribute("mealToCreate", mealToCreate);
         return "createMeal";
     }
 
     @PostMapping(params = {"addIngredient"}, produces = MediaType.TEXT_HTML_VALUE)
     String addIngredient(@ModelAttribute("mealToCreate") Meal mealToCreate,
                          @RequestParam("addIngredient") int foodId,
-                         @RequestParam("amount") double foodAmount,
+                         @RequestParam("amount") String foodAmountStr,
                          Model model) {
+        double foodAmount;
+        try {
+            foodAmount = Double.parseDouble(foodAmountStr);
+        } catch (NumberFormatException e) {
+            model.addAttribute("errorMessage", "Ingredient amount should be a positive number");
+            return "createMeal";
+        }
         Ingredient ingToAdd = new Ingredient(foodService.findFoodById(foodId).orElseThrow(
                 () -> new IllegalArgumentException("Ingredient not found")), foodAmount);
         ingToAdd.setMeal(mealToCreate);
@@ -73,16 +76,34 @@ public class CreateMealController {
     @PostMapping(params = {"deleteIngredient"},
             produces = MediaType.TEXT_HTML_VALUE
     )
-    String addIngredient(@ModelAttribute("mealToCreate") Meal mealToCreate,
-                         @RequestParam("deleteIngredient") int ingId, Model model) {
+    String deleteIngredient(@ModelAttribute("mealToCreate") Meal mealToCreate,
+                            @RequestParam("deleteIngredient") int ingId, Model model) {
         // todo
-        model.addAttribute("mealToCreate", mealToCreate == null ? mealToCreate() : mealToCreate);
+        model.addAttribute("mealToCreate", mealToCreate);
         model.addAttribute("food", new Food100g());
+        return "createMeal";
+    }
+
+    @PostMapping(params = {"searchFood"}, produces = MediaType.TEXT_HTML_VALUE)
+    String searchFoods(@ModelAttribute("mealToCreate") Meal mealToCreate,
+                       @RequestParam("foodName") String foodName,
+                       Model model) {
+        model.addAttribute("mealToCreate", mealToCreate);
+        model.addAttribute("food", new Food100g());
+        model.addAttribute("foundFoods", foodService.findFoodsByName(foodName));
         return "createMeal";
     }
 
     @ModelAttribute("mealToCreate")
     Meal mealToCreate() {
         return new Meal();
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    String handleConstraintViolation(ConstraintViolationException e,
+                                     Model model) {
+        model.addAttribute("errorMessage", e.getMessage().substring(e.getMessage().indexOf(" ") + 1));
+        model.addAttribute("mealToCreate", mealToCreate());
+        return "createMeal";
     }
 }

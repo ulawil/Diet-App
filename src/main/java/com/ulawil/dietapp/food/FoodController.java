@@ -5,9 +5,11 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -40,20 +42,24 @@ public class FoodController {
     }
 
     @GetMapping(produces = MediaType.TEXT_HTML_VALUE)
-    String showFoods(Model model) {
+    String showFoodsPage(Model model) {
         model.addAttribute("food100g", new Food100g()); // has to be there for the post method
         return "foods";
     }
 
     @PostMapping(params = {"addFood"})
-    String addFood(@ModelAttribute("food100g") Food100g foodToAdd, Model model) {
+    String addFood(@ModelAttribute("food100g") @Valid Food100g foodToAdd, BindingResult result, Model model) {
+        if(result.hasErrors()) {
+            model.addAttribute("errorMessage", "Cannot add food - make sure all data is valid!");
+            return "foods";
+        }
         foodService.saveFood(foodToAdd);
         model.addAttribute("addedMessage", "Added an item!");
         return "foods";
     }
 
     @PostMapping(params = {"searchFood"})
-    String search(@RequestParam("foodName") String foodName, Model model) {
+    String searchFoods(@RequestParam("foodName") String foodName, Model model) {
         model.addAttribute("food100g", new Food100g());
         model.addAttribute("foundFoods", foodService.findFoodsByName(foodName));
         return "foods";

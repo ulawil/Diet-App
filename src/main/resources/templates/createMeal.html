@@ -18,8 +18,12 @@
 
             <div th:replace="menu :: menu"></div>
             <br>
+
             <!--/*@thymesVar id="createdMessage" type="java.lang.String"*/-->
             <h2 th:if="${createdMessage != null}" th:text="${createdMessage}"></h2>
+
+            <!--/*@thymesVar id="errorMessage" type="java.lang.String"*/-->
+            <h2 th:if="${errorMessage != null}" th:text="${errorMessage}" style="color: red"></h2>
 
             <!--/*@thymesVar id="mealToCreate" type="com.ulawil.dietapp.meal.Meal"*/-->
             <form th:action="@{/createMeal}" th:object="${mealToCreate}" action="#" method="post" class="pure-form">
@@ -65,7 +69,7 @@
                     <td th:text="${#numbers.formatDecimal(__${mealToCreate.carbs}__,1,0)}"></td>
                     <td th:text="${#numbers.formatDecimal(__${mealToCreate.protein}__,1,0)}"></td>
                     <td th:text="${#numbers.formatDecimal(__${mealToCreate.fat}__,1,0)}"></td>
-                    <th></th>
+                    <td></td>
                 </tr>
                 </tbody>
             </table>
@@ -100,7 +104,7 @@
                         <td th:text="${#numbers.formatDecimal(__${food100g.protein}__,1,0)}"></td>
                         <td th:text="${#numbers.formatDecimal(__${food100g.fat}__,1,0)}"></td>
                         <td>
-                            <input th:form="${foodStat.index}" name="amount" type="number"/>
+                            <input th:form="${foodStat.index}" name="amount" type="number">
                         </td>
                         <td>
                             <form th:id="${foodStat.index}" th:action="@{/createMeal}" action="#" method="post" class="pure-form">

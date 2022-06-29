@@ -22,6 +22,9 @@
             <!--/*@thymesVar id="addedMessage" type="java.lang.String"*/-->
             <h2 th:if="${addedMessage != null}" th:text="${addedMessage}"></h2>
 
+            <!--/*@thymesVar id="errorMessage" type="java.lang.String"*/-->
+            <h2 th:if="${errorMessage != null}" th:text="${errorMessage}" style="color: red"></h2>
+
             <!--/*@thymesVar id="food100g" type="com.ulawil.dietapp.food.Food100g"*/-->
             <form th:action="@{/foods}" th:object="${food100g}" action="#" method="post" class="pure-form pure-form-aligned">
                 <fieldset>
