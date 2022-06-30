@@ -12,7 +12,7 @@ import java.util.List;
 interface SqlMealRepository extends MealRepository, JpaRepository<Meal, Integer> {
 
     @Override
-    @Query("select m from Meal m join fetch m.ingredients i join fetch i.food100g")
+    @Query("select distinct m from Meal m join fetch m.ingredients i join fetch i.food100g")
     List<Meal> findAll();
 
     @Override

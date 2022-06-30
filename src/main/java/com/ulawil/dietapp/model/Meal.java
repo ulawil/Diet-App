@@ -6,7 +6,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -21,21 +23,21 @@ public class Meal {
 
     @OneToMany(mappedBy = "meal", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
-    private List<Ingredient> ingredients;
+    private Set<Ingredient> ingredients;
 
     @OneToMany(mappedBy = "meal", cascade = CascadeType.ALL)
     @JsonIgnore
-    private List<MealEaten> mealsEaten;
+    private Set<MealEaten> mealsEaten;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
     public Meal() {
-        ingredients = new ArrayList<>();
+        ingredients = new HashSet<>();
     }
 
-    public Double getGrams() {
+    public double getGrams() {
         return ingredients.stream().map(Ingredient::getGrams).reduce(0., Double::sum);
     }
 

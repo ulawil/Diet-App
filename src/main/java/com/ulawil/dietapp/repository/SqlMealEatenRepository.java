@@ -11,6 +11,6 @@ import java.util.List;
 interface SqlMealEatenRepository extends MealEatenRepository, JpaRepository<MealEaten, Integer> {
 
     @Override
-    @Query("select me from MealEaten me join fetch me.meal m join fetch m.ingredients i join fetch i.food100g where me.user.id=:id and me.dateEaten=:date")
+    @Query("select distinct me from MealEaten me join fetch me.meal m join fetch m.ingredients i join fetch i.food100g where me.user.id=:id and me.dateEaten=:date")
     List<MealEaten> findByUserIdAndDateEaten(@Param("id") Integer id, @Param("date") LocalDate date);
 }

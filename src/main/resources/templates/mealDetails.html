@@ -39,17 +39,17 @@
                             <td th:text="${ingredient.food100g.name}"></td>
                             <td th:text="${#numbers.formatDecimal(__${ingredient.grams}__,1,0)}"></td>
                             <td th:text="${#numbers.formatDecimal(__${ingredient.kcal}__,1,0)}"></td>
-                            <td th:text="${#numbers.formatDecimal(__${ingredient.carbs}__,1,0)}"></td>
-                            <td th:text="${#numbers.formatDecimal(__${ingredient.protein}__,1,0)}"></td>
-                            <td th:text="${#numbers.formatDecimal(__${ingredient.fat}__,1,0)}"></td>
+                            <td th:text="${#numbers.formatDecimal(__${ingredient.carbs}__,1,1)}"></td>
+                            <td th:text="${#numbers.formatDecimal(__${ingredient.protein}__,1,1)}"></td>
+                            <td th:text="${#numbers.formatDecimal(__${ingredient.fat}__,1,1)}"></td>
                         </tr>
                         <tr style="font-weight: bold">
                             <td>Total</td>
                             <td th:text="${#numbers.formatDecimal(__${mealDetails.grams}__,1,0)}"></td>
                             <td th:text="${#numbers.formatDecimal(__${mealDetails.kcal}__,1,0)}"></td>
-                            <td th:text="${#numbers.formatDecimal(__${mealDetails.carbs}__,1,0)}"></td>
-                            <td th:text="${#numbers.formatDecimal(__${mealDetails.protein}__,1,0)}"></td>
-                            <td th:text="${#numbers.formatDecimal(__${mealDetails.fat}__,1,0)}"></td>
+                            <td th:text="${#numbers.formatDecimal(__${mealDetails.carbs}__,1,1)}"></td>
+                            <td th:text="${#numbers.formatDecimal(__${mealDetails.protein}__,1,1)}"></td>
+                            <td th:text="${#numbers.formatDecimal(__${mealDetails.fat}__,1,1)}"></td>
                         </tr>
                         </tbody>
                     </table>

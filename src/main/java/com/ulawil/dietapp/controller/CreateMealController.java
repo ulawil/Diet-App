@@ -1,9 +1,9 @@
 package com.ulawil.dietapp.controller;
 
 import com.ulawil.dietapp.model.Food100g;
-import com.ulawil.dietapp.service.FoodService;
 import com.ulawil.dietapp.model.Ingredient;
 import com.ulawil.dietapp.model.Meal;
+import com.ulawil.dietapp.service.FoodService;
 import com.ulawil.dietapp.service.MealService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
-import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
@@ -42,7 +41,9 @@ public class CreateMealController {
         return "createMeal";
     }
 
-    @PostMapping(params = {"createMeal"}, produces = MediaType.TEXT_HTML_VALUE)
+    @PostMapping(params = {"createMeal"},
+            produces = MediaType.TEXT_HTML_VALUE,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     String createMeal(@ModelAttribute("mealToCreate") Meal mealToCreate,
                       @RequestParam("mealName") @NotBlank(message = "Meal name cannot be empty") String mealName,
                       Model model) {
@@ -53,13 +54,17 @@ public class CreateMealController {
         return "createMeal";
     }
 
-    @PostMapping(params = {"resetMeal"}, produces = MediaType.TEXT_HTML_VALUE)
+    @PostMapping(params = {"resetMeal"},
+            produces = MediaType.TEXT_HTML_VALUE,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     String resetMeal(@ModelAttribute("mealToCreate") Meal mealToCreate, Model model) {
         model.addAttribute("mealToCreate", mealToCreate());
         return "createMeal";
     }
 
-    @PostMapping(params = {"addIngredient"}, produces = MediaType.TEXT_HTML_VALUE)
+    @PostMapping(params = {"addIngredient"},
+            produces = MediaType.TEXT_HTML_VALUE,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     String addIngredient(@ModelAttribute("mealToCreate") Meal mealToCreate,
                          @RequestParam("addIngredient") int foodId,
                          @RequestParam("amount") @Min(value = 0) double foodAmount,
@@ -72,7 +77,8 @@ public class CreateMealController {
     }
 
     @PostMapping(params = {"deleteIngredient"},
-            produces = MediaType.TEXT_HTML_VALUE
+            produces = MediaType.TEXT_HTML_VALUE,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE
     )
     String deleteIngredient(@ModelAttribute("mealToCreate") Meal mealToCreate,
                             @RequestParam("deleteIngredient") int ingId, Model model) {
@@ -82,7 +88,9 @@ public class CreateMealController {
         return "createMeal";
     }
 
-    @PostMapping(params = {"searchFood"}, produces = MediaType.TEXT_HTML_VALUE)
+    @PostMapping(params = {"searchFood"},
+            produces = MediaType.TEXT_HTML_VALUE,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     String searchFoods(@ModelAttribute("mealToCreate") Meal mealToCreate,
                        @RequestParam("foodName") String foodName,
                        Model model) {

@@ -30,23 +30,23 @@
                 <fieldset>
                     <div class="pure-control-group">
                         <label for="name">Name</label>
-                        <input th:field="${food100g.name}" type="text" id="name" placeholder="name"/>
+                        <input th:field="${food100g.name}" type="text" id="name" placeholder="name" required/>
                     </div>
                     <div class="pure-control-group">
                         <label for="kcal">Kcal/100g</label>
-                        <input th:field="${food100g.kcal}" type="number" id="kcal"/>
+                        <input th:field="${food100g.kcal}" type="number" id="kcal" min="0" required/>
                     </div>
                     <div class="pure-control-group">
                         <label for="carbs">Carbs/100g [g]</label>
-                        <input th:field="${food100g.carbs}" type="number" id="carbs"/>
+                        <input th:field="${food100g.carbs}" type="number" step="0.1" min="0.0" id="carbs" required/>
                     </div>
                     <div class="pure-control-group">
                         <label for="protein">Protein/100g [g]</label>
-                        <input th:field="${food100g.protein}" type="number" id="protein"/>
+                        <input th:field="${food100g.protein}" type="number" step="0.1" min="0.0" id="protein" required/>
                     </div>
                     <div class="pure-control-group">
                         <label for="fat">Fat/100g [g]</label>
-                        <input th:field="${food100g.fat}" type="number" id="fat"/>
+                        <input th:field="${food100g.fat}" type="number" step="0.1" min="0.0" id="fat" required/>
                     </div>
                     <div class="pure-control-group">
                         <label for="add"></label>

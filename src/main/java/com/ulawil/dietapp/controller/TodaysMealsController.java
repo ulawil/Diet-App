@@ -32,19 +32,24 @@ public class TodaysMealsController {
         return "todaysMeals";
     }
 
-    @PostMapping(params = {"addMealEaten"}, produces = MediaType.TEXT_HTML_VALUE)
-    String addMealEaten(@RequestParam("addMealEaten") int mealId, Model model) {
+    @PostMapping(params = {"addMealEaten"},
+            produces = MediaType.TEXT_HTML_VALUE,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    String addMealEaten(@RequestParam("addMealEaten") int mealId,
+                        @RequestParam(name = "portion", required = false) Double portion,
+                        Model model) {
         User currentUser = userService.getCurrentUser().orElseThrow(
                 () -> new IllegalStateException("No user currently logged in"));
-        mealEatenService.addMealEaten(mealId, currentUser);
+        mealEatenService.addMealEaten(mealId, currentUser, portion);
         model.addAttribute("todaysMeals", todaysMeals());
         model.addAttribute("todaysMealsStats", todaysMealsStats());
         model.addAttribute("goals", goals());
         return "todaysMeals";
     }
 
-    @PostMapping(params = {"deleteMealEaten"}, produces = MediaType.TEXT_HTML_VALUE
-    )
+    @PostMapping(params = {"deleteMealEaten"},
+            produces = MediaType.TEXT_HTML_VALUE,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     String deleteMealEaten(@RequestParam("deleteMealEaten") int mealId, Model model) {
         mealEatenService.deleteMealEaten(mealId);
         model.addAttribute("todaysMeals", todaysMeals());
@@ -53,7 +58,9 @@ public class TodaysMealsController {
         return "todaysMeals";
     }
 
-    @PostMapping(params = {"searchMeal"})
+    @PostMapping(params = {"searchMeal"},
+            produces = MediaType.TEXT_HTML_VALUE,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     String searchMeals(@RequestParam("mealName") String foodName, Model model) {
         User currentUser = userService.getCurrentUser().orElseThrow(
                 () -> new IllegalStateException("No user currently logged in"));

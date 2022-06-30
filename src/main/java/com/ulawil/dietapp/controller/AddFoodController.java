@@ -49,7 +49,9 @@ public class AddFoodController {
         return "addFood";
     }
 
-    @PostMapping(params = {"addFood"})
+    @PostMapping(params = {"addFood"},
+                produces = MediaType.TEXT_HTML_VALUE,
+                consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     String addFood(@ModelAttribute("food100g") @Valid Food100g foodToAdd, BindingResult result, Model model) {
         if(result.hasErrors()) {
             model.addAttribute("errorMessage", "Cannot add food - make sure all data is valid");

@@ -22,9 +22,9 @@
             <!--/*@thymesVar id="todaysMeals" type="java.util.List<com.ulawil.dietapp.model.MealEaten>"*/-->
             <p th:if="${todaysMeals.isEmpty()}">No meals added today</p>
 
-            <table th:unless="${todaysMeals.isEmpty()}" style="font-size: small" class="pure-table pure-table-bordered pure-table-striped">
+            <table th:unless="${todaysMeals.isEmpty()}" style="font-size: small;" class="pure-table pure-table-bordered pure-table-striped">
                 <thead>
-                <tr style="text-align: center; vertical-align: middle; min-width: 50px">
+                <tr style="text-align: center; vertical-align: middle;">
                     <th>Name</th>
                     <th>Amount<br>[g]</th>
                     <th>Kcal</th>
@@ -35,13 +35,13 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="mealEaten : ${todaysMeals}" style="min-width: 100px">
+                <tr th:each="mealEaten : ${todaysMeals}">
                     <td th:text="${mealEaten.meal.name}"></td>
-                    <td th:text="${#numbers.formatDecimal(__${mealEaten.meal.grams}__,1,0)}"></td>
-                    <td th:text="${#numbers.formatDecimal(__${mealEaten.meal.kcal}__,1,0)}"></td>
-                    <td th:text="${#numbers.formatDecimal(__${mealEaten.meal.carbs}__,1,0)}"></td>
-                    <td th:text="${#numbers.formatDecimal(__${mealEaten.meal.protein}__,1,0)}"></td>
-                    <td th:text="${#numbers.formatDecimal(__${mealEaten.meal.fat}__,1,0)}"></td>
+                    <td th:text="${#numbers.formatDecimal(__${mealEaten.grams}__,1,0)}"></td>
+                    <td th:text="${#numbers.formatDecimal(__${mealEaten.kcal}__,1,0)}"></td>
+                    <td th:text="${#numbers.formatDecimal(__${mealEaten.carbs}__,1,1)}"></td>
+                    <td th:text="${#numbers.formatDecimal(__${mealEaten.protein}__,1,1)}"></td>
+                    <td th:text="${#numbers.formatDecimal(__${mealEaten.fat}__,1,1)}"></td>
                     <td>
                         <form th:action="@{/todaysMeals}" action="#" method="post" class="pure-form">
                             <button th:name="deleteMealEaten" th:value="${mealEaten.id}" type="submit">x</button>
@@ -54,9 +54,9 @@
                     <!--/*@thymesVar id="todaysMealsStats" type="java.util.List<java.lang.Double>"*/-->
                     <td th:text="${#numbers.formatDecimal(__${todaysMealsStats.get(0)}__,1,0)}"></td>
                     <td th:text="${#numbers.formatDecimal(__${todaysMealsStats.get(1)}__,1,0)}"></td>
-                    <td th:text="${#numbers.formatDecimal(__${todaysMealsStats.get(2)}__,1,0)}"></td>
-                    <td th:text="${#numbers.formatDecimal(__${todaysMealsStats.get(3)}__,1,0)}"></td>
-                    <td th:text="${#numbers.formatDecimal(__${todaysMealsStats.get(4)}__,1,0)}"></td>
+                    <td th:text="${#numbers.formatDecimal(__${todaysMealsStats.get(2)}__,1,1)}"></td>
+                    <td th:text="${#numbers.formatDecimal(__${todaysMealsStats.get(3)}__,1,1)}"></td>
+                    <td th:text="${#numbers.formatDecimal(__${todaysMealsStats.get(4)}__,1,1)}"></td>
                     <td></td>
                 </tr>
                 <tr style="font-weight: bold">
@@ -65,9 +65,9 @@
                     <!--/*@thymesVar id="goals" type="java.util.List<Double>"*/-->
                     <td>-</td>
                     <td th:text="${#numbers.formatDecimal(__${goals.get(0)}__,1,0)}"></td>
-                    <td th:text="${#numbers.formatDecimal(__${goals.get(1)}__,1,0)}"></td>
-                    <td th:text="${#numbers.formatDecimal(__${goals.get(2)}__,1,0)}"></td>
-                    <td th:text="${#numbers.formatDecimal(__${goals.get(3)}__,1,0)}"></td>
+                    <td th:text="${#numbers.formatDecimal(__${goals.get(1)}__,1,1)}"></td>
+                    <td th:text="${#numbers.formatDecimal(__${goals.get(2)}__,1,1)}"></td>
+                    <td th:text="${#numbers.formatDecimal(__${goals.get(3)}__,1,1)}"></td>
                     <td></td>
                 </tr>
                 </tbody>
@@ -93,25 +93,30 @@
                     <th>Carbs<br>[g]</th>
                     <th>Protein<br>[g]</th>
                     <th>Fat<br>[g]</th>
+                    <th>Portion*<br>[g]</th>
                     <th></th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="meal : ${foundMeals}">
+                <tr th:each="meal, mealStat : ${foundMeals}">
                     <td><a th:href="@{/meal/__${meal.id}__}" th:text="${meal.name}"></a></td>
                     <td th:text="${#numbers.formatDecimal(__${meal.grams}__,1,0)}"></td>
                     <td th:text="${#numbers.formatDecimal(__${meal.kcal}__,1,0)}"></td>
-                    <td th:text="${#numbers.formatDecimal(__${meal.carbs}__,1,0)}"></td>
-                    <td th:text="${#numbers.formatDecimal(__${meal.protein}__,1,0)}"></td>
-                    <td th:text="${#numbers.formatDecimal(__${meal.fat}__,1,0)}"></td>
+                    <td th:text="${#numbers.formatDecimal(__${meal.carbs}__,1,1)}"></td>
+                    <td th:text="${#numbers.formatDecimal(__${meal.protein}__,1,1)}"></td>
+                    <td th:text="${#numbers.formatDecimal(__${meal.fat}__,1,1)}"></td>
                     <td>
-                        <form th:action="@{/todaysMeals}" action="#" method="post" class="pure-form">
+                        <input th:form="${mealStat.index}" name="portion" type="number" step="0.1" min="0.0" style="width: 70px">
+                    </td>
+                    <td>
+                        <form th:id="${mealStat.index}" th:action="@{/todaysMeals}" action="#" method="post" class="pure-form">
                             <button name="addMealEaten" th:value="${meal.id}" type="submit">+</button>
                         </form>
                     </td>
                 </tr>
                 </tbody>
             </table>
+            <p th:unless="${foundMeals==null}" style="font-size: small">* If not specified, the entire meal will be added</p>
             <br>
             <br>
 

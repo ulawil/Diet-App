@@ -32,7 +32,9 @@ public class UserProfileController {
         return "profile";
     }
 
-    @PostMapping(params = {"newFirstName"}, produces = MediaType.TEXT_HTML_VALUE)
+    @PostMapping(params = {"newFirstName"},
+            produces = MediaType.TEXT_HTML_VALUE,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     String editFirstName(@RequestParam("newFirstName") @Valid String newFirstName, Model model) {
         User currentUser = currentUser();
         currentUser.setFirstName(newFirstName);
@@ -41,16 +43,20 @@ public class UserProfileController {
         return "profile";
     }
 
-    @PostMapping(params = {"newLastName"}, produces = MediaType.TEXT_HTML_VALUE)
-    String editLastName(@RequestParam("newFirstName") @Valid String newLastName, Model model) {
+    @PostMapping(params = {"newLastName"},
+            produces = MediaType.TEXT_HTML_VALUE,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    String editLastName(@RequestParam("newLastName") @Valid String newLastName, Model model) {
         User currentUser = currentUser();
-        currentUser.setFirstName(newLastName);
+        currentUser.setLastName(newLastName);
         User saved = userService.saveUser(currentUser);
         model.addAttribute("currentUser", saved);
         return "profile";
     }
 
-    @PostMapping(params = {"newKcalGoal"}, produces = MediaType.TEXT_HTML_VALUE)
+    @PostMapping(params = {"newKcalGoal"},
+            produces = MediaType.TEXT_HTML_VALUE,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     String editKcalGoalForm(@RequestParam("newKcalGoal") @Valid double newKcalGoal, Model model) {
         User currentUser = currentUser();
         currentUser.setDailyKcalGoal(newKcalGoal);
@@ -59,7 +65,9 @@ public class UserProfileController {
         return "profile";
     }
 
-    @PostMapping(params = {"newCarbsGoal"}, produces = MediaType.TEXT_HTML_VALUE)
+    @PostMapping(params = {"newCarbsGoal"},
+            produces = MediaType.TEXT_HTML_VALUE,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     String editCarbsGoal(@RequestParam("newCarbsGoal") @Valid double newCarbsGoal, Model model) {
         User currentUser = currentUser();
         currentUser.setDailyCarbsGoalPct(newCarbsGoal);
@@ -68,7 +76,9 @@ public class UserProfileController {
         return "profile";
     }
 
-    @PostMapping(params = {"newProteinGoal"}, produces = MediaType.TEXT_HTML_VALUE)
+    @PostMapping(params = {"newProteinGoal"},
+            produces = MediaType.TEXT_HTML_VALUE,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     String editProteinGoal(@RequestParam("newProteinGoal") @Valid double newProteinGoal, Model model) {
         User currentUser = currentUser();
         currentUser.setDailyProteinGoalPct(newProteinGoal);
@@ -77,7 +87,9 @@ public class UserProfileController {
         return "profile";
     }
 
-    @PostMapping(params = {"newFatGoal"}, produces = MediaType.TEXT_HTML_VALUE)
+    @PostMapping(params = {"newFatGoal"},
+            produces = MediaType.TEXT_HTML_VALUE,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     String editFatGoal(@RequestParam("newFatGoal") @Valid double newFatGoal, Model model) {
         User currentUser = currentUser();
         currentUser.setDailyFatGoalPct(newFatGoal);

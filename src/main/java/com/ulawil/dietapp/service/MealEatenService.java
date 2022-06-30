@@ -18,12 +18,16 @@ public class MealEatenService {
     private final MealEatenRepository mealEatenRepository;
     private final MealRepository mealRepository;
 
-    public MealEaten addMealEaten(int mealEatenId, User user) {
-        Meal mealToAdd = mealRepository.findById(mealEatenId).orElseThrow(
+    public MealEaten addMealEaten(int mealId, User user, Double portion) {
+        Meal mealToAdd = mealRepository.findById(mealId).orElseThrow(
                 () -> new IllegalArgumentException("Meal not found"));
         MealEaten mealEatenToAdd = new MealEaten();
-        mealEatenToAdd.setMeal(mealToAdd);
         mealEatenToAdd.setUser(user);
+        mealEatenToAdd.setMeal(mealToAdd);
+        if(portion == null) {
+            portion = mealToAdd.getGrams();
+        }
+        mealEatenToAdd.setPortion(portion);
         return mealEatenRepository.save(mealEatenToAdd);
     }
 

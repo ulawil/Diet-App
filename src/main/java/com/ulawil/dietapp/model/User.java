@@ -14,7 +14,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
+import java.util.Set;
 
 @NoArgsConstructor
 @Getter
@@ -60,11 +60,11 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     @JsonIgnore
-    private List<Meal> meals;
+    private Set<Meal> meals;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     @JsonIgnore
-    private List<MealEaten> mealsEaten;
+    private Set<MealEaten> mealsEaten;
 
     public User(String firstName,
                 String lastName,
