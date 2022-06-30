@@ -33,4 +33,24 @@ public class MealEaten {
     void setDateEatenToToday() {
         dateEaten = LocalDate.now();
     }
+
+    public Double getGrams() {
+        return meal.getGrams();
+    }
+
+    public double getKcal() {
+        return meal.getKcal();
+    }
+
+    public double getCarbs() {
+        return meal.getCarbs();
+    }
+
+    public double getProtein() {
+        return meal.getProtein();
+    }
+
+    public double getFat() {
+        return meal.getFat();
+    }
 }

@@ -24,7 +24,7 @@
 
             <table th:unless="${todaysMeals.isEmpty()}" style="font-size: small" class="pure-table pure-table-bordered pure-table-striped">
                 <thead>
-                <tr style="text-align: center; vertical-align: middle">
+                <tr style="text-align: center; vertical-align: middle; min-width: 50px">
                     <th>Name</th>
                     <th>Amount<br>[g]</th>
                     <th>Kcal</th>
@@ -35,7 +35,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="mealEaten : ${todaysMeals}">
+                <tr th:each="mealEaten : ${todaysMeals}" style="min-width: 100px">
                     <td th:text="${mealEaten.meal.name}"></td>
                     <td th:text="${#numbers.formatDecimal(__${mealEaten.meal.grams}__,1,0)}"></td>
                     <td th:text="${#numbers.formatDecimal(__${mealEaten.meal.kcal}__,1,0)}"></td>
@@ -51,11 +51,12 @@
                 <tr style="font-weight: bold">
                     <!--/*@thymesVar id="totalKcal" type="java.lang.Integer"*/-->
                     <td>Total</td>
-                    <td th:text="${#numbers.formatDecimal(__${totalGrams}__,1,0)}"></td>
-                    <td th:text="${#numbers.formatDecimal(__${totalKcal}__,1,0)}"></td>
-                    <td th:text="${#numbers.formatDecimal(__${totalCarbs}__,1,0)}"></td>
-                    <td th:text="${#numbers.formatDecimal(__${totalProtein}__,1,0)}"></td>
-                    <td th:text="${#numbers.formatDecimal(__${totalFat}__,1,0)}"></td>
+                    <!--/*@thymesVar id="todaysMealsStats" type="java.util.List<java.lang.Double>"*/-->
+                    <td th:text="${#numbers.formatDecimal(__${todaysMealsStats.get(0)}__,1,0)}"></td>
+                    <td th:text="${#numbers.formatDecimal(__${todaysMealsStats.get(1)}__,1,0)}"></td>
+                    <td th:text="${#numbers.formatDecimal(__${todaysMealsStats.get(2)}__,1,0)}"></td>
+                    <td th:text="${#numbers.formatDecimal(__${todaysMealsStats.get(3)}__,1,0)}"></td>
+                    <td th:text="${#numbers.formatDecimal(__${todaysMealsStats.get(4)}__,1,0)}"></td>
                     <td></td>
                 </tr>
                 <tr style="font-weight: bold">

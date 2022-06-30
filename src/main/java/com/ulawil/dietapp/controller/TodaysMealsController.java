@@ -24,11 +24,11 @@ public class TodaysMealsController {
     private final UserService userService;
     private final MealService mealService;
 
-    @GetMapping()
+    @GetMapping(produces = MediaType.TEXT_HTML_VALUE)
     String showTodaysMealsPage(Model model) {
         model.addAttribute("todaysMeals", todaysMeals());
+        model.addAttribute("todaysMealsStats", todaysMealsStats());
         model.addAttribute("goals", goals());
-        addNutritionalInfoToModel(model);
         return "todaysMeals";
     }
 
@@ -38,8 +38,8 @@ public class TodaysMealsController {
                 () -> new IllegalStateException("No user currently logged in"));
         mealEatenService.addMealEaten(mealId, currentUser);
         model.addAttribute("todaysMeals", todaysMeals());
+        model.addAttribute("todaysMealsStats", todaysMealsStats());
         model.addAttribute("goals", goals());
-        addNutritionalInfoToModel(model);
         return "todaysMeals";
     }
 
@@ -48,8 +48,8 @@ public class TodaysMealsController {
     String deleteMealEaten(@RequestParam("deleteMealEaten") int mealId, Model model) {
         mealEatenService.deleteMealEaten(mealId);
         model.addAttribute("todaysMeals", todaysMeals());
-
-        addNutritionalInfoToModel(model);
+        model.addAttribute("todaysMealsStats", todaysMealsStats());
+        model.addAttribute("goals", goals());
         return "todaysMeals";
     }
 
@@ -59,17 +59,10 @@ public class TodaysMealsController {
                 () -> new IllegalStateException("No user currently logged in"));
         List<Meal> foundMeals = mealService.findUsersMealsByName(foodName, currentUser.getId());
         model.addAttribute("todaysMeals", todaysMeals());
+        model.addAttribute("todaysMealsStats", todaysMealsStats());
         model.addAttribute("goals", goals());
-        model.addAttribute("foundMeals", foundMeals); addNutritionalInfoToModel(model);
+        model.addAttribute("foundMeals", foundMeals);
         return "todaysMeals";
-    }
-
-    void addNutritionalInfoToModel(Model model) {
-        model.addAttribute("totalGrams", todaysTotalGrams());
-        model.addAttribute("totalKcal", todaysTotalKcal());
-        model.addAttribute("totalCarbs", todaysTotalCarbs());
-        model.addAttribute("totalProtein", todaysTotalProtein());
-        model.addAttribute("totalFat", todaysTotalFat());
     }
 
     @ModelAttribute
@@ -81,50 +74,22 @@ public class TodaysMealsController {
     }
 
     @ModelAttribute
-    Double todaysTotalGrams() {
-        User currentUser = userService.getCurrentUser().orElseThrow(
-                () -> new IllegalStateException("No user currently logged in"));
-        return mealEatenService.findTotalGramsByUserIdAndDateEaten(
-                currentUser.getId(), LocalDate.now());
-    }
-
-    @ModelAttribute
-    Double todaysTotalKcal() {
-        User currentUser = userService.getCurrentUser().orElseThrow(
-                () -> new IllegalStateException("No user currently logged in"));
-        return mealEatenService.findTotalKcalByUserIdAndDateEaten(
-                currentUser.getId(), LocalDate.now());
-    }
-
-    @ModelAttribute
-    Double todaysTotalCarbs() {
-        User currentUser = userService.getCurrentUser().orElseThrow(
-                () -> new IllegalStateException("No user currently logged in"));
-        return mealEatenService.findTotalCarbsByUserIdAndDateEaten(
-                currentUser.getId(), LocalDate.now());
-    }
-
-    @ModelAttribute
-    Double todaysTotalProtein() {
-        User currentUser = userService.getCurrentUser().orElseThrow(
-                () -> new IllegalStateException("No user currently logged in"));
-        return mealEatenService.findTotalProteinByUserIdAndDateEaten(
-                currentUser.getId(), LocalDate.now());
-    }
-
-    @ModelAttribute
-    Double todaysTotalFat() {
-        User currentUser = userService.getCurrentUser().orElseThrow(
-                () -> new IllegalStateException("No user currently logged in"));
-        return mealEatenService.findTotalFatByUserIdAndDateEaten(
-                currentUser.getId(), LocalDate.now());
+    List<Double> todaysMealsStats() {
+        List<MealEaten> todaysMeals = todaysMeals();
+        return List.of(
+                todaysMeals.stream().map(MealEaten::getGrams).reduce(0., Double::sum),
+                todaysMeals.stream().map(MealEaten::getKcal).reduce(0., Double::sum),
+                todaysMeals.stream().map(MealEaten::getCarbs).reduce(0., Double::sum),
+                todaysMeals.stream().map(MealEaten::getProtein).reduce(0., Double::sum),
+                todaysMeals.stream().map(MealEaten::getFat).reduce(0., Double::sum)
+        );
     }
 
     @ModelAttribute
     List<Double> goals() {
         User currentUser = userService.getCurrentUser().orElseThrow(
                 () -> new IllegalStateException("No user currently logged in"));
-        Double totalGrams = todaysTotalGrams();
+        Double totalGrams = todaysMealsStats().get(0);
         return List.of(currentUser.getDailyKcalGoal(),
                 currentUser.getDailyCarbsGoalPct() * totalGrams / 100.,
                 currentUser.getDailyProteinGoalPct() * totalGrams / 100.,
