@@ -43,11 +43,15 @@ public class UserService implements UserDetailsService {
         return "";
     }
 
-    public User getCurrentUser() {
+    public Optional<User> getCurrentUser() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if(!(principal instanceof User)) {
-            throw new IllegalStateException("No user currently logged in");
+            return Optional.empty();
         }
-        return (User)principal;
+        return userRepository.findById(((User) principal).getId());
+    }
+
+    public User saveUser(User userToSave) {
+        return userRepository.save(userToSave);
     }
 }

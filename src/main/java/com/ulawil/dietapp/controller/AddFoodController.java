@@ -52,18 +52,11 @@ public class AddFoodController {
     @PostMapping(params = {"addFood"})
     String addFood(@ModelAttribute("food100g") @Valid Food100g foodToAdd, BindingResult result, Model model) {
         if(result.hasErrors()) {
-            model.addAttribute("errorMessage", "Cannot add food - make sure all data is valid!");
+            model.addAttribute("errorMessage", "Cannot add food - make sure all data is valid");
             return "addFood";
         }
         foodService.saveFood(foodToAdd);
-        model.addAttribute("addedMessage", "Added an item!");
-        return "addFood";
-    }
-
-    @PostMapping(params = {"searchFood"})
-    String searchFoods(@RequestParam("foodName") String foodName, Model model) {
-        model.addAttribute("food100g", new Food100g());
-        model.addAttribute("foundFoods", foodService.findFoodsByName(foodName));
+        model.addAttribute("addedMessage", "Added an item");
         return "addFood";
     }
 }

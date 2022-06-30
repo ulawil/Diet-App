@@ -14,12 +14,7 @@ public class ControllerAdvice {
 
     @ModelAttribute
     public void addMenuAttributes(Model model) {
-        User currentUser;
-        try {
-            currentUser = userService.getCurrentUser();
-        } catch (IllegalStateException e) {
-            currentUser = null;
-        }
+        User currentUser = userService.getCurrentUser().orElse(null);
         model.addAttribute("currentUser", currentUser);
     }
 }

@@ -55,40 +55,6 @@
                 </fieldset>
             </form>
 
-            <form th:action="@{/addFood}" action="#" method="post" class="pure-form">
-                <fieldset>
-                    <legend>Browse foods</legend>
-                    <input th:name="foodName" type="text" placeholder="Name"/>
-                    <button type="submit" name="searchFood" class="pure-button pure-button-primary">Search</button>
-                    <span class="pure-form-message-inline">Leave blank to search all foods</span>
-                </fieldset>
-            </form>
-
-            <!--/*@thymesVar id="foundFoods" type="java.util.List<ulawil.dietapp.model.Food100g>"*/-->
-            <p th:unless="${foundFoods==null}" style="font-size: small">* Values for 100g</p>
-            <table th:unless="${foundFoods==null}" style="font-size: small" class="pure-table pure-table-bordered pure-table-striped">
-                <thead>
-                <tr style="text-align: center; vertical-align: middle">
-                        <th>Name</th>
-                        <th>Kcal</th>
-                        <th>Carbs<br>[g]</th>
-                        <th>Protein<br>[g]</th>
-                        <th>Fat<br>[g]</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="food100g : ${foundFoods}">
-                        <td th:text="${food100g.name}"></td>
-                        <td th:text="${#numbers.formatDecimal(__${food100g.kcal}__,1,0)}"></td>
-                        <td th:text="${#numbers.formatDecimal(__${food100g.carbs}__,1,0)}"></td>
-                        <td th:text="${#numbers.formatDecimal(__${food100g.protein}__,1,0)}"></td>
-                        <td th:text="${#numbers.formatDecimal(__${food100g.fat}__,1,0)}"></td>
-                    </tr>
-                </tbody>
-            </table>
-            <br>
-            <br>
-
         </div>
         <div class="pure-u-7-24">
 

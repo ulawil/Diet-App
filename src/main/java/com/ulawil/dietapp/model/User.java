@@ -10,6 +10,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
@@ -20,21 +22,46 @@ import java.util.Set;
 @EqualsAndHashCode
 @Entity
 public class User implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @NotBlank
     private String firstName;
+
+    @NotBlank
     private String lastName;
+
+    @NotBlank
     private String email;
+
+    @NotBlank
     private String password;
 
     @Enumerated(EnumType.STRING)
     private UserRole role;
+
     private boolean locked;
+
     private boolean enabled = true; // todo: enable when email validated
+
+    @Min(value = 0, message = "Calories cannot be negative")
+    private double dailyKcalGoal;
+
+    @Min(value = 0, message = "Carbs cannot be negative")
+    private double dailyCarbsGoalPct;
+
+    @Min(value = 0, message = "Protein cannot be negative")
+    private double dailyProteinGoalPct;
+
+    @Min(value = 0, message = "Fat cannot be negative")
+    private double dailyFatGoalPct;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private Set<Meal> meals;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private Set<MealEaten> mealsEaten;

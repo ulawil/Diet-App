@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
 
@@ -60,13 +62,10 @@ public class CreateMealController {
     @PostMapping(params = {"addIngredient"}, produces = MediaType.TEXT_HTML_VALUE)
     String addIngredient(@ModelAttribute("mealToCreate") Meal mealToCreate,
                          @RequestParam("addIngredient") int foodId,
-                         @RequestParam("amount") String foodAmountStr,
+                         @RequestParam("amount") @Min(value = 0) double foodAmount,
                          Model model) {
-        if(!foodAmountStr.matches("\\d+")) {
-            throw new IllegalArgumentException("Food amount cannot be negative");
-        }
         Ingredient ingToAdd = new Ingredient(foodService.findFoodById(foodId).orElseThrow(
-                () -> new IllegalArgumentException("Ingredient not found")), Double.parseDouble(foodAmountStr));
+                () -> new IllegalArgumentException("Ingredient not found")), foodAmount);
         ingToAdd.setMeal(mealToCreate);
         mealToCreate.getIngredients().add(ingToAdd);
         return "createMeal";
@@ -102,17 +101,7 @@ public class CreateMealController {
     String handleConstraintViolation(ConstraintViolationException e,
                                      Model model,
                                      HttpServletRequest request) {
-        model.addAttribute("errorMessage", e.getMessage().substring(e.getMessage().indexOf(" ") + 1));
-        Meal mealToCreate = (Meal)request.getSession().getAttribute("mealToCreate");
-        model.addAttribute("mealToCreate", mealToCreate);
-        return "createMeal";
-    }
-
-    @ExceptionHandler(IllegalArgumentException.class)
-    String handleIllegalArgument(IllegalArgumentException e,
-                                 Model model,
-                                 HttpServletRequest request) {
-        model.addAttribute("amountErrorMsg", e.getMessage());
+        model.addAttribute("errorMessage", "Cannot add ingredient - make sure the amount is valid");
         Meal mealToCreate = (Meal)request.getSession().getAttribute("mealToCreate");
         model.addAttribute("mealToCreate", mealToCreate);
         return "createMeal";

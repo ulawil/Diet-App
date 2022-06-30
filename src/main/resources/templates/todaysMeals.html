@@ -58,6 +58,17 @@
                     <td th:text="${#numbers.formatDecimal(__${totalFat}__,1,0)}"></td>
                     <td></td>
                 </tr>
+                <tr style="font-weight: bold">
+                    <!--/*@thymesVar id="totalKcal" type="java.lang.Integer"*/-->
+                    <td>Goal</td>
+                    <!--/*@thymesVar id="goals" type="java.util.List<Double>"*/-->
+                    <td>-</td>
+                    <td th:text="${#numbers.formatDecimal(__${goals.get(0)}__,1,0)}"></td>
+                    <td th:text="${#numbers.formatDecimal(__${goals.get(1)}__,1,0)}"></td>
+                    <td th:text="${#numbers.formatDecimal(__${goals.get(2)}__,1,0)}"></td>
+                    <td th:text="${#numbers.formatDecimal(__${goals.get(3)}__,1,0)}"></td>
+                    <td></td>
+                </tr>
                 </tbody>
             </table>
             <br>
@@ -68,6 +79,7 @@
                     <legend>Add meals</legend>
                     <input th:name="mealName" type="text" placeholder="Name"/>
                     <button type="submit" name="searchMeal" class="pure-button pure-button-primary">Search</button>
+                    <span class="pure-form-message-inline">Leave blank to search all meals</span>
                 </fieldset>
             </form>
 

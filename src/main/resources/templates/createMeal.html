@@ -28,7 +28,7 @@
             <!--/*@thymesVar id="mealToCreate" type="com.ulawil.dietapp.model.Meal"*/-->
             <form th:action="@{/createMeal}" th:object="${mealToCreate}" action="#" method="post" class="pure-form">
                 <fieldset>
-                    <input  th:attrappend="disabled=${mealToCreate.ingredients.isEmpty()}?'disabled'" type="text"   name="mealName"   placeholder="Meal name"/>
+                    <input  th:attrappend="disabled=${mealToCreate.ingredients.isEmpty()}?'disabled'" type="text"   name="mealName"   placeholder="Meal name" required/>
                     <button th:attrappend="disabled=${mealToCreate.ingredients.isEmpty()}?'disabled'" type="submit" name="createMeal" class="pure-button pure-button-primary">Create</button>
                     <button th:attrappend="disabled=${mealToCreate.ingredients.isEmpty()}?'disabled'" type="submit" name="resetMeal"  class="pure-button pure-button-primary">Reset</button>
                 </fieldset>
@@ -75,9 +75,6 @@
             </table>
             <br>
 
-            <!--/*@thymesVar id="amountErrorMsg" type="java.lang.String"*/-->
-            <h3 th:unless="${amountErrorMsg==null}" th:text="${amountErrorMsg}" style="color: red"></h3>
-
             <form th:action="@{/createMeal}" action="#" method="post" class="pure-form">
                 <fieldset>
                     <legend>Add ingredients</legend>
@@ -109,7 +106,7 @@
                         <td th:text="${#numbers.formatDecimal(__${food100g.protein}__,1,0)}"></td>
                         <td th:text="${#numbers.formatDecimal(__${food100g.fat}__,1,0)}"></td>
                         <td>
-                            <input th:form="${foodStat.index}" name="amount" type="number" style="width: 70px">
+                            <input th:form="${foodStat.index}" name="amount" type="number" style="width: 70px" required>
                         </td>
                         <td>
                             <form th:id="${foodStat.index}" th:action="@{/createMeal}" action="#" method="post" class="pure-form">

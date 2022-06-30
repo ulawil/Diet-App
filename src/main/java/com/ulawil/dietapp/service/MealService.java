@@ -1,6 +1,7 @@
 package com.ulawil.dietapp.service;
 
 import com.ulawil.dietapp.model.Meal;
+import com.ulawil.dietapp.model.User;
 import com.ulawil.dietapp.repository.MealRepository;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +29,9 @@ public class MealService {
     }
 
     public Meal saveMeal(Meal mealToSave) {
-        mealToSave.setUser(userService.getCurrentUser());
+        User currentUser = userService.getCurrentUser().orElseThrow(
+                () -> new IllegalStateException("No user currently logged in"));
+        mealToSave.setUser(currentUser);
         return mealRepository.save(mealToSave);
     }
 

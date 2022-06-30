@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.1.0/build/pure-min.css"
+          integrity="sha384-yHIFVG6ClnONEA5yB5DJXfW2/KC173DIQrYoZMEtBvGzmf0PKiGyNEqe9N6BNDBH"
+          crossorigin="anonymous">
+</head>
+<body>
+    <div class="pure-g">
+        <div class="pure-u-7-24"></div>
+
+        <div class="pure-u-10-24">
+
+            <h1>My profile</h1>
+
+            <div th:replace="menu :: menu"></div>
+            <br>
+
+            <!--/*@thymesVar id="errorMessage" type="java.lang.String"*/-->
+            <h2 th:unless="${errorMessage==null}" th:text="${errorMessage}" style="color: red"></h2>
+
+            <!--/*@thymesVar id="currentUser" type="com.ulawil.dietapp.model.User"*/-->
+            <div th:object="${currentUser}" class="pure-form pure-form-aligned">
+
+                <fieldset>
+                    <legend>About me</legend>
+                    <div class="pure-control-group">
+                        <form th:action="@{/profile}" method="post">
+                            <label for="firstName">First name: </label>
+                            <span th:text="${currentUser.firstName}" id="firstName" style="min-inline-size: 100px" class="pure-form-message-inline"></span>
+                            <span class="pure-form-message-inline" style="min-width: 70px">new value:</span>
+                            <input name="newFirstName" id="newFirstName" type="number" required style="width: 140px">
+                            <button name="editFirstName" id="editFirstName" class="pure-button pure-button-primary">edit</button>
+                        </form>
+                    </div>
+                    <div class="pure-control-group">
+                        <form th:action="@{/profile}" method="post">
+                            <label for="firstName">Last name: </label>
+                            <span th:text="${currentUser.lastName}" id="lastName" style="min-inline-size: 100px" class="pure-form-message-inline"></span>
+                            <span class="pure-form-message-inline" style="min-width: 70px">new value:</span>
+                            <input name="newLastName" id="newLastName" type="number" required style="width: 140px">
+                            <button name="editLastName" id="editLastName" class="pure-button pure-button-primary">edit</button>
+                        </form>
+                    </div>
+                    <br>
+                    <div class="pure-control-group">
+                        <form th:action="@{/profile}" method="post">
+                            <label for="kcalGoal">Daily kcal goal [%]:</label>
+                            <span th:text="${currentUser.getDailyKcalGoal}" id="kcalGoal" style="min-inline-size: 100px" class="pure-form-message-inline"></span>
+                            <span class="pure-form-message-inline" style="min-width: 70px">new value:</span>
+                            <input name="newKcalGoal" id="newKcalGoal" type="number" required style="width: 100px">
+                            <button name="editKcalGoal" id="editKcalGoal" class="pure-button pure-button-primary">edit</button>
+                        </form>
+                    </div>
+                    <div class="pure-control-group">
+                        <form th:action="@{/profile}" method="post">
+                            <label for="carbsGoal">Daily carbs goal [%]:</label>
+                            <span th:text="${currentUser.dailyCarbsGoalPct}" id="carbsGoal" style="min-inline-size: 100px" class="pure-form-message-inline"></span>
+                            <span class="pure-form-message-inline" style="min-width: 70px">new value:</span>
+                            <input name="newCarbsGoal" id="newCarbsGoal" type="number" required style="width: 100px">
+                            <button name="editKcalGoal" id="editCarbsGoal" class="pure-button pure-button-primary">edit</button>
+                        </form>
+                    </div>
+                    <div class="pure-control-group">
+                        <form th:action="@{/profile}" method="post">
+                            <label for="proteinGoal">Daily protein goal [%]:</label>
+                            <span th:text="${currentUser.dailyProteinGoalPct}" id="proteinGoal" style="min-inline-size: 100px" class="pure-form-message-inline"></span>
+                            <span class="pure-form-message-inline" style="min-width: 70px">new value:</span>
+                            <input name="newProteinGoal" id="newProteinGoal" type="number" required style="width: 100px">
+                            <button name="editProteinGoal" id="editProteinGoal" class="pure-button pure-button-primary">edit</button>
+                        </form>
+                    </div>
+                    <div class="pure-control-group">
+                        <form th:action="@{/profile}" method="post">
+                            <label for="fatGoal">Daily fat goal [%]:</label>
+                            <span th:text="${currentUser.getDailyFatGoalPct}" id="fatGoal" style="min-inline-size: 100px" class="pure-form-message-inline"></span>
+                            <span class="pure-form-message-inline" style="min-width: 70px">new value:</span>
+                            <input name="newFatGoal" id="newFatGoal" type="number" required style="width: 100px">
+                            <button name="editFatGoal" id="editFatGoal" class="pure-button pure-button-primary">edit</button>
+                        </form>
+                    </div>
+                </fieldset>
+            </div>
+
+        </div>
+
+        <div class="pure-u-7-24"></div>
+    </div>
+</body>
+</html>
