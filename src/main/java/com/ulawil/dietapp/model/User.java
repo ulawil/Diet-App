@@ -1,7 +1,5 @@
 package com.ulawil.dietapp.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,7 +17,6 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode
 @Entity
 public class User implements UserDetails {
 
@@ -44,7 +41,7 @@ public class User implements UserDetails {
 
     private boolean locked;
 
-    private boolean enabled = true; // todo: enable when email validated
+    private boolean enabled;
 
     @Min(value = 0, message = "Calories cannot be negative")
     private double dailyKcalGoal;
@@ -59,24 +56,10 @@ public class User implements UserDetails {
     private double dailyFatGoalPct;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
-    @JsonIgnore
     private Set<Meal> meals;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
-    @JsonIgnore
     private Set<MealEaten> mealsEaten;
-
-    public User(String firstName,
-                String lastName,
-                String email,
-                String password,
-                UserRole role) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        this.role = role;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

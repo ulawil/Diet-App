@@ -1,5 +1,6 @@
-package com.ulawil.dietapp.model;
+package com.ulawil.dietapp.model.DTO;
 
+import com.ulawil.dietapp.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,14 +15,13 @@ public class UserDTO {
     private String lastName;
     private String email;
     private String password;
-    private UserRole role;
+
     public User toUser() {
-        return new User(
-                firstName,
-                lastName,
-                email,
-                password,
-                role
-        );
+        User user = new User();
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setEmail(email);
+        user.setPassword(password);
+        return user;
     }
 }
