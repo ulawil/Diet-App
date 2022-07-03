@@ -1,9 +1,9 @@
 package com.ulawil.dietapp.service;
 
-import com.ulawil.dietapp.model.Meal;
-import com.ulawil.dietapp.model.MealEaten;
-import com.ulawil.dietapp.repository.MealEatenRepository;
-import com.ulawil.dietapp.repository.MealRepository;
+import com.ulawil.dietapp.food.meal.eatenmeal.EatenMeal;
+import com.ulawil.dietapp.food.meal.eatenmeal.EatenMealRepository;
+import com.ulawil.dietapp.food.meal.Meal;
+import com.ulawil.dietapp.food.meal.MealRepository;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -25,7 +25,7 @@ class MealServiceTest {
         MealRepository mealRepo = mock(MealRepository.class);
         when(mealRepo.findById(anyInt())).thenReturn(Optional.empty());
         // and
-        InMemoryMealEatenRepo mealEatenRepo = new InMemoryMealEatenRepo();
+        InMemoryEatenRepoMeal mealEatenRepo = new InMemoryEatenRepoMeal();
         int countBeforeAdd = mealEatenRepo.count();
         // system under test
         //MealService toTest = new MealService(mealRepo, mealEatenRepo, null, null);
@@ -44,7 +44,7 @@ class MealServiceTest {
         MealRepository mealRepo = mock(MealRepository.class);
         when(mealRepo.findById(anyInt())).thenReturn(Optional.of(mealToAdd));
         // and
-        InMemoryMealEatenRepo mealEatenRepo = new InMemoryMealEatenRepo();
+        InMemoryEatenRepoMeal mealEatenRepo = new InMemoryEatenRepoMeal();
         int countBeforeAdd = mealEatenRepo.count();
         // system under test
         //MealService toTest = new MealService(mealRepo, mealEatenRepo, null, null);
@@ -67,25 +67,25 @@ class MealServiceTest {
         assertThat(mealRepo.count()).isEqualTo(countBeforeAdd+1);
     }
 
-    private static class InMemoryMealEatenRepo implements MealEatenRepository {
+    private static class InMemoryEatenRepoMeal implements EatenMealRepository {
         private int index = 0;
-        private final Map<Integer, MealEaten> data = new HashMap<>();
+        private final Map<Integer, EatenMeal> data = new HashMap<>();
 
         public int count() {
             return data.size();
         }
 
         @Override
-        public MealEaten save(MealEaten mealEaten) {
-            if(mealEaten.getId()==0) {
-                mealEaten.setId(++index);
+        public EatenMeal save(EatenMeal eatenMeal) {
+            if(eatenMeal.getId()==0) {
+                eatenMeal.setId(++index);
             }
-            data.put(index, mealEaten);
-            return mealEaten;
+            data.put(index, eatenMeal);
+            return eatenMeal;
         }
 
         @Override
-        public Optional<MealEaten> findById(Integer id) {
+        public Optional<EatenMeal> findById(Integer id) {
             return Optional.empty();
         }
 
@@ -95,12 +95,7 @@ class MealServiceTest {
         }
 
         @Override
-        public List<MealEaten> findByUserIdAndDateEaten(Integer id, LocalDate date) {
-            return null;
-        }
-
-        @Override
-        public List<Object[]> findUsersTotalFoodStatsByDate(Integer id, LocalDate date) {
+        public List<EatenMeal> findByUserIdAndDateEaten(Integer id, LocalDate date) {
             return null;
         }
     }

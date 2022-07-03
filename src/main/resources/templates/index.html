@@ -14,7 +14,7 @@
 
         <div class="pure-u-10-24">
 
-            <!--/*@thymesVar id="currentUser" type="com.ulawil.dietapp.model.User"*/-->
+            <!--/*@thymesVar id="currentUser" type="com.ulawil.dietapp.user.User"*/-->
             <h1 th:unless="${currentUser==null}" th:text="|Hello, ${currentUser.firstName} ${currentUser.lastName}!|"></h1>
             <h1 th:if="${currentUser==null}" th:text="'Hello!'"></h1>
 

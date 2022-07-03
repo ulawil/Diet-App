@@ -20,7 +20,7 @@
             <div th:replace="menu :: menu"></div>
             <br>
 
-            <!--/*@thymesVar id="userDTO" type="com.ulawil.dietapp.model.DTO.UserDTO"*/-->
+            <!--/*@thymesVar id="userDTO" type="com.ulawil.dietapp.user.UserDTO"*/-->
             <!--/*@thymesVar id="emailConfirmed" type="java.lang.Boolean"*/-->
             <form th:unless="${emailConfirmed}" th:action="@{/register}" th:object="${userDTO}" action="#" method="post" class="pure-form pure-form-stacked">
                 <fieldset class="pure-group">

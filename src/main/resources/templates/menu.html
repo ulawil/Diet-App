@@ -8,15 +8,15 @@
                 <a href="/profile" class="pure-menu-link">Profile</a>
             </li>
             <li class="pure-menu-item">
-                <a href="/todaysMeals" class="pure-menu-link">Today's meals</a>
+                <a href="/meals/summary" class="pure-menu-link">Today's meals</a>
             </li>
             <li class="pure-menu-item">
-                <a href="/createMeal" class="pure-menu-link">Create a meal</a>
+                <a href="/meal/create" class="pure-menu-link">Create a meal</a>
             </li>
             <li class="pure-menu-item">
-                <a href="/addFood" class="pure-menu-link">Add food</a>
+                <a href="/food/add" class="pure-menu-link">Add food</a>
             </li>
-            <!--/*@thymesVar id="currentUser" type="com.ulawil.dietapp.model.User"*/-->
+            <!--/*@thymesVar id="currentUser" type="com.ulawil.dietapp.user.User"*/-->
             <li th:unless="${currentUser==null}" class="pure-menu-item">
                 <a href="/logout" class="pure-menu-link">Log out</a>
             </li>

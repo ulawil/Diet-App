@@ -21,7 +21,7 @@
             <!--/*@thymesVar id="errorMessage" type="java.lang.String"*/-->
             <h2 th:unless="${errorMessage==null}" th:text="${errorMessage}" style="color: red"></h2>
 
-            <!--/*@thymesVar id="currentUser" type="com.ulawil.dietapp.model.User"*/-->
+            <!--/*@thymesVar id="currentUser" type="com.ulawil.dietapp.user.User"*/-->
             <div th:object="${currentUser}" class="pure-form pure-form-aligned">
 
                 <fieldset>

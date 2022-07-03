@@ -25,12 +25,11 @@
             <!--/*@thymesVar id="errorMessage" type="java.lang.String"*/-->
             <h2 th:unless="${errorMessage==null}" th:text="${errorMessage}" style="color: red"></h2>
 
-            <!--/*@thymesVar id="mealToCreate" type="com.ulawil.dietapp.model.Meal"*/-->
-            <form th:action="@{/createMeal}" th:object="${mealToCreate}" action="#" method="post" class="pure-form">
+            <!--/*@thymesVar id="mealToCreate" type="com.ulawil.dietapp.food.meal.Meal"*/-->
+            <form th:action="@{/meal/create}" th:object="${mealToCreate}" method="post" class="pure-form">
                 <fieldset>
                     <input  th:attrappend="disabled=${mealToCreate.ingredients.isEmpty()}?'disabled'" type="text"   name="mealName"   placeholder="Meal name" required/>
                     <button th:attrappend="disabled=${mealToCreate.ingredients.isEmpty()}?'disabled'" type="submit" name="createMeal" class="pure-button pure-button-primary">Create</button>
-                    <button th:attrappend="disabled=${mealToCreate.ingredients.isEmpty()}?'disabled'" type="submit" name="resetMeal"  class="pure-button pure-button-primary">Reset</button>
                 </fieldset>
             </form>
 
@@ -48,15 +47,15 @@
                 </thead>
                 <tbody>
                 <tr th:each="ingredient : ${mealToCreate.ingredients}">
-                    <!--/*@thymesVar id="food" type="com.ulawil.dietapp.model.Food100g"*/-->
-                    <td th:text="${ingredient.food100g.name}"></td>
-                    <td th:text="${#numbers.formatDecimal(__${ingredient.grams}__,1,0)}"></td>
+                    <!--/*@thymesVar id="food" type="com.ulawil.dietapp.food.Food100g"*/-->
+                    <td th:text="${ingredient.name}"></td>
+                    <td th:text="${#numbers.formatDecimal(__${ingredient.amount}__,1,0)}"></td>
                     <td th:text="${#numbers.formatDecimal(__${ingredient.kcal}__,1,0)}"></td>
                     <td th:text="${#numbers.formatDecimal(__${ingredient.carbs}__,1,1)}"></td>
                     <td th:text="${#numbers.formatDecimal(__${ingredient.protein}__,1,1)}"></td>
                     <td th:text="${#numbers.formatDecimal(__${ingredient.fat}__,1,1)}"></td>
                     <td>
-                        <form th:action="@{/meals}" th:object="${ingredient}" action="#" method="post" class="pure-form">
+                        <form th:action="@{/meal/create}" th:object="${ingredient}" method="post" class="pure-form">
                             <button th:name="deleteIngredient" th:value="${ingredient.id}" type="submit">x</button>
                         </form>
                     </td>
@@ -64,7 +63,7 @@
                 <tr style="font-weight: bold">
                     <!--/*@thymesVar id="totalKcal" type="java.lang.Integer"*/-->
                     <td>Total</td>
-                    <td th:text="${#numbers.formatDecimal(__${mealToCreate.grams}__,1,0)}"></td>
+                    <td th:text="${#numbers.formatDecimal(__${mealToCreate.amount}__,1,0)}"></td>
                     <td th:text="${#numbers.formatDecimal(__${mealToCreate.kcal}__,1,0)}"></td>
                     <td th:text="${#numbers.formatDecimal(__${mealToCreate.carbs}__,1,1)}"></td>
                     <td th:text="${#numbers.formatDecimal(__${mealToCreate.protein}__,1,1)}"></td>
@@ -75,7 +74,7 @@
             </table>
             <br>
 
-            <form th:action="@{/createMeal}" action="#" method="post" class="pure-form">
+            <form th:action="@{/meal/create}" action="#" method="post" class="pure-form">
                 <fieldset>
                     <legend>Add ingredients</legend>
                     <input th:name="foodName" type="text" placeholder="Ingredient" class="pure-input-1-10"/>
@@ -85,15 +84,14 @@
             </form>
 
             <!--/*@thymesVar id="foundFoods" type="java.util.List<ulawil.dietapp.model.Food100g>"*/-->
-            <p th:unless="${foundFoods==null}" style="font-size: small">* Values for 100g</p>
             <table th:unless="${foundFoods==null}" style="font-size: small" class="pure-table pure-table-bordered pure-table-striped">
                 <thead>
                     <tr style="text-align: center; vertical-align: middle">
                         <th>Name</th>
-                        <th>Kcal</th>
-                        <th>Carbs<br>[g]</th>
-                        <th>Protein<br>[g]</th>
-                        <th>Fat<br>[g]</th>
+                        <th>Kcal/100g</th>
+                        <th>Carbs/100g<br>[g]</th>
+                        <th>Protein/100g<br>[g]</th>
+                        <th>Fat/100g<br>[g]</th>
                         <th>Amount<br>[g]</th>
                         <th></th>
                     </tr>
@@ -109,7 +107,7 @@
                             <input th:form="${foodStat.index}" name="amount" type="number" step="0.1" min="0.0" required style="width: 70px">
                         </td>
                         <td>
-                            <form th:id="${foodStat.index}" th:action="@{/createMeal}" action="#" method="post" class="pure-form">
+                            <form th:id="${foodStat.index}" th:action="@{/meal/create}" method="post" class="pure-form">
                                 <button name="addIngredient" th:value="${food100g.id}" type="submit">+</button>
                             </form>
                         </td>
