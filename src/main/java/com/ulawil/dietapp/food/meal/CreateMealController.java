@@ -52,11 +52,13 @@ public class CreateMealController {
         }
         ingredients.forEach(ingredient -> ingredient.setMeal(mealToCreate));
         mealToCreate.setIngredients(new HashSet<>(ingredients));
-        mealService.saveMeal(mealToCreate);
+        try {
+            mealService.addMeal(mealToCreate);
+        } catch (IllegalStateException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+        }
         ingredients.clear();
-        model.addAttribute("mealToCreate", mealToCreate());
-        model.addAttribute("ingredients", ingredients);
-        model.addAttribute("mealStats", mealStats(model));
+        addModelAttributesWithDefaultValues(ingredients, model);
         model.addAttribute("createdMessage", "Meal created!");
         return "createMeal";
     }
@@ -72,9 +74,7 @@ public class CreateMealController {
                 () -> new IllegalArgumentException("Ingredient not found")), foodAmount);
         ingredientService.saveIngredient(ingredientToAdd);
         ingredients.add(ingredientToAdd);
-        model.addAttribute("mealToCreate", mealToCreate());
-        model.addAttribute("ingredients", ingredients);
-        model.addAttribute("mealStats", mealStats(model));
+        addModelAttributesWithDefaultValues(ingredients, model);
         return "createMeal";
     }
 
@@ -87,9 +87,7 @@ public class CreateMealController {
                             Model model) {
         ingredients.removeIf(ingredient -> ingredient.getId()== ingredientId);
         ingredientService.deleteIngredientById(ingredientId);
-        model.addAttribute("mealToCreate", mealToCreate());
-        model.addAttribute("ingredients", ingredients);
-        model.addAttribute("mealStats", mealStats(model));
+        addModelAttributesWithDefaultValues(ingredients, model);
         return "createMeal";
     }
 
@@ -140,13 +138,17 @@ public class CreateMealController {
         model.addAttribute("currentUser", currentUser);
     }
 
+    private void addModelAttributesWithDefaultValues(List<Ingredient> ingredients, Model model) {
+        model.addAttribute("mealToCreate", mealToCreate());
+        model.addAttribute("ingredients", ingredients);
+        model.addAttribute("mealStats", mealStats(model));
+    }
+
     @ExceptionHandler(ConstraintViolationException.class)
     String handleConstraintViolation(ConstraintViolationException e, Model model) {
         model.addAttribute("errorMessage", "Cannot add the ingredient - make sure the amount is right!");
         List<Ingredient> ingredients = (List<Ingredient>)model.getAttribute("ingredients");
-        model.addAttribute("mealToCreate", mealToCreate());
-        model.addAttribute("ingredients", ingredients);
-        model.addAttribute("mealStats", mealStats(model));
+        addModelAttributesWithDefaultValues(ingredients, model);
         return "createMeal";
     }
 }

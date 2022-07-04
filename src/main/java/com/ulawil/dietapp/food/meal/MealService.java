@@ -27,7 +27,7 @@ public class MealService {
         return mealRepository.findById(mealId);
     }
 
-    public Meal saveMeal(Meal mealToSave) {
+    public Meal addMeal(Meal mealToSave) {
         User currentUser = userService.getCurrentUser().orElseThrow(
                 () -> new IllegalStateException("No user currently logged in"));
         mealToSave.setUser(currentUser);
