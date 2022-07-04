@@ -50,5 +50,4 @@ public class WebSecurityConfig {
         provider.setUserDetailsService(userService);
         return provider;
     }
-
 }
