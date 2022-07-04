@@ -25,7 +25,7 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new UsernameNotFoundException("User not found!"));
     }
 
     public User saveUser(User userToSave) {
@@ -34,7 +34,7 @@ public class UserService implements UserDetailsService {
 
     public void enableUser(String email) {
         User toEnable = userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new UsernameNotFoundException("User not found!"));
         toEnable.setEnabled(true);
         userRepository.save(toEnable);
     }
@@ -42,7 +42,7 @@ public class UserService implements UserDetailsService {
     public String signUp(UserDTO userDTO) {
         boolean userExists = userRepository.findByEmail(userDTO.getEmail()).isPresent();
         if(userExists) {
-            throw new IllegalStateException("Email taken");
+            throw new IllegalStateException("Email already taken!");
         }
         String encodedPassword = bCryptPasswordEncoder.encode(userDTO.getPassword());
         userDTO.setPassword(encodedPassword);
@@ -55,11 +55,9 @@ public class UserService implements UserDetailsService {
         ConfirmationToken confirmationToken = new ConfirmationToken(
                 token,
                 LocalDateTime.now(),
-                LocalDateTime.now().plusMinutes(30),
                 newUser
         );
         confirmationTokenService.saveConfirmationToken(confirmationToken);
-
         return token;
     }
 

@@ -24,8 +24,6 @@ public class ConfirmationToken {
 
     private LocalDateTime createdAt;
 
-    private LocalDateTime expiresAt;
-
     private LocalDateTime confirmedAt;
 
     @ManyToOne
@@ -34,11 +32,9 @@ public class ConfirmationToken {
 
     public ConfirmationToken(String token,
                              LocalDateTime createdAt,
-                             LocalDateTime expiredAt,
                              User user) {
         this.token = token;
         this.createdAt = createdAt;
-        this.expiresAt = expiredAt;
         this.user = user;
     }
 }

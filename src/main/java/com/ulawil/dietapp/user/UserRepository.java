@@ -1,7 +1,5 @@
 package com.ulawil.dietapp.user;
 
-import com.ulawil.dietapp.user.User;
-
 import java.util.Optional;
 
 public interface UserRepository {

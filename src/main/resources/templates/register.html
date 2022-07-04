@@ -35,6 +35,9 @@
             <!--/*@thymesVar id="message" type="java.lang.String"*/-->
             <h3 th:unless="${message==null}" th:text="${message}"></h3>
 
+            <!--/*@thymesVar id="errorMessage" type="java.lang.String"*/-->
+            <h3 th:unless="${errorMessage==null}" th:text="${errorMessage}" style="color: red"></h3>
+
         </div>
 
         <div class="pure-u-7-24"></div>

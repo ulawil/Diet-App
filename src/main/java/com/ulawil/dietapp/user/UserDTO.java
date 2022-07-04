@@ -1,6 +1,5 @@
 package com.ulawil.dietapp.user;
 
-import com.ulawil.dietapp.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
