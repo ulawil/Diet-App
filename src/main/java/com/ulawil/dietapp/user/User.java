@@ -16,10 +16,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
 
+@Entity
 @NoArgsConstructor
 @Getter
 @Setter
-@Entity
 public class User implements UserDetails {
 
     @Id

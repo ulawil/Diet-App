@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
 
-@AllArgsConstructor
 @Controller
 @RequestMapping(path = "/food/add")
+@AllArgsConstructor
 public class AddFoodController {
 
     private final FoodService foodService;
@@ -24,7 +24,6 @@ public class AddFoodController {
 
     @GetMapping(produces = MediaType.TEXT_HTML_VALUE)
     String showFoodsPage(Model model) {
-        model.addAttribute("food100g", new Food100g());
         return "addFood";
     }
 
@@ -36,10 +35,21 @@ public class AddFoodController {
             model.addAttribute("errorMessage", "Cannot add food - make sure all data is valid!");
             return "addFood";
         }
-        User currentUser = userService.getCurrentUser().orElseThrow(
-                () -> new IllegalStateException("No user currently logged in"));
+        User currentUser = (User)model.getAttribute("currentUser");
         foodService.saveFood(foodToAdd, currentUser);
         model.addAttribute("addedMessage", "Food added!");
         return "addFood";
+    }
+
+    @ModelAttribute("currentUser")
+    void addCurrentUserAttr(Model model) {
+        User currentUser = userService.getCurrentUser().orElseThrow(
+                () -> new IllegalStateException("No user currently logged in"));
+        model.addAttribute("currentUser", currentUser);
+    }
+
+    @ModelAttribute("")
+    void addFood100gAttr(Model model) {
+        model.addAttribute("food100g", new Food100g());
     }
 }

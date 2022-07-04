@@ -9,11 +9,11 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@Entity
 public class ConfirmationToken {
 
     @Id

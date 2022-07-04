@@ -1,30 +1,30 @@
 package com.ulawil.dietapp.food.meal;
 
 import com.ulawil.dietapp.food.Food100g;
-import com.ulawil.dietapp.food.ingredient.Ingredient;
 import com.ulawil.dietapp.food.FoodService;
+import com.ulawil.dietapp.food.ingredient.Ingredient;
 import com.ulawil.dietapp.food.ingredient.IngredientService;
 import com.ulawil.dietapp.user.User;
 import com.ulawil.dietapp.user.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
-@AllArgsConstructor
 @Controller
-@Validated
-@SessionAttributes("mealToCreate")
 @RequestMapping(path = "/meal/create")
+@SessionAttributes("ingredients")
+@Validated
+@AllArgsConstructor
 public class CreateMealController {
 
     private final MealService mealService;
@@ -32,15 +32,11 @@ public class CreateMealController {
     private final FoodService foodService;
     private final UserService userService;
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    ResponseEntity<List<Meal>> showMeals() {
-        return ResponseEntity.ok(mealService.findAllMeals());
-    }
-
     @GetMapping(produces = MediaType.TEXT_HTML_VALUE)
-    String showCreateMealPage(@ModelAttribute("mealToCreate") Meal mealToCreate, Model model) {
-        model.addAttribute("mealToCreate", mealToCreate == null ? mealToCreate() : mealToCreate);
+    String showCreateMealPage(@ModelAttribute("ingredients") List<Ingredient> ingredients, Model model) {
+        model.addAttribute("mealToCreate", mealToCreate());
+        model.addAttribute("ingredients", ingredients == null ? ingredients(): ingredients);
+        model.addAttribute("mealStats", ingredients == null ? new Meal() : mealStats(model));
         return "createMeal";
     }
 
@@ -48,11 +44,19 @@ public class CreateMealController {
             produces = MediaType.TEXT_HTML_VALUE,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     String createMeal(@ModelAttribute("mealToCreate") Meal mealToCreate,
-                      @RequestParam("mealName") @NotBlank(message = "Meal name cannot be empty") String mealName,
+                      @ModelAttribute("ingredients") List<Ingredient> ingredients,
+                      BindingResult bindingResult,
                       Model model) {
-        mealToCreate.setName(mealName);
+        if(bindingResult.hasErrors()) {
+            return "createMeal";
+        }
+        ingredients.forEach(ingredient -> ingredient.setMeal(mealToCreate));
+        mealToCreate.setIngredients(new HashSet<>(ingredients));
         mealService.saveMeal(mealToCreate);
+        ingredients.clear();
         model.addAttribute("mealToCreate", mealToCreate());
+        model.addAttribute("ingredients", ingredients);
+        model.addAttribute("mealStats", mealStats(model));
         model.addAttribute("createdMessage", "Meal created!");
         return "createMeal";
     }
@@ -60,20 +64,17 @@ public class CreateMealController {
     @PostMapping(params = {"addIngredient"},
             produces = MediaType.TEXT_HTML_VALUE,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    String addIngredient(@ModelAttribute("mealToCreate") Meal mealToCreate,
+    String addIngredient(@ModelAttribute("ingredients") List<Ingredient> ingredients,
                          @RequestParam("addIngredient") int foodId,
-                         @RequestParam("amount") @Min(value = 0) double foodAmount,
+                         @RequestParam("foodAmount") @Min(value = 0) double foodAmount,
                          Model model) {
-        Ingredient ingToAdd = new Ingredient(foodService.findFoodById(foodId).orElseThrow(
+        Ingredient ingredientToAdd = new Ingredient(foodService.findFoodById(foodId).orElseThrow(
                 () -> new IllegalArgumentException("Ingredient not found")), foodAmount);
-        if(mealToCreate.getIngredients().isEmpty()) {
-            mealToCreate.setName("placeholder");
-            mealToCreate.setAmount(0);
-            mealService.saveMeal(mealToCreate);
-        }
-        mealToCreate.getIngredients().add(ingToAdd);
-        ingToAdd.setMeal(mealToCreate);
-        ingredientService.saveIngredient(ingToAdd);
+        ingredientService.saveIngredient(ingredientToAdd);
+        ingredients.add(ingredientToAdd);
+        model.addAttribute("mealToCreate", mealToCreate());
+        model.addAttribute("ingredients", ingredients);
+        model.addAttribute("mealStats", mealStats(model));
         return "createMeal";
     }
 
@@ -81,46 +82,71 @@ public class CreateMealController {
             produces = MediaType.TEXT_HTML_VALUE,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE
     )
-    String deleteIngredient(@ModelAttribute("mealToCreate") Meal mealToCreate,
-                            @RequestParam("deleteIngredient") int ingId,
+    String deleteIngredient(@ModelAttribute("ingredients") List<Ingredient> ingredients,
+                            @RequestParam("deleteIngredient") int ingredientId,
                             Model model) {
-        Ingredient ingredientToDelete = ingredientService.findIngredientById(ingId)
-                .orElseThrow(() -> new IllegalArgumentException("Ingredient not found"));
-        ingredientToDelete.setMeal(null);
-        mealToCreate.getIngredients().removeIf(ing -> ing.getId()==ingId);
-        ingredientService.deleteIngredientById(ingId);
+        ingredients.removeIf(ingredient -> ingredient.getId()== ingredientId);
+        ingredientService.deleteIngredientById(ingredientId);
+        model.addAttribute("mealToCreate", mealToCreate());
+        model.addAttribute("ingredients", ingredients);
+        model.addAttribute("mealStats", mealStats(model));
         return "createMeal";
     }
 
     @PostMapping(params = {"searchFood"},
             produces = MediaType.TEXT_HTML_VALUE,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    String searchFoods(@ModelAttribute("mealToCreate") Meal mealToCreate,
+    String searchFoods(@ModelAttribute("ingredients") List<Ingredient> ingredients,
                        @RequestParam("foodName") String foodName,
                        Model model) {
         User currentUser = userService.getCurrentUser().orElseThrow(
                 () -> new IllegalStateException("No user currently logged in"));
-        List<Food100g> foundFoods = foodService.findUsersAndCommonFoodsByName(currentUser.getId(), foodName);
-        model.addAttribute("mealToCreate", mealToCreate);
-        model.addAttribute("food", new Food100g());
+        List<Food100g> foundFoods = foodService.findUsersAndCommonFoodsByName(foodName, currentUser.getId());
+        model.addAttribute("ingredients", ingredients);
+        model.addAttribute("mealStats", mealStats(model));
         model.addAttribute("foundFoods", foundFoods);
         return "createMeal";
     }
 
+    @ModelAttribute("ingredients")
+    List<Ingredient> ingredients() {
+        return new ArrayList<>();
+    }
+
     @ModelAttribute("mealToCreate")
     Meal mealToCreate() {
-        Meal mealToCreate = new Meal();
-        mealToCreate.setName("")
         return new Meal();
     }
 
+    @ModelAttribute("mealStats")
+    MealStats mealStats(Model model) {
+        List<Ingredient> ingredients = (List<Ingredient>)model.getAttribute("ingredients");
+        if(ingredients == null) {
+            return new MealStats();
+        }
+        return new MealStats(
+            ingredients.stream().map(Ingredient::getGrams).reduce(0., Double::sum),
+            ingredients.stream().map(Ingredient::getKcal).reduce(0., Double::sum),
+            ingredients.stream().map(Ingredient::getCarbs).reduce(0., Double::sum),
+            ingredients.stream().map(Ingredient::getProtein).reduce(0., Double::sum),
+            ingredients.stream().map(Ingredient::getFat).reduce(0., Double::sum)
+        );
+    }
+
+    @ModelAttribute("currentUser")
+    void currentUser(Model model) {
+        User currentUser = userService.getCurrentUser().orElseThrow(
+                () -> new IllegalStateException("No user currently logged in"));
+        model.addAttribute("currentUser", currentUser);
+    }
+
     @ExceptionHandler(ConstraintViolationException.class)
-    String handleConstraintViolation(ConstraintViolationException e,
-                                     Model model,
-                                     HttpServletRequest request) {
-        model.addAttribute("errorMessage", "Cannot add ingredient - make sure the amount is valid");
-        Meal mealToCreate = (Meal)request.getSession().getAttribute("mealToCreate");
-        model.addAttribute("mealToCreate", mealToCreate);
+    String handleConstraintViolation(ConstraintViolationException e, Model model) {
+        model.addAttribute("errorMessage", "Cannot add the ingredient - make sure the amount is right!");
+        List<Ingredient> ingredients = (List<Ingredient>)model.getAttribute("ingredients");
+        model.addAttribute("mealToCreate", mealToCreate());
+        model.addAttribute("ingredients", ingredients);
+        model.addAttribute("mealStats", mealStats(model));
         return "createMeal";
     }
 }

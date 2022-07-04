@@ -37,7 +37,7 @@
                         <tbody>
                         <tr th:each="ingredient : ${mealDetails.ingredients}">
                             <td th:text="${ingredient.food100g.name}"></td>
-                            <td th:text="${#numbers.formatDecimal(__${ingredient.getAmount}__,1,0)}"></td>
+                            <td th:text="${#numbers.formatDecimal(__${ingredient.grams}__,1,0)}"></td>
                             <td th:text="${#numbers.formatDecimal(__${ingredient.kcal}__,1,0)}"></td>
                             <td th:text="${#numbers.formatDecimal(__${ingredient.carbs}__,1,1)}"></td>
                             <td th:text="${#numbers.formatDecimal(__${ingredient.protein}__,1,1)}"></td>

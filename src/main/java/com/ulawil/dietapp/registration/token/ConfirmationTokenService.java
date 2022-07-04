@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-@AllArgsConstructor
 @Service
+@AllArgsConstructor
 public class ConfirmationTokenService {
 
     private final ConfirmationTokenRepository confirmationTokenRepository;

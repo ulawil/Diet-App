@@ -15,5 +15,5 @@ interface FoodRepositorySql extends FoodRepository, JpaRepository<Food100g, Inte
 
     @Override
     @Query("select f from Food100g f where f.name like %:name% and (f.user.id=:id or f.user is null)")
-    List<Food100g> findUsersAndCommonFoodsByName(@Param("id") int userId, @Param("name") String name);
+    List<Food100g> findUsersAndCommonFoodsByName(@Param("name") String name, @Param("id") int userId);
 }

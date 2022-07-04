@@ -6,6 +6,12 @@
     <link rel="stylesheet" href="https://unpkg.com/purecss@2.1.0/build/pure-min.css"
           integrity="sha384-yHIFVG6ClnONEA5yB5DJXfW2/KC173DIQrYoZMEtBvGzmf0PKiGyNEqe9N6BNDBH"
           crossorigin="anonymous">
+    <style>
+        .td[] {
+
+        }
+
+    </style>
 </head>
 <body>
 <main>
@@ -50,22 +56,22 @@
                 </tr>
                 <tr style="font-weight: bold">
                     <td>Total</td>
-                    <!--/*@thymesVar id="todaysMealsStats" type="java.util.List<java.lang.Double>"*/-->
-                    <td th:text="${#numbers.formatDecimal(__${todaysMealsStats.get(0)}__,1,0)}"></td>
-                    <td th:text="${#numbers.formatDecimal(__${todaysMealsStats.get(1)}__,1,0)}"></td>
-                    <td th:text="${#numbers.formatDecimal(__${todaysMealsStats.get(2)}__,1,1)}"></td>
-                    <td th:text="${#numbers.formatDecimal(__${todaysMealsStats.get(3)}__,1,1)}"></td>
-                    <td th:text="${#numbers.formatDecimal(__${todaysMealsStats.get(4)}__,1,1)}"></td>
+                    <!--/*@thymesVar id="todaysStats" type="com.ulawil.dietapp.food.meal.MealStats"*/-->
+                    <td th:text="${#numbers.formatDecimal(__${todaysStats.grams}__,1,0)}"></td>
+                    <td th:text="${#numbers.formatDecimal(__${todaysStats.kcal}__,1,0)}"></td>
+                    <td th:text="${#numbers.formatDecimal(__${todaysStats.carbs}__,1,1)}"></td>
+                    <td th:text="${#numbers.formatDecimal(__${todaysStats.protein}__,1,1)}"></td>
+                    <td th:text="${#numbers.formatDecimal(__${todaysStats.fat}__,1,1)}"></td>
                     <td></td>
                 </tr>
                 <tr style="font-weight: bold">
                     <td>Goal</td>
-                    <!--/*@thymesVar id="goals" type="java.util.List<Double>"*/-->
-                    <td>-</td>
-                    <td th:text="${#numbers.formatDecimal(__${goals.get(0)}__,1,0)}"></td>
-                    <td th:text="${#numbers.formatDecimal(__${goals.get(1)}__,1,1)}"></td>
-                    <td th:text="${#numbers.formatDecimal(__${goals.get(2)}__,1,1)}"></td>
-                    <td th:text="${#numbers.formatDecimal(__${goals.get(3)}__,1,1)}"></td>
+                    <td></td>
+                    <!--/*@thymesVar id="todaysGoals" type="com.ulawil.dietapp.food.meal.MealStats"*/-->
+                    <td th:text="${#numbers.formatDecimal(__${todaysGoals.kcal}__,1,0)}"></td>
+                    <td th:text="${#numbers.formatDecimal(__${todaysGoals.carbs}__,1,1)}"></td>
+                    <td th:text="${#numbers.formatDecimal(__${todaysGoals.protein}__,1,1)}"></td>
+                    <td th:text="${#numbers.formatDecimal(__${todaysGoals.fat}__,1,1)}"></td>
                     <td></td>
                 </tr>
                 </tbody>
@@ -73,7 +79,7 @@
             <br>
 
             <!--/*@thymesVar id="foundMeals" type="java.util.List<ulawil.dietapp.model.Meal>"*/-->
-            <form th:action="@{/meals/summary}" action="#" method="post" class="pure-form">
+            <form th:action="@{/meals/summary}" method="post" class="pure-form">
                 <fieldset>
                     <legend>Add meals</legend>
                     <input th:name="mealName" type="text" placeholder="Name"/>
@@ -144,11 +150,11 @@
                     <thead>
                     <tr style="text-align: center; vertical-align: middle">
                         <th>Name</th>
-                        <th>Kcal/100g</th>
-                        <th>Carbs/100g<br>[g]</th>
-                        <th>Protein/100g<br>[g]</th>
-                        <th>Fat/100g<br>[g]</th>
-                        <th>Portion<br>[g]</th>
+                        <th>Kcal<br>(100g)</th>
+                        <th>Carbs [g]<br>(100g)</th>
+                        <th>Protein [g]<br>(100g)</th>
+                        <th>Fat [g]<br>(100g)</th>
+                        <th>Portion [g]</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -160,7 +166,7 @@
                         <td th:text="${#numbers.formatDecimal(__${food100g.protein}__,1,1)}"></td>
                         <td th:text="${#numbers.formatDecimal(__${food100g.fat}__,1,1)}"></td>
                         <td>
-                            <input th:form="${foodStat.index}" name="portion" type="number" step="0.1" min="0.0" required style="width: 70px">
+                            <input th:form="${foodStat.index}" name="portion" type="number" min="0.0" required style="width: 70px">
                         </td>
                         <td>
                             <form th:id="${foodStat.index}" th:action="@{/meals/summary}" method="post" class="pure-form">

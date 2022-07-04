@@ -7,9 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-@AllArgsConstructor
 @Controller
 @RequestMapping(path = "/register")
+@AllArgsConstructor
 public class RegistrationController {
 
     private final RegistrationService registrationService;

@@ -14,7 +14,7 @@ import javax.validation.constraints.Min;
 public class Ingredient extends BaseFood {
 
     @Min(value = 0, message = "Amount cannot be negative")
-    private double amount;
+    private double grams;
 
     @ManyToOne
     @JsonIgnore
@@ -26,19 +26,19 @@ public class Ingredient extends BaseFood {
 
     public Ingredient(Food100g food100g, double amount) {
         name = food100g.getName();
-        this.amount = amount;
-        kcal = food100g.getKcal() * amount / 100.;
-        carbs = food100g.getCarbs() * amount / 100.;
-        protein = food100g.getProtein() * amount / 100.;
-        fat = food100g.getFat() * amount / 100.;
+        grams = amount;
+        kcal = food100g.getKcal() * grams / 100.;
+        carbs = food100g.getCarbs() * grams / 100.;
+        protein = food100g.getProtein() * grams / 100.;
+        fat = food100g.getFat() * grams / 100.;
     }
 
-    public double getAmount() {
-        return amount;
+    public double getGrams() {
+        return grams;
     }
 
-    public void setAmount(double amount) {
-        this.amount = amount;
+    public void setGrams(double grams) {
+        this.grams = grams;
     }
 
     public Meal getMeal() {

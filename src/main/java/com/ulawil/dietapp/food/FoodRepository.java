@@ -13,5 +13,5 @@ public interface FoodRepository {
 
     List<Food100g> findByNameContainsIgnoreCase(String name);
 
-    List<Food100g> findUsersAndCommonFoodsByName(int userId, String name);
+    List<Food100g> findUsersAndCommonFoodsByName(String name, int userId);
 }

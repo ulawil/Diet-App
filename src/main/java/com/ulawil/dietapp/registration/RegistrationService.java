@@ -13,8 +13,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.time.LocalDateTime;
 
-@AllArgsConstructor
 @Service
+@AllArgsConstructor
 public class RegistrationService {
 
     private final UserService userService;

@@ -24,8 +24,8 @@ public class FoodService {
         return foodRepository.findAll();
     }
 
-    public List<Food100g> findUsersAndCommonFoodsByName(int userId, String name) {
-        return foodRepository.findUsersAndCommonFoodsByName(userId, name);
+    public List<Food100g> findUsersAndCommonFoodsByName(String name, int userId) {
+        return foodRepository.findUsersAndCommonFoodsByName(name, userId);
     }
 
     public Food100g saveFood(Food100g food, User currentUser) {

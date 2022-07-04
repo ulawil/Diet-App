@@ -1,21 +1,19 @@
 package com.ulawil.dietapp.food.meal;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.ulawil.dietapp.food.meal.eatenmeal.EatenMeal;
 import com.ulawil.dietapp.food.BaseFood;
 import com.ulawil.dietapp.food.ingredient.Ingredient;
+import com.ulawil.dietapp.food.meal.eatenmeal.EatenMeal;
 import com.ulawil.dietapp.user.User;
 
 import javax.persistence.*;
-import javax.validation.constraints.Min;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 public class Meal extends BaseFood {
 
-    @Min(value = 0, message = "Amount cannot be negative")
-    private double amount;
+    private double grams;
 
     @OneToMany(mappedBy = "meal", cascade = CascadeType.MERGE)
     @JsonIgnore
@@ -34,20 +32,21 @@ public class Meal extends BaseFood {
     }
 
     @PrePersist
+    @PreUpdate
     private void setNutritionalValues() {
-        amount = ingredients.stream().map(Ingredient::getAmount).reduce(0., Double::sum);
+        grams = ingredients.stream().map(Ingredient::getGrams).reduce(0., Double::sum);
         kcal = ingredients.stream().map(Ingredient::getKcal).reduce(0., Double::sum);
         carbs = ingredients.stream().map(Ingredient::getCarbs).reduce(0., Double::sum);
         protein = ingredients.stream().map(Ingredient::getProtein).reduce(0., Double::sum);
         fat = ingredients.stream().map(Ingredient::getFat).reduce(0., Double::sum);
     }
 
-    public double getAmount() {
-        return amount;
+    public double getGrams() {
+        return grams;
     }
 
-    public void setAmount(double amount) {
-        this.amount = amount;
+    public void setGrams(double grams) {
+        this.grams = grams;
     }
 
     public Set<Ingredient> getIngredients() {

@@ -23,13 +23,15 @@ public class EatenMealService {
     public void addEatenMeal(int mealId, User user, Double portion) {
         Meal mealToAdd = mealRepository.findById(mealId).orElseThrow(
                 () -> new IllegalArgumentException("Meal not found"));
+
         EatenMeal eatenMealToAdd = new EatenMeal();
         eatenMealToAdd.setMeal(mealToAdd);
         eatenMealToAdd.setUser(user);
         if(portion == null) {
-            portion = mealToAdd.getAmount();
+            portion = mealToAdd.getGrams();
         }
         eatenMealToAdd.setPortion(portion);
+
         eatenMealRepository.save(eatenMealToAdd);
     }
 
@@ -38,11 +40,13 @@ public class EatenMealService {
         Food100g foodToAdd = foodRepository.findById(foodId).orElseThrow(
                 () -> new IllegalArgumentException("Food not found"));
         mealToAdd.getIngredients().add(new Ingredient(foodToAdd, portion));
+        mealToAdd.setName(foodToAdd.getName());
 
         EatenMeal eatenMealToAdd = new EatenMeal();
-        eatenMealToAdd.setMeal(mealToAdd);
         eatenMealToAdd.setUser(user);
+        eatenMealToAdd.setMeal(mealToAdd);
         eatenMealToAdd.setPortion(portion);
+
         mealRepository.save(mealToAdd);
         eatenMealRepository.save(eatenMealToAdd);
     }
@@ -56,8 +60,6 @@ public class EatenMealService {
     }
 
     public List<EatenMeal> findEatenMealsByUserIdAndDateEaten(Integer userId, LocalDate date) {
-        List<EatenMeal> ems =  eatenMealRepository.findByUserIdAndDateEaten(userId, date);
-        System.out.println("Found " + ems.size() + " meals");
         return eatenMealRepository.findByUserIdAndDateEaten(userId, date);
     }
 }

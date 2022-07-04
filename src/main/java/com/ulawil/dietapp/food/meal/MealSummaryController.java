@@ -27,9 +27,7 @@ public class MealSummaryController {
 
     @GetMapping(produces = MediaType.TEXT_HTML_VALUE)
     String showMealSummaryPage(Model model) {
-        model.addAttribute("todaysMeals", todaysMeals());
-        model.addAttribute("todaysMealsStats", todaysMealsStats());
-        model.addAttribute("goals", goals());
+        addAttributes(model);
         return "mealSummary";
     }
 
@@ -38,28 +36,22 @@ public class MealSummaryController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     String addEatenMeal(@RequestParam("addMealEaten") int mealId,
                         @RequestParam(name = "portion", required = false) Double portion,
+                        @ModelAttribute("currentUser") User currentUser,
                         Model model) {
-        User currentUser = userService.getCurrentUser().orElseThrow(
-                () -> new IllegalStateException("No user currently logged in"));
         eatenMealService.addEatenMeal(mealId, currentUser, portion);
-        model.addAttribute("todaysMeals", todaysMeals());
-        model.addAttribute("todaysMealsStats", todaysMealsStats());
-        model.addAttribute("goals", goals());
+        addAttributes(model);
         return "mealSummary";
     }
-
+//
     @PostMapping(params = {"addEatenFood"},
             produces = MediaType.TEXT_HTML_VALUE,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     String addEatenFood(@RequestParam("addEatenFood") int foodId,
                         @RequestParam(name = "portion", required = false) Double portion,
+                        @ModelAttribute("currentUser") User currentUser,
                         Model model) {
-        User currentUser = userService.getCurrentUser().orElseThrow(
-                () -> new IllegalStateException("No user currently logged in"));
         eatenMealService.addEatenFood(foodId, currentUser, portion);
-        model.addAttribute("todaysMeals", todaysMeals());
-        model.addAttribute("todaysMealsStats", todaysMealsStats());
-        model.addAttribute("goals", goals());
+        addAttributes(model);
         return "mealSummary";
     }
 
@@ -68,22 +60,17 @@ public class MealSummaryController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     String deleteEatenMeal(@RequestParam("deleteMealEaten") int mealId, Model model) {
         eatenMealService.deleteEatenMeal(mealId);
-        model.addAttribute("todaysMeals", todaysMeals());
-        model.addAttribute("todaysMealsStats", todaysMealsStats());
-        model.addAttribute("goals", goals());
+        addAttributes(model);
         return "mealSummary";
     }
 
     @PostMapping(params = {"searchMeal"},
             produces = MediaType.TEXT_HTML_VALUE,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    String searchMeals(@RequestParam("mealName") String mealName, Model model) {
-        User currentUser = userService.getCurrentUser().orElseThrow(
-                () -> new IllegalStateException("No user currently logged in"));
+    String searchMeals(@RequestParam("mealName") String mealName,
+                       @ModelAttribute("currentUser") User currentUser,
+                       Model model) {
         List<Meal> foundMeals = mealService.findUsersMealsByName(mealName, currentUser.getId());
-        model.addAttribute("todaysMeals", todaysMeals());
-        model.addAttribute("todaysMealsStats", todaysMealsStats());
-        model.addAttribute("goals", goals());
         model.addAttribute("foundMeals", foundMeals);
         return "mealSummary";
     }
@@ -91,44 +78,38 @@ public class MealSummaryController {
     @PostMapping(params = {"searchFoods"},
             produces = MediaType.TEXT_HTML_VALUE,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    String searchFoods(@RequestParam("foodName") String foodName, Model model) {
-        List<Food100g> foundFoods = foodService.findFoodsByName(foodName);
-        model.addAttribute("todaysMeals", todaysMeals());
-        model.addAttribute("todaysMealsStats", todaysMealsStats());
-        model.addAttribute("goals", goals());
+    String searchFoods(@RequestParam("foodName") String foodName,
+                       @ModelAttribute("currentUser") User currentUser,
+                       Model model) {
+        List<Food100g> foundFoods = foodService.findUsersAndCommonFoodsByName(foodName, currentUser.getId());
         model.addAttribute("foundFoods", foundFoods);
         return "mealSummary";
     }
 
     @ModelAttribute
-    List<EatenMeal> todaysMeals() {
+    void addAttributes(Model model) {
         User currentUser = userService.getCurrentUser().orElseThrow(
                 () -> new IllegalStateException("No user currently logged in"));
-        return eatenMealService.findEatenMealsByUserIdAndDateEaten(
+        List<EatenMeal> todaysMeals = eatenMealService.findEatenMealsByUserIdAndDateEaten(
                 currentUser.getId(), LocalDate.now());
-    }
-
-    @ModelAttribute
-    List<Double> todaysMealsStats() {
-        List<EatenMeal> todaysMeals = todaysMeals();
-        return List.of(
-                todaysMeals.stream().map(em -> em.getMeal().getAmount()).reduce(0., Double::sum),
+        MealStats todaysStats = new MealStats(
+                todaysMeals.stream().map(em -> em.getMeal().getGrams()).reduce(0., Double::sum),
                 todaysMeals.stream().map(em -> em.getMeal().getKcal()).reduce(0., Double::sum),
                 todaysMeals.stream().map(em -> em.getMeal().getCarbs()).reduce(0., Double::sum),
                 todaysMeals.stream().map(em -> em.getMeal().getProtein()).reduce(0., Double::sum),
                 todaysMeals.stream().map(em -> em.getMeal().getFat()).reduce(0., Double::sum)
         );
-    }
-
-    @ModelAttribute
-    List<Double> goals() {
-        User currentUser = userService.getCurrentUser().orElseThrow(
-                () -> new IllegalStateException("No user currently logged in"));
-        Double totalGrams = todaysMealsStats().get(0);
-        return List.of(currentUser.getDailyKcalGoal(),
-                currentUser.getDailyCarbsGoalPct() * totalGrams / 100.,
-                currentUser.getDailyProteinGoalPct() * totalGrams / 100.,
-                currentUser.getDailyFatGoalPct() * totalGrams /100.
+        double totalGrams = todaysStats.getGrams();
+        MealStats todaysGoals =  new MealStats (
+                totalGrams,
+                currentUser.getDailyKcalGoal(),
+                currentUser.getDailyCarbsGoalPct() / 100. * totalGrams ,
+                currentUser.getDailyProteinGoalPct() / 100. * totalGrams ,
+                currentUser.getDailyFatGoalPct() / 100. * totalGrams
         );
+        model.addAttribute("currentUser", currentUser);
+        model.addAttribute("todaysMeals", todaysMeals);
+        model.addAttribute("todaysStats", todaysStats);
+        model.addAttribute("todaysGoals", todaysGoals);
     }
 }

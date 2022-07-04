@@ -14,8 +14,8 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
-@AllArgsConstructor
 @Service
+@AllArgsConstructor
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
@@ -68,6 +68,6 @@ public class UserService implements UserDetailsService {
         if(!(principal instanceof User)) {
             return Optional.empty();
         }
-        return userRepository.findById(((User) principal).getId());
+        return userRepository.findById(((User)principal).getId());
     }
 }
