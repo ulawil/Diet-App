@@ -1,0 +1,11 @@
+DROP TABLE IF EXISTS food100g;
+
+CREATE TABLE food100g (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    kcal DOUBLE NOT NULL,
+    carbs DOUBLE NOT NULL,
+    protein DOUBLE NOT NULL,
+    fat DOUBLE NOT NULL,
+    user_id INT
+);

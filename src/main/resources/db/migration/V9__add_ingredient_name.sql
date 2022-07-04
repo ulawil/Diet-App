@@ -1,1 +1,0 @@
-ALTER TABLE ingredients ADD COLUMN name Varchar(50) NOT NULL;
