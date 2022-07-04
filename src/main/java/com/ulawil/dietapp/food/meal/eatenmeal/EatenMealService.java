@@ -6,6 +6,7 @@ import com.ulawil.dietapp.food.ingredient.Ingredient;
 import com.ulawil.dietapp.food.meal.Meal;
 import com.ulawil.dietapp.food.meal.MealRepository;
 import com.ulawil.dietapp.user.User;
+import com.ulawil.dietapp.user.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,14 +20,16 @@ public class EatenMealService {
     private final EatenMealRepository eatenMealRepository;
     private final MealRepository mealRepository;
     private final FoodRepository foodRepository;
+    private final UserService userService;
 
-    public void addEatenMeal(int mealId, User user, Double portion) {
+    public void addEatenMeal(int mealId, Double portion) {
+        User currentUser = userService.getCurrentUser().orElseThrow(
+                () -> new IllegalStateException("No user currently logged in!"));
         Meal mealToAdd = mealRepository.findById(mealId).orElseThrow(
-                () -> new IllegalArgumentException("Meal not found"));
-
+                () -> new IllegalArgumentException("Meal with given id not found!"));
         EatenMeal eatenMealToAdd = new EatenMeal();
         eatenMealToAdd.setMeal(mealToAdd);
-        eatenMealToAdd.setUser(user);
+        eatenMealToAdd.setUser(currentUser);
         if(portion == null) {
             portion = mealToAdd.getGrams();
         }
@@ -35,15 +38,17 @@ public class EatenMealService {
         eatenMealRepository.save(eatenMealToAdd);
     }
 
-    public void addEatenFood(int foodId, User user, Double portion) {
+    public void addEatenFood(int foodId, Double portion) {
+        User currentUser = userService.getCurrentUser().orElseThrow(
+                () -> new IllegalStateException("No user currently logged in!"));
         Meal mealToAdd = new Meal();
         Food100g foodToAdd = foodRepository.findById(foodId).orElseThrow(
-                () -> new IllegalArgumentException("Food not found"));
+                () -> new IllegalArgumentException("Food with given id not found!"));
         mealToAdd.getIngredients().add(new Ingredient(foodToAdd, portion));
         mealToAdd.setName(foodToAdd.getName());
 
         EatenMeal eatenMealToAdd = new EatenMeal();
-        eatenMealToAdd.setUser(user);
+        eatenMealToAdd.setUser(currentUser);
         eatenMealToAdd.setMeal(mealToAdd);
         eatenMealToAdd.setPortion(portion);
 
@@ -53,7 +58,7 @@ public class EatenMealService {
 
     public void deleteEatenMeal(int mealEatenId) {
         EatenMeal eatenMealToDelete = eatenMealRepository.findById(mealEatenId).orElseThrow(
-                () -> new IllegalArgumentException("Meal not found"));
+                () -> new IllegalArgumentException("Meal with given id not found!"));
         eatenMealToDelete.setUser(null);
         eatenMealToDelete.setMeal(null);
         eatenMealRepository.deleteById(mealEatenId);

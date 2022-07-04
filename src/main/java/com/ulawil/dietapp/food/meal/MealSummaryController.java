@@ -1,9 +1,9 @@
 package com.ulawil.dietapp.food.meal;
 
-import com.ulawil.dietapp.food.meal.eatenmeal.EatenMeal;
-import com.ulawil.dietapp.food.meal.eatenmeal.EatenMealService;
 import com.ulawil.dietapp.food.Food100g;
 import com.ulawil.dietapp.food.FoodService;
+import com.ulawil.dietapp.food.meal.eatenmeal.EatenMeal;
+import com.ulawil.dietapp.food.meal.eatenmeal.EatenMealService;
 import com.ulawil.dietapp.user.User;
 import com.ulawil.dietapp.user.UserService;
 import lombok.AllArgsConstructor;
@@ -36,21 +36,27 @@ public class MealSummaryController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     String addEatenMeal(@RequestParam("addMealEaten") int mealId,
                         @RequestParam(name = "portion", required = false) Double portion,
-                        @ModelAttribute("currentUser") User currentUser,
                         Model model) {
-        eatenMealService.addEatenMeal(mealId, currentUser, portion);
+        try {
+            eatenMealService.addEatenMeal(mealId, portion);
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+        }
         addAttributes(model);
         return "mealSummary";
     }
-//
+
     @PostMapping(params = {"addEatenFood"},
             produces = MediaType.TEXT_HTML_VALUE,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     String addEatenFood(@RequestParam("addEatenFood") int foodId,
                         @RequestParam(name = "portion", required = false) Double portion,
-                        @ModelAttribute("currentUser") User currentUser,
                         Model model) {
-        eatenMealService.addEatenFood(foodId, currentUser, portion);
+        try {
+            eatenMealService.addEatenFood(foodId, portion);
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+        }
         addAttributes(model);
         return "mealSummary";
     }
@@ -59,7 +65,11 @@ public class MealSummaryController {
             produces = MediaType.TEXT_HTML_VALUE,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     String deleteEatenMeal(@RequestParam("deleteMealEaten") int mealId, Model model) {
-        eatenMealService.deleteEatenMeal(mealId);
+        try {
+            eatenMealService.deleteEatenMeal(mealId);
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+        }
         addAttributes(model);
         return "mealSummary";
     }
