@@ -23,63 +23,36 @@
 
             <!--/*@thymesVar id="currentUser" type="com.ulawil.dietapp.user.User"*/-->
             <div th:object="${currentUser}" class="pure-form pure-form-aligned">
-
                 <fieldset>
                     <legend>About me</legend>
                     <div class="pure-control-group">
-                        <form th:action="@{/profile}" method="post">
-                            <label for="firstName">First name: </label>
-                            <span th:text="${currentUser.firstName}" id="firstName" style="min-inline-size: 100px" class="pure-form-message-inline"></span>
-                            <span class="pure-form-message-inline" style="min-width: 70px">new value:</span>
-                            <input name="newFirstName" id="newFirstName" type="text" required style="width: 140px">
-                            <button name="editFirstName" id="editFirstName" class="pure-button pure-button-primary">edit</button>
-                        </form>
+                        <label for="firstName">First name: </label>
+                        <span th:text="${currentUser.firstName}" id="firstName"></span>
                     </div>
                     <div class="pure-control-group">
-                        <form th:action="@{/profile}" method="post">
-                            <label for="lastName">Last name: </label>
-                            <span th:text="${currentUser.lastName}" id="lastName" style="min-inline-size: 100px" class="pure-form-message-inline"></span>
-                            <span class="pure-form-message-inline" style="min-width: 70px">new value:</span>
-                            <input name="newLastName" id="newLastName" type="text" required style="width: 140px">
-                            <button name="editLastName" id="editLastName" class="pure-button pure-button-primary">edit</button>
-                        </form>
+                        <label for="lastName">Last name: </label>
+                        <span th:text="${currentUser.lastName}" id="lastName"></span>
                     </div>
                     <br>
                     <div class="pure-control-group">
-                        <form th:action="@{/profile}" method="post">
-                            <label for="kcalGoal">Daily kcal goal:</label>
-                            <span th:text="${currentUser.getDailyKcalGoal}" id="kcalGoal" style="min-inline-size: 100px" class="pure-form-message-inline"></span>
-                            <span class="pure-form-message-inline" style="min-width: 70px">new value:</span>
-                            <input name="newKcalGoal" id="newKcalGoal" type="number" min="0" required style="width: 100px">
-                            <button name="editKcalGoal" id="editKcalGoal" class="pure-button pure-button-primary">edit</button>
-                        </form>
+                        <label for="kcalGoal">Daily kcal goal:</label>
+                        <span th:text="${currentUser.getDailyKcalGoal}" id="kcalGoal"></span>
                     </div>
                     <div class="pure-control-group">
-                        <form th:action="@{/profile}" method="post">
-                            <label for="carbsGoal">Daily carbs goal [%]:</label>
-                            <span th:text="${currentUser.dailyCarbsGoalPct}" id="carbsGoal" style="min-inline-size: 100px" class="pure-form-message-inline"></span>
-                            <span class="pure-form-message-inline" style="min-width: 70px">new value:</span>
-                            <input name="newCarbsGoal" id="newCarbsGoal" type="number" step="0.1" min="0.0" required style="width: 100px">
-                            <button name="editKcalGoal" id="editCarbsGoal" class="pure-button pure-button-primary">edit</button>
-                        </form>
+                        <label for="carbsGoal">Daily carbs goal [%]:</label>
+                        <span th:text="${currentUser.dailyCarbsGoalPct}" id="carbsGoal"></span>
                     </div>
                     <div class="pure-control-group">
-                        <form th:action="@{/profile}" method="post">
-                            <label for="proteinGoal">Daily protein goal [%]:</label>
-                            <span th:text="${currentUser.dailyProteinGoalPct}" id="proteinGoal" style="min-inline-size: 100px" class="pure-form-message-inline"></span>
-                            <span class="pure-form-message-inline" style="min-width: 70px">new value:</span>
-                            <input name="newProteinGoal" id="newProteinGoal" type="number" step="0.1" min="0.0" required style="width: 100px">
-                            <button name="editProteinGoal" id="editProteinGoal" class="pure-button pure-button-primary">edit</button>
-                        </form>
+                        <label for="proteinGoal">Daily protein goal [%]:</label>
+                        <span th:text="${currentUser.dailyProteinGoalPct}" id="proteinGoal"></span>
                     </div>
                     <div class="pure-control-group">
-                        <form th:action="@{/profile}" method="post">
-                            <label for="fatGoal">Daily fat goal [%]:</label>
-                            <span th:text="${currentUser.getDailyFatGoalPct}" id="fatGoal" style="min-inline-size: 100px" class="pure-form-message-inline"></span>
-                            <span class="pure-form-message-inline" style="min-width: 70px">new value:</span>
-                            <input name="newFatGoal" id="newFatGoal" type="number" step="0.1" min="0.0" required style="width: 100px">
-                            <button name="editFatGoal" id="editFatGoal" class="pure-button pure-button-primary">edit</button>
-                        </form>
+                        <label for="fatGoal">Daily fat goal [%]:</label>
+                        <span th:text="${currentUser.getDailyFatGoalPct}" id="fatGoal"></span>
+                    </div>
+                    <div class="pure-control-group">
+                        <label for="editBtn"></label>
+                        <a href="/profile/edit" id="editBtn" class="pure-button pure-button-primary">Edit</a>
                     </div>
                 </fieldset>
             </div>
