@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org/">
 <head>
     <meta charset="UTF-8">
-    <title>Today's meals</title>
+    <title>Meals summary</title>
     <link rel="stylesheet" href="https://unpkg.com/purecss@2.1.0/build/pure-min.css"
           integrity="sha384-yHIFVG6ClnONEA5yB5DJXfW2/KC173DIQrYoZMEtBvGzmf0PKiGyNEqe9N6BNDBH"
           crossorigin="anonymous">
@@ -20,7 +20,7 @@
             <br>
 
             <!--/*@thymesVar id="errorMessage" type="java.lang.String"*/-->
-            <h2 th:unless="${errorMessage==null}" th:text="${errorMessage}" style="color: red"></h2>
+            <p th:unless="${errorMessage==null}" th:text="${errorMessage}" style="font-size: x-large; font-weight: bold; color: red"></p>
 
             <!--/*@thymesVar id="todaysMeals" type="java.util.List<com.ulawil.dietapp.food.meal.eatenmeal.EatenMeal>"*/-->
             <p th:if="${todaysMeals.isEmpty()}">No meals added today</p>
@@ -87,11 +87,10 @@
 
             <div th:unless="${foundMeals==null}">
                 <div th:if="${foundMeals.isEmpty()}">
-                    <span>No meals found. </span>
-                    <a href="/meal/create">Create your first meal!</a>
+                    <span>No meals found. Make sure you've typed the correct name, or </span><a href="/meal/create">create this meal!</a>
                 </div>
                 <div th:unless="${foundMeals.isEmpty()}">
-                    <table  style="font-size: small" class="pure-table pure-table-bordered pure-table-striped">
+                    <table style="font-size: small" class="pure-table pure-table-bordered pure-table-striped">
                         <thead>
                         <tr style="text-align: center; vertical-align: middle">
                             <th>Name</th>
@@ -106,7 +105,7 @@
                         </thead>
                         <tbody>
                         <tr th:each="meal, mealStat : ${foundMeals}">
-                            <td><a th:href="@{/meal/__${meal.id}__}" th:text="${meal.name}"></a></td>
+                            <td th:text="${meal.name}"></td>
                             <td th:text="${#numbers.formatDecimal(__${meal.grams}__,1,0)}"></td>
                             <td th:text="${#numbers.formatDecimal(__${meal.kcal}__,1,0)}"></td>
                             <td th:text="${#numbers.formatDecimal(__${meal.carbs}__,1,1)}"></td>
@@ -140,8 +139,7 @@
             <!--/*@thymesVar id="foundFoods" type="java.util.List<ulawil.dietapp.model.Food100g>"*/-->
             <div th:unless="${foundFoods==null}">
                 <div th:if="${foundFoods.isEmpty()}">
-                    <span>No foods found. </span>
-                    <a href="/meal/create">Add some food!</a>
+                    <span>Didn't find what you were looking for?</span> <a href="/meal/create">Try adding it yourself!</a>
                 </div>
                 <table th:unless="${foundFoods.isEmpty()}" style="font-size: small" class="pure-table pure-table-bordered pure-table-striped">
                     <thead>

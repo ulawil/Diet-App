@@ -1,6 +1,5 @@
 package com.ulawil.dietapp.food.meal;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ulawil.dietapp.food.BaseFood;
 import com.ulawil.dietapp.food.ingredient.Ingredient;
 import com.ulawil.dietapp.food.meal.eatenmeal.EatenMeal;
@@ -16,11 +15,9 @@ public class Meal extends BaseFood {
     private double grams;
 
     @OneToMany(mappedBy = "meal", cascade = CascadeType.MERGE)
-    @JsonIgnore
     private Set<Ingredient> ingredients;
 
     @OneToMany(mappedBy = "meal", cascade = CascadeType.MERGE)
-    @JsonIgnore
     private Set<EatenMeal> eatenMeals;
 
     @ManyToOne

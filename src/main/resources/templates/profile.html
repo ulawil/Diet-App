@@ -12,14 +12,13 @@
         <div class="pure-u-7-24"></div>
 
         <div class="pure-u-10-24">
-
+            
             <h1>My profile</h1>
 
             <div th:replace="menu :: menu"></div>
-            <br>
 
             <!--/*@thymesVar id="errorMessage" type="java.lang.String"*/-->
-            <h2 th:unless="${errorMessage==null}" th:text="${errorMessage}" style="color: red"></h2>
+            <p th:unless="${errorMessage==null}" th:text="${errorMessage}" style="font-size: x-large; font-weight: bold; color: red"></p>
 
             <!--/*@thymesVar id="currentUser" type="com.ulawil.dietapp.user.User"*/-->
             <div th:object="${currentUser}" class="pure-form pure-form-aligned">

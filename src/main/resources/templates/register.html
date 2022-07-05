@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="https://unpkg.com/purecss@2.1.0/build/pure-min.css"
           integrity="sha384-yHIFVG6ClnONEA5yB5DJXfW2/KC173DIQrYoZMEtBvGzmf0PKiGyNEqe9N6BNDBH"
           crossorigin="anonymous">
+    <link href="../static/css/styles.css" rel="stylesheet">
 </head>
 <body>
 <main>
@@ -20,9 +21,15 @@
             <div th:replace="menu :: menu"></div>
             <br>
 
+            <!--/*@thymesVar id="message" type="java.lang.String"*/-->
+            <p th:unless="${message==null}" th:text="${message}" style="font-size: x-large; font-weight: bold; color: yellowgreen"></p>
+
+            <!--/*@thymesVar id="errorMessage" type="java.lang.String"*/-->
+            <p th:unless="${errorMessage==null}" th:text="${errorMessage}" style="font-size: x-large; font-weight: bold; color: red"></p>
+
             <!--/*@thymesVar id="userDTO" type="com.ulawil.dietapp.user.UserDTO"*/-->
             <!--/*@thymesVar id="emailConfirmed" type="java.lang.Boolean"*/-->
-            <form th:unless="${emailConfirmed}" th:action="@{/register}" th:object="${userDTO}" action="#" method="post" class="pure-form pure-form-stacked">
+            <form th:unless="${emailConfirmed}" th:action="@{/register}" th:object="${userDTO}" method="post" class="pure-form pure-form-stacked">
                 <fieldset class="pure-group">
                     <input th:field="${userDTO.firstName}" type="text" required placeholder="First name"/>
                     <input th:field="${userDTO.lastName}" type="text" required placeholder="Last name"/>
@@ -31,12 +38,6 @@
                     <button type="submit" class="pure-button pure-button-primary">Register</button>
                 </fieldset>
             </form>
-
-            <!--/*@thymesVar id="message" type="java.lang.String"*/-->
-            <h3 th:unless="${message==null}" th:text="${message}"></h3>
-
-            <!--/*@thymesVar id="errorMessage" type="java.lang.String"*/-->
-            <h3 th:unless="${errorMessage==null}" th:text="${errorMessage}" style="color: red"></h3>
 
         </div>
 

@@ -1,6 +1,5 @@
 package com.ulawil.dietapp.food.ingredient;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ulawil.dietapp.food.BaseFood;
 import com.ulawil.dietapp.food.Food100g;
 import com.ulawil.dietapp.food.meal.Meal;
@@ -13,11 +12,10 @@ import javax.validation.constraints.Min;
 @Entity
 public class Ingredient extends BaseFood {
 
-    @Min(value = 0, message = "Amount cannot be negative")
+    @Min(value = 0, message = "Amount cannot be negative!")
     private double grams;
 
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "meal_id")
     private Meal meal;
 

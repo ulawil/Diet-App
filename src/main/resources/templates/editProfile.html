@@ -8,6 +8,7 @@
           crossorigin="anonymous">
 </head>
 <body>
+<main>
     <div class="pure-g">
         <div class="pure-u-7-24"></div>
 
@@ -19,7 +20,7 @@
             <br>
 
             <!--/*@thymesVar id="errorMessage" type="java.lang.String"*/-->
-            <h2 th:unless="${errorMessage==null}" th:text="${errorMessage}" style="color: red"></h2>
+            <p th:unless="${errorMessage==null}" th:text="${errorMessage}" style="font-size: x-large; font-weight: bold; color: red"></p>
 
             <!--/*@thymesVar id="currentUser" type="com.ulawil.dietapp.user.User"*/-->
             <div class="pure-form pure-form-aligned">
@@ -79,5 +80,6 @@
 
         <div class="pure-u-7-24"></div>
     </div>
+</main>
 </body>
 </html>

@@ -20,10 +20,10 @@
             <br>
 
             <!--/*@thymesVar id="addedMessage" type="java.lang.String"*/-->
-            <h2 th:unless="${addedMessage==null}" th:text="${addedMessage}"></h2>
+            <p th:unless="${addedMessage==null}" th:text="${addedMessage}" style="font-size: x-large; font-weight: bold; color: yellowgreen"></p>
 
             <!--/*@thymesVar id="errorMessage" type="java.lang.String"*/-->
-            <h2 th:unless="${errorMessage==null}" th:text="${errorMessage}" style="color: red"></h2>
+            <p th:unless="${errorMessage==null}" th:text="${errorMessage}" style="font-size: x-large; font-weight: revert; color: red"></p>
 
             <!--/*@thymesVar id="food100g" type="com.ulawil.dietapp.food.Food100g"*/-->
             <form th:action="@{/food/add}" th:object="${food100g}" method="post" class="pure-form pure-form-aligned">
@@ -56,9 +56,8 @@
             </form>
 
         </div>
-        <div class="pure-u-7-24">
 
-        </div>
+        <div class="pure-u-7-24"></div>
     </div>
 </main>
 </body>
