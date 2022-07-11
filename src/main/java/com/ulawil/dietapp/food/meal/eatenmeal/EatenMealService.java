@@ -41,11 +41,14 @@ public class EatenMealService {
     public void addEatenFood(int foodId, Double portion) {
         User currentUser = userService.getCurrentUser().orElseThrow(
                 () -> new IllegalStateException("No user currently logged in!"));
-        Meal mealToAdd = new Meal();
         Food foodToAdd = foodRepository.findById(foodId).orElseThrow(
                 () -> new IllegalArgumentException("Food with given id not found!"));
-        mealToAdd.getIngredients().add(new Ingredient(foodToAdd, portion));
+        Meal mealToAdd = new Meal();
+        Ingredient ingredientToAdd = new Ingredient(foodToAdd, portion);
+        ingredientToAdd.setMeal(mealToAdd);
+        mealToAdd.getIngredients().add(ingredientToAdd);
         mealToAdd.setName(foodToAdd.getName());
+        mealToAdd.setUser(currentUser);
 
         EatenMeal eatenMealToAdd = new EatenMeal();
         eatenMealToAdd.setUser(currentUser);

@@ -105,7 +105,7 @@
                         </thead>
                         <tbody>
                         <tr th:each="meal, mealStat : ${foundMeals}">
-                            <td th:text="${meal.name}"></td>
+                            <td><a th:href="@{/meal/__${meal.id}__}" th:text="${meal.name}"></a></td>
                             <td th:text="${#numbers.formatDecimal(__${meal.grams}__,1,0)}"></td>
                             <td th:text="${#numbers.formatDecimal(__${meal.nutritionalInfo.kcal}__,1,0)}"></td>
                             <td th:text="${#numbers.formatDecimal(__${meal.nutritionalInfo.carbs}__,1,1)}"></td>

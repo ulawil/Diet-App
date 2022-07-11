@@ -29,10 +29,10 @@ public class Meal {
 
     private double grams;
 
-    @OneToMany(mappedBy = "meal", cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "meal", cascade = CascadeType.PERSIST)
     private Set<Ingredient> ingredients;
 
-    @OneToMany(mappedBy = "meal", cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "meal")
     private Set<EatenMeal> eatenMeals;
 
     @ManyToOne

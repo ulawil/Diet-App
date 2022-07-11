@@ -46,10 +46,10 @@
                         <tr style="font-weight: bold">
                             <td>Total</td>
                             <td th:text="${#numbers.formatDecimal(__${mealDetails.grams}__,1,0)}"></td>
-                            <td th:text="${#numbers.formatDecimal(__${mealDetails.kcal}__,1,0)}"></td>
-                            <td th:text="${#numbers.formatDecimal(__${mealDetails.carbs}__,1,1)}"></td>
-                            <td th:text="${#numbers.formatDecimal(__${mealDetails.protein}__,1,1)}"></td>
-                            <td th:text="${#numbers.formatDecimal(__${mealDetails.fat}__,1,1)}"></td>
+                            <td th:text="${#numbers.formatDecimal(__${mealDetails.nutritionalInfo.kcal}__,1,0)}"></td>
+                            <td th:text="${#numbers.formatDecimal(__${mealDetails.nutritionalInfo.carbs}__,1,1)}"></td>
+                            <td th:text="${#numbers.formatDecimal(__${mealDetails.nutritionalInfo.protein}__,1,1)}"></td>
+                            <td th:text="${#numbers.formatDecimal(__${mealDetails.nutritionalInfo.fat}__,1,1)}"></td>
                         </tr>
                         </tbody>
                     </table>

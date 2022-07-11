@@ -72,7 +72,6 @@ public class CreateMealController {
                          Model model) {
         Ingredient ingredientToAdd = new Ingredient(foodService.findFoodById(foodId).orElseThrow(
                 () -> new IllegalArgumentException("Ingredient not found")), foodAmount);
-        ingredientService.saveIngredient(ingredientToAdd);
         ingredients.add(ingredientToAdd);
         addModelAttributesWithDefaultValues(ingredients, model);
         return "createMeal";
