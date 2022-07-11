@@ -1,16 +1,31 @@
 package com.ulawil.dietapp.food.meal;
 
-import com.ulawil.dietapp.food.BaseFood;
+import com.ulawil.dietapp.food.NutritionalInfo;
 import com.ulawil.dietapp.food.ingredient.Ingredient;
 import com.ulawil.dietapp.food.meal.eatenmeal.EatenMeal;
 import com.ulawil.dietapp.user.User;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class Meal extends BaseFood {
+@Getter
+@Setter
+public class Meal {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected int id;
+
+    @NotBlank(message = "Name cannot be empty")
+    protected String name;
+
+    @Embedded
+    NutritionalInfo nutritionalInfo;
 
     private double grams;
 
@@ -21,52 +36,20 @@ public class Meal extends BaseFood {
     private Set<EatenMeal> eatenMeals;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
     private User user;
 
     public Meal() {
         ingredients = new HashSet<>();
+        nutritionalInfo = new NutritionalInfo();
     }
 
     @PrePersist
     @PreUpdate
-    private void setNutritionalValues() {
+    private void setNutritionalValuesAndGrams() {
         grams = ingredients.stream().map(Ingredient::getGrams).reduce(0., Double::sum);
-        kcal = ingredients.stream().map(Ingredient::getKcal).reduce(0., Double::sum);
-        carbs = ingredients.stream().map(Ingredient::getCarbs).reduce(0., Double::sum);
-        protein = ingredients.stream().map(Ingredient::getProtein).reduce(0., Double::sum);
-        fat = ingredients.stream().map(Ingredient::getFat).reduce(0., Double::sum);
-    }
-
-    public double getGrams() {
-        return grams;
-    }
-
-    public void setGrams(double grams) {
-        this.grams = grams;
-    }
-
-    public Set<Ingredient> getIngredients() {
-        return ingredients;
-    }
-
-    public void setIngredients(Set<Ingredient> ingredients) {
-        this.ingredients = ingredients;
-    }
-
-    public Set<EatenMeal> getEatenMeals() {
-        return eatenMeals;
-    }
-
-    public void setEatenMeals(Set<EatenMeal> eatenMeals) {
-        this.eatenMeals = eatenMeals;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
+        nutritionalInfo.setKcal(ingredients.stream().map(i -> i.getNutritionalInfo().getKcal()).reduce(0., Double::sum));
+        nutritionalInfo.setCarbs(ingredients.stream().map(i -> i.getNutritionalInfo().getCarbs()).reduce(0., Double::sum));
+        nutritionalInfo.setProtein(ingredients.stream().map(i -> i.getNutritionalInfo().getProtein()).reduce(0., Double::sum));
+        nutritionalInfo.setFat(ingredients.stream().map(i -> i.getNutritionalInfo().getFat()).reduce(0., Double::sum));
     }
 }

@@ -5,13 +5,13 @@ import java.util.Optional;
 
 public interface FoodRepository {
 
-    List<Food100g> findAll();
+    List<Food> findAll();
 
-    Optional<Food100g> findById(Integer integer);
+    Optional<Food> findById(Integer integer);
 
-    Food100g save(Food100g entity);
+    Food save(Food entity);
 
-    List<Food100g> findByNameContainsIgnoreCase(String name);
+    List<Food> findByNameContainsIgnoreCase(String name);
 
-    List<Food100g> findUsersAndCommonFoodsByName(String name, int userId);
+    List<Food> findUsersAndCommonFoodsByName(String name, int userId);
 }

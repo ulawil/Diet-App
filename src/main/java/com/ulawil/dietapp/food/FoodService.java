@@ -16,26 +16,26 @@ public class FoodService {
         this.foodRepository = foodRepository;
     }
 
-    public List<Food100g> findFoodsByName(String foodName) {
+    public List<Food> findFoodsByName(String foodName) {
         return foodRepository.findByNameContainsIgnoreCase(foodName);
     }
 
-    public List<Food100g> findAllFoods() {
+    public List<Food> findAllFoods() {
         return foodRepository.findAll();
     }
 
-    public List<Food100g> findUsersAndCommonFoodsByName(String name, int userId) {
+    public List<Food> findUsersAndCommonFoodsByName(String name, int userId) {
         return foodRepository.findUsersAndCommonFoodsByName(name, userId);
     }
 
-    public Food100g saveFood(Food100g food, User currentUser) {
+    public Food saveFood(Food food, User currentUser) {
         if(currentUser.getRole() == UserRole.USER) {
             food.setUser(currentUser);
         }
         return foodRepository.save(food);
     }
 
-    public Optional<Food100g> findFoodById(int foodId) {
+    public Optional<Food> findFoodById(int foodId) {
         return foodRepository.findById(foodId);
     }
 }

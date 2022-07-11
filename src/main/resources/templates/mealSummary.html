@@ -20,7 +20,7 @@
             <br>
 
             <!--/*@thymesVar id="errorMessage" type="java.lang.String"*/-->
-            <p th:unless="${errorMessage==null}" th:text="${errorMessage}" style="font-size: x-large; font-weight: bold; color: red"></p>
+            <p th:unless="${errorMessage==null}" th:text="${errorMessage}" style="font-weight: bold; color: red"></p>
 
             <!--/*@thymesVar id="todaysMeals" type="java.util.List<com.ulawil.dietapp.food.meal.eatenmeal.EatenMeal>"*/-->
             <p th:if="${todaysMeals.isEmpty()}">No meals added today</p>
@@ -41,10 +41,10 @@
                 <tr th:each="eatenMeal : ${todaysMeals}">
                     <td th:text="${eatenMeal.meal.name}"></td>
                     <td th:text="${#numbers.formatDecimal(__${eatenMeal.meal.grams}__,1,0)}"></td>
-                    <td th:text="${#numbers.formatDecimal(__${eatenMeal.meal.kcal}__,1,0)}"></td>
-                    <td th:text="${#numbers.formatDecimal(__${eatenMeal.meal.carbs}__,1,1)}"></td>
-                    <td th:text="${#numbers.formatDecimal(__${eatenMeal.meal.protein}__,1,1)}"></td>
-                    <td th:text="${#numbers.formatDecimal(__${eatenMeal.meal.fat}__,1,1)}"></td>
+                    <td th:text="${#numbers.formatDecimal(__${eatenMeal.meal.nutritionalInfo.kcal}__,1,0)}"></td>
+                    <td th:text="${#numbers.formatDecimal(__${eatenMeal.meal.nutritionalInfo.carbs}__,1,1)}"></td>
+                    <td th:text="${#numbers.formatDecimal(__${eatenMeal.meal.nutritionalInfo.protein}__,1,1)}"></td>
+                    <td th:text="${#numbers.formatDecimal(__${eatenMeal.meal.nutritionalInfo.fat}__,1,1)}"></td>
                     <td>
                         <form th:action="@{/meals/summary}" method="post" class="pure-form">
                             <button th:name="deleteMealEaten" th:value="${eatenMeal.id}" type="submit">x</button>
@@ -107,10 +107,10 @@
                         <tr th:each="meal, mealStat : ${foundMeals}">
                             <td th:text="${meal.name}"></td>
                             <td th:text="${#numbers.formatDecimal(__${meal.grams}__,1,0)}"></td>
-                            <td th:text="${#numbers.formatDecimal(__${meal.kcal}__,1,0)}"></td>
-                            <td th:text="${#numbers.formatDecimal(__${meal.carbs}__,1,1)}"></td>
-                            <td th:text="${#numbers.formatDecimal(__${meal.protein}__,1,1)}"></td>
-                            <td th:text="${#numbers.formatDecimal(__${meal.fat}__,1,1)}"></td>
+                            <td th:text="${#numbers.formatDecimal(__${meal.nutritionalInfo.kcal}__,1,0)}"></td>
+                            <td th:text="${#numbers.formatDecimal(__${meal.nutritionalInfo.carbs}__,1,1)}"></td>
+                            <td th:text="${#numbers.formatDecimal(__${meal.nutritionalInfo.protein}__,1,1)}"></td>
+                            <td th:text="${#numbers.formatDecimal(__${meal.nutritionalInfo.fat}__,1,1)}"></td>
                             <td>
                                 <input th:form="${mealStat.index}" name="portion" type="number" step="0.1" min="0.0" style="width: 70px">
                             </td>
@@ -154,18 +154,18 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="food100g, foodStat : ${foundFoods}" style="text-align: center">
-                        <td th:text="${food100g.name}"></td>
-                        <td th:text="${#numbers.formatDecimal(__${food100g.kcal}__,1,0)}"></td>
-                        <td th:text="${#numbers.formatDecimal(__${food100g.carbs}__,1,1)}"></td>
-                        <td th:text="${#numbers.formatDecimal(__${food100g.protein}__,1,1)}"></td>
-                        <td th:text="${#numbers.formatDecimal(__${food100g.fat}__,1,1)}"></td>
+                    <tr th:each="food, foodStat : ${foundFoods}" style="text-align: center">
+                        <td th:text="${food.name}"></td>
+                        <td th:text="${#numbers.formatDecimal(__${food.nutritionalInfo.kcal}__,1,0)}"></td>
+                        <td th:text="${#numbers.formatDecimal(__${food.nutritionalInfo.carbs}__,1,1)}"></td>
+                        <td th:text="${#numbers.formatDecimal(__${food.nutritionalInfo.protein}__,1,1)}"></td>
+                        <td th:text="${#numbers.formatDecimal(__${food.nutritionalInfo.fat}__,1,1)}"></td>
                         <td>
                             <input th:form="${foodStat.index}" name="portion" type="number" min="0.0" required style="width: 70px">
                         </td>
                         <td>
                             <form th:id="${foodStat.index}" th:action="@{/meals/summary}" method="post" class="pure-form">
-                                <button name="addEatenFood" th:value="${food100g.id}" type="submit">+</button>
+                                <button name="addEatenFood" th:value="${food.id}" type="submit">+</button>
                             </form>
                         </td>
                     </tr>

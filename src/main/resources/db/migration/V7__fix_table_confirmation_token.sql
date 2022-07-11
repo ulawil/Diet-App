@@ -1,1 +1,0 @@
-ALTER TABLE confirmation_token MODIFY expires_at DATE;

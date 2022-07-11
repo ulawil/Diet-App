@@ -1,6 +1,6 @@
 package com.ulawil.dietapp.food.meal.eatenmeal;
 
-import com.ulawil.dietapp.food.Food100g;
+import com.ulawil.dietapp.food.Food;
 import com.ulawil.dietapp.food.FoodRepository;
 import com.ulawil.dietapp.food.ingredient.Ingredient;
 import com.ulawil.dietapp.food.meal.Meal;
@@ -42,7 +42,7 @@ public class EatenMealService {
         User currentUser = userService.getCurrentUser().orElseThrow(
                 () -> new IllegalStateException("No user currently logged in!"));
         Meal mealToAdd = new Meal();
-        Food100g foodToAdd = foodRepository.findById(foodId).orElseThrow(
+        Food foodToAdd = foodRepository.findById(foodId).orElseThrow(
                 () -> new IllegalArgumentException("Food with given id not found!"));
         mealToAdd.getIngredients().add(new Ingredient(foodToAdd, portion));
         mealToAdd.setName(foodToAdd.getName());

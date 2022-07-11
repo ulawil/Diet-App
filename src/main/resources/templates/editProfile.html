@@ -20,7 +20,7 @@
             <br>
 
             <!--/*@thymesVar id="errorMessage" type="java.lang.String"*/-->
-            <p th:unless="${errorMessage==null}" th:text="${errorMessage}" style="font-size: x-large; font-weight: bold; color: red"></p>
+            <p th:unless="${errorMessage==null}" th:text="${errorMessage}" style="font-weight: bold; color: red"></p>
 
             <!--/*@thymesVar id="currentUser" type="com.ulawil.dietapp.user.User"*/-->
             <div class="pure-form pure-form-aligned">
@@ -71,7 +71,7 @@
                     </div>
                     <div class="pure-control-group">
                         <label for="doneBtn"></label>
-                        <a href="/profile" id="doneBtn" class="pure-button pure-button-primary">Done</a>
+                        <a href="/profile" id="doneBtn" class="pure-button pure-button-primary">Back</a>
                     </div>
                 </fieldset>
             </div>

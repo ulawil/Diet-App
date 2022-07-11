@@ -20,33 +20,33 @@
             <br>
 
             <!--/*@thymesVar id="addedMessage" type="java.lang.String"*/-->
-            <p th:unless="${addedMessage==null}" th:text="${addedMessage}" style="font-size: x-large; font-weight: bold; color: yellowgreen"></p>
+            <p th:unless="${addedMessage==null}" th:text="${addedMessage}" style="font-weight: bold"></p>
 
             <!--/*@thymesVar id="errorMessage" type="java.lang.String"*/-->
-            <p th:unless="${errorMessage==null}" th:text="${errorMessage}" style="font-size: x-large; font-weight: revert; color: red"></p>
+            <p th:unless="${errorMessage==null}" th:text="${errorMessage}" style="font-weight: bold; color: red"></p>
 
-            <!--/*@thymesVar id="food100g" type="com.ulawil.dietapp.food.Food100g"*/-->
-            <form th:action="@{/food/add}" th:object="${food100g}" method="post" class="pure-form pure-form-aligned">
+            <!--/*@thymesVar id="food" type="com.ulawil.dietapp.food.Food"*/-->
+            <form th:action="@{/food/add}" th:object="${food}" method="post" class="pure-form pure-form-aligned">
                 <fieldset>
                     <div class="pure-control-group">
                         <label for="name">Name</label>
-                        <input th:field="${food100g.name}" type="text" id="name" required/>
+                        <input th:field="${food.name}" type="text" id="name" required/>
                     </div>
                     <div class="pure-control-group">
                         <label for="kcal">Kcal/100g</label>
-                        <input th:field="${food100g.kcal}" type="number" id="kcal" min="0" required/>
+                        <input th:field="${food.nutritionalInfo.kcal}" type="number" id="kcal" min="0" required/>
                     </div>
                     <div class="pure-control-group">
                         <label for="carbs">Carbs/100g [g]</label>
-                        <input th:field="${food100g.carbs}" type="number" step="0.1" min="0.0" id="carbs" required/>
+                        <input th:field="${food.nutritionalInfo.carbs}" type="number" step="0.1" min="0.0" id="carbs" required/>
                     </div>
                     <div class="pure-control-group">
                         <label for="protein">Protein/100g [g]</label>
-                        <input th:field="${food100g.protein}" type="number" step="0.1" min="0.0" id="protein" required/>
+                        <input th:field="${food.nutritionalInfo.protein}" type="number" step="0.1" min="0.0" id="protein" required/>
                     </div>
                     <div class="pure-control-group">
                         <label for="fat">Fat/100g [g]</label>
-                        <input th:field="${food100g.fat}" type="number" step="0.1" min="0.0" id="fat" required/>
+                        <input th:field="${food.nutritionalInfo.fat}" type="number" step="0.1" min="0.0" id="fat" required/>
                     </div>
                     <div class="pure-control-group">
                         <label for="add"></label>

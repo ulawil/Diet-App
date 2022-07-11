@@ -1,6 +1,6 @@
 package com.ulawil.dietapp.food.meal;
 
-import com.ulawil.dietapp.food.Food100g;
+import com.ulawil.dietapp.food.Food;
 import com.ulawil.dietapp.food.FoodService;
 import com.ulawil.dietapp.food.ingredient.Ingredient;
 import com.ulawil.dietapp.food.ingredient.IngredientService;
@@ -99,7 +99,7 @@ public class CreateMealController {
                        Model model) {
         User currentUser = userService.getCurrentUser().orElseThrow(
                 () -> new IllegalStateException("No user currently logged in"));
-        List<Food100g> foundFoods = foodService.findUsersAndCommonFoodsByName(foodName, currentUser.getId());
+        List<Food> foundFoods = foodService.findUsersAndCommonFoodsByName(foodName, currentUser.getId());
         model.addAttribute("ingredients", ingredients);
         model.addAttribute("mealStats", mealStats(model));
         model.addAttribute("foundFoods", foundFoods);
@@ -124,10 +124,10 @@ public class CreateMealController {
         }
         return new MealStats(
             ingredients.stream().map(Ingredient::getGrams).reduce(0., Double::sum),
-            ingredients.stream().map(Ingredient::getKcal).reduce(0., Double::sum),
-            ingredients.stream().map(Ingredient::getCarbs).reduce(0., Double::sum),
-            ingredients.stream().map(Ingredient::getProtein).reduce(0., Double::sum),
-            ingredients.stream().map(Ingredient::getFat).reduce(0., Double::sum)
+            ingredients.stream().map(i -> i.getNutritionalInfo().getKcal()).reduce(0., Double::sum),
+            ingredients.stream().map(i -> i.getNutritionalInfo().getCarbs()).reduce(0., Double::sum),
+            ingredients.stream().map(i -> i.getNutritionalInfo().getProtein()).reduce(0., Double::sum),
+            ingredients.stream().map(i -> i.getNutritionalInfo().getProtein()).reduce(0., Double::sum)
         );
     }
 

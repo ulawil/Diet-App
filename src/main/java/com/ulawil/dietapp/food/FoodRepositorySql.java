@@ -8,12 +8,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-interface FoodRepositorySql extends FoodRepository, JpaRepository<Food100g, Integer> {
+interface FoodRepositorySql extends FoodRepository, JpaRepository<Food, Integer> {
 
     @Override
-    List<Food100g> findByNameContainsIgnoreCase(String name);
+    List<Food> findByNameContainsIgnoreCase(String name);
 
     @Override
-    @Query("select f from Food100g f where f.name like %:name% and (f.user.id=:id or f.user is null)")
-    List<Food100g> findUsersAndCommonFoodsByName(@Param("name") String name, @Param("id") int userId);
+    @Query("select f from Food f where f.name like %:name% and (f.user.id=:id or f.user is null)")
+    List<Food> findUsersAndCommonFoodsByName(@Param("name") String name, @Param("id") int userId);
 }

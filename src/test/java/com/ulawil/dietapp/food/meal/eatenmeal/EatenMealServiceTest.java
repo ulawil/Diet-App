@@ -1,6 +1,6 @@
 package com.ulawil.dietapp.food.meal.eatenmeal;
 
-import com.ulawil.dietapp.food.Food100g;
+import com.ulawil.dietapp.food.Food;
 import com.ulawil.dietapp.food.FoodRepository;
 import com.ulawil.dietapp.food.meal.Meal;
 import com.ulawil.dietapp.food.meal.MealRepository;
@@ -88,7 +88,7 @@ class EatenMealServiceTest {
         MealRepository mockMealRepo = mock(MealRepository.class);
         // and
         FoodRepository mockFoodRepo = mock(FoodRepository.class);
-        when(mockFoodRepo.findById(anyInt())).thenReturn(Optional.of(new Food100g()));
+        when(mockFoodRepo.findById(anyInt())).thenReturn(Optional.of(new Food()));
         // and
         InMemoryEatenRepoMeal inMemoryEatenMealRepo = new InMemoryEatenRepoMeal();
         int countBeforeAdd = inMemoryEatenMealRepo.count();

@@ -18,7 +18,7 @@
             <div th:replace="menu :: menu"></div>
 
             <!--/*@thymesVar id="errorMessage" type="java.lang.String"*/-->
-            <p th:unless="${errorMessage==null}" th:text="${errorMessage}" style="font-size: x-large; font-weight: bold; color: red"></p>
+            <p th:unless="${errorMessage==null}" th:text="${errorMessage}" style="font-weight: bold; color: red"></p>
 
             <!--/*@thymesVar id="currentUser" type="com.ulawil.dietapp.user.User"*/-->
             <div th:object="${currentUser}" class="pure-form pure-form-aligned">

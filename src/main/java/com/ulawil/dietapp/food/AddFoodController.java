@@ -30,7 +30,7 @@ public class AddFoodController {
     @PostMapping(params = {"addFood"},
                 produces = MediaType.TEXT_HTML_VALUE,
                 consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    String addFood(@ModelAttribute("food100g") @Valid Food100g foodToAdd, BindingResult result, Model model) {
+    String addFood(@ModelAttribute("food100g") @Valid Food foodToAdd, BindingResult result, Model model) {
         if(result.hasErrors()) {
             model.addAttribute("errorMessage", "Cannot add food - make sure all data is valid!");
             return "addFood";
@@ -41,15 +41,15 @@ public class AddFoodController {
         return "addFood";
     }
 
-    @ModelAttribute("currentUser")
+    @ModelAttribute
     void addCurrentUserAttr(Model model) {
         User currentUser = userService.getCurrentUser().orElseThrow(
                 () -> new IllegalStateException("No user currently logged in"));
         model.addAttribute("currentUser", currentUser);
     }
 
-    @ModelAttribute("")
-    void addFood100gAttr(Model model) {
-        model.addAttribute("food100g", new Food100g());
+    @ModelAttribute
+    void addFoodAttr(Model model) {
+        model.addAttribute("food", new Food());
     }
 }
